@@ -4,7 +4,8 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage[fontsize=11pt]{scrextend}
 
 \title{RASD - Requirements And Specifications Document}
 
@@ -24,8 +25,8 @@
 Authors:
 \begin{itemize}
 	\item Domenico FAVARO (Mat. 837995)
-	\item Caio ZULIANI (Mat.10576264)
-	\item Matheus FIM (Mat. 876069)
+        	\item Matheus FIM (Mat. 876069)
+	\item Caio ZULIANI (Mat.10576264)	
 \end{itemize}
 \raggedleft
 Prof. Elisabetta DI NITTO
@@ -57,17 +58,100 @@ You are to Develop a digital management system for a Car - sharing service that 
 \textbf{TEMP}
 
 \subsection{Goals}
+\begin{description}
+\item [G.1)]First-Time Users must be able to register to the System creating an Account. 
+\item [G.2)]Registered Users must be able to login to their Account at any time they want.
+\item [G.3)]A Registered User will be able to make a Reservation of any available Car near his/her current location or from an address that she/he can specify.
+\item [G.4)]Users that had made a Reservation must be able to notify the System when they are nearby the Reserved Car so the system can unlock it.
+\item [G.5)]A User that has made a Reservation must be able to cancel it before 1 hour starting from the time when the Reservation was made.
+\item [G.6)]In case an User hasn't started using the Reserved Car at 45 minutes after the Reservation was made, he/she will be notified that either if the Reservation is not canceled or the Car is not used in 15 minutes, the Reservation will be automatically canceled and a 1 Euro fee will be charged to her/his Account.
+\item [G.7)]When Users that start using their Reserved Car, they must be able to see their current expenses on the service through a System screen inside the Car.
+\item [G.8)]The User must be able to know where the safe parking areas are nearby his/her current location or any address that she/he can specify.
+\item [G.9)]Users must be able to finish their use of the Car when leaving it in a safe parking area and exiting the car. The User will then be charged for the use of the service. The used Car will be locked and freed for Users to be reserved.
+\item [G.10)]The User will always be notified when any Transaction is made on his Account.
+\item [G.11)]Notify the Users that are currently using a Car of any available discounts on their ride if they abide by the 'virtous behaviour rules' and of the extra fee in case of not respecting the facilitation of the re-charging of the Car on site. These extra discounts/charges will be applied on the Total fee at the end of the ride.
+\item [G.12)]Users can activate the Money Saving option on their Account to be notified of any nearby Re-Charging station on their arrival destination. Leaving the car at the end of the ride t this station and plugging it will register as a 'virtous behavior' and will apply and extra discount when charging the User.
+\end{description}
 \subsection{Glossary}
+\begin{itemize}
+\item \textbf{First-Time User:}
+\item \textbf{Registered User:} 
+\item \textbf{Account:} 
+\item \textbf{Car:} 
+\item \textbf{Reservation:} 
+\item \textbf{Fee:} 
+\item \textbf{Transaction:} 
+\item \textbf{Safe Parking Area:} 
+\item \textbf{Re-Charging Station:} 
+\item \textbf{Virtous Behavior Rule:} 
+\end{itemize}
 \subsection{Domain Assumptions}
 \subsection{Constraints}
+\subsection{Stakeholders}
+Our Main Stakeholder is the PowerEnJoy Car-Sharing Service, owned by Prof. DiNitto, that wants a management system for the main functionalities of its service.
+\subsection{Reference Documents}
 
 \section{Proposed System}
+\newpage
 
 \section{Actors}
-
-The Actors will be here.
+\subsection{User}
+Is the Main Actor of our service. Any person that once Registered can take advantage of the features of the PowerEnJoy service.
+\subsection {CRM}
+\textbf{TBD} \textit{- we still need to set this actor's goals and requirements.}
+Customer Relationship Manager, will interface with the User in case of any problem that may arise and can intervene in the System to cancel any Reservation or modify the fee of an User's ride in case of a confirmed major cause.
 
 \section{Requirements}
+\begin{description}
+\item [G.1)]First-Time Users must be able to register to the System creating an Account. 
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.2)]Registered Users must be able to login to their Account at any time they want.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.3)]A Registered User will be able to make a Reservation of any available Car near his/her current location or from an address that she/he can specify.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.4)]Users that have made a Reservation must be able to notify the System when they are nearby the Reserved Car so the system can unlock it.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.5)]A User that has made a Reservation must be able to cancel it before 1 hour starting from the time when the Reservation was made.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.6)]In case an User hasn't started using the Reserved Car at 45 minutes after the Reservation was made, he/she will be notified that either if the Reservation is not canceled or the Car is not used in 15 minutes, the Reservation will be automatically canceled and a 1 Euro fee will be charged to her/his Account.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.7)]When Users that start using their Reserved Car, they must be able to see their current expenses on the service through a System screen inside the Car.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.8)]The User must be able to know where the safe parking areas are nearby his/her current location or any address that she/he can specify.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.9)]Users must be able to finish their use of the Car when leaving it in a safe parking area and exiting the car. The User will then be charged for the use of the service. The used Car will be locked and freed for Users to be reserved.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.10)]The User will always be notified when any Transaction is made on his Account.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.11)]Notify the Users that are currently using a Car of any available discounts on their ride if they abide by the 'virtous behaviour rules' and of the extra fee in case of not respecting the facilitation of the re-charging of the Car on site. These extra discounts/charges will be applied on the Total fee at the end of the ride.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\item [G.12)]Users can activate the Money Saving option on their Account to be notified of any nearby Re-Charging station on their arrival destination. Leaving the car at the end of the ride t this station and plugging it will register as a 'virtous behavior' and will apply and extra discount when charging the User.
+\begin{itemize}
+	\item[-]
+\end{itemize}
+\end{description}
 
 \section{Scenario Identifying}
 
@@ -90,9 +174,9 @@ The Tools used to develop this RASD document were:
 \hline
 	\textbf {Date} & \textbf {Domenico} & \textbf {Caio} & \textbf {Matheus} \\ \hline
 	25/10/16& 30m & 30m & 30m \\ \hline
-	26/10/16& 1h &  &  \\ \hline
-	27/10/16&  &  &  \\ \hline
-	28/10/16&  &  &  \\ \hline
+	26/10/16& 1h & -  & -  \\ \hline
+	27/10/16&  - & - & -  \\ \hline
+	28/10/16& 2h.30m & 4h.30m & 4h.30m \\ \hline
 	29/10/16&  &  &  \\ \hline
 	30/10/16&  &  &  \\ \hline
 	31/10/16&  &  &  \\ \hline
