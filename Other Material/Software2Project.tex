@@ -6,6 +6,11 @@
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=black]{hyperref}
 \usepackage[fontsize=11pt]{scrextend}
+\usepackage{titlesec}
+
+\setlength\parindent{0pt}
+\titleformat*{\section}{\Large\bfseries}
+\titleformat*{\subsection}{\Large\bfseries}
 
 \title{RASD - Requirements And Specifications Document}
 
@@ -37,25 +42,18 @@ Prof. Elisabetta DI NITTO
 \newpage
  
 \section{Introduction}
- 
-This is the Introduction.
 \subsection{Problem Definition - PowerEnJoy}
-
-\textbf{TEMP}
-
-You are to Develop a digital management system for a Car - sharing service that exclusively employs electric Cars. First, the system should provide the functionality normally provided by Car - sharing services. These include:
-\begin {itemize}
-	\item Users must be reliable to register to the system by providing their credentials and payment information. They receive back a password that can be used to access the system.
-	\item  Registered Users must be reliable to find the locations of available Cars within a certain distance from their current location or from a specified address.
-	\item  Among the Cars available in a certain geographical region, Users must be reliable to reserve a single Car up to one hour before they pick it up.
-	\item  If a Car is not picked - up Within one hour from the reservation, the system tags the Car as available again, and the reservation expires; the User pays a fee of 1 EUR.
-	\item  A User that reaches a reserved Car must be reliable to tell the system she's nearby, so the system unlocks the Car and the User may enter.
-	\item  As soon as the engine ignites, the system starts charging the User for amount of money GIVEN per minute; the User is Notified of the current charges through a screen on the Car.
-	\item  The system stops charging the User as soon as the Car is parked in a safe area and the User exits the Car; At this point, the system locks the Car automatically.
-	\item  The set of safe parking areas for Cars is pre - defined by the management system.
-\end{itemize}
-
-\textbf{TEMP}
+The requested System denoted PowerEnJoy, is a car-sharing service that  exclusively employs electric Cars. 
+\newline\newline
+As a car-sharing service it should allow the use of a Car via Reservation, taking it and bringing it back to determined parking areas and paying for the use made.
+\newline\newline
+The System should allow Users to register so it can authorize them to use the car-sharing services, and allow them to reserve an available Car near their location or on a given address, so they can use it for a ride. 
+\newline\newline
+The Users will provided their credentials and payment info so all the transactions for the service use are made automatically by the System.
+\newline\newline
+The System should incentivize Virtuous Behaviors of the Users by providing extra discounts, or fees in case of misconduct, on the current ride. These Virtuous Behavior rules will compensate service expenses for the Cars, specially re-charging costs.
+\newline\newline
+The System should provided these functionalities based on a mobile and web application that can be used by Registered Users to use the PowerEnJoy services. The System should interface as well with the Car so it can obtain important information from it, like location and battery use, and so it can control its locking or unlocking for the use.
 
 \subsection{Goals}
 \begin{description}
@@ -69,22 +67,31 @@ You are to Develop a digital management system for a Car - sharing service that 
 \item [G.8)]The User must be able to know where the safe parking areas are nearby his/her current location or any address that she/he can specify.
 \item [G.9)]Users must be able to finish their use of the Car when leaving it in a safe parking area and exiting the car. The User will then be charged for the use of the service. The used Car will be locked and freed for Users to be reserved.
 \item [G.10)]The User will always be notified when any Transaction is made on his Account.
-\item [G.11)]Notify the Users that are currently using a Car of any available discounts on their ride if they abide by the 'virtous behaviour rules' and of the extra fee in case of not respecting the facilitation of the re-charging of the Car on site. These extra discounts/charges will be applied on the Total fee at the end of the ride.
+\item [G.11)]Notify the Users that are currently using a Car of any available discounts on their ride if they abide by the 'virtous behaviour rules' and of the extra fee in case of not respecting the facilitation of the re-charging of the Car on site. These extra discounts/charges will be applied on the Total fee at the end of the ride. These rules are:
+\begin{description}
+\item [G.11.1)]Apply a 10\% discount if the User takes at least 2 other passenger into the car.
+\item [G.11.2)]Apply a 20\% discount if the User leaves the Car with the battery at least half-full.
+\item [G.11.3)]Apply a 30\% discount if the User leaves and plugs the Car in a Re-Charging Station.
+\item [G.11.4)]Apply a 30\% extra fee if the User leaves the Car at more than 3KM from the nearest Re-Charging Station.
+\item [G.11.5)]Apply a 30\% extra fee if the User leaves the Car with the battery less than 20\% full.
+\end{description}
 \item [G.12)]Users can activate the Money Saving option on their Account to be notified of any nearby Re-Charging station on their arrival destination. Leaving the car at the end of the ride t this station and plugging it will register as a 'virtous behavior' and will apply and extra discount when charging the User.
 \end{description}
 \subsection{Glossary}
 \begin{itemize}
-\item \textbf{First-Time User:}
-\item \textbf{Registered User:} 
-\item \textbf{Account:} 
-\item \textbf{Car:} 
-\item \textbf{Reservation:} 
-\item \textbf{Fee:} 
-\item \textbf{Transaction:} 
-\item \textbf{Safe Parking Area:} 
-\item \textbf{Re-Charging Station:} 
-\item \textbf{Virtous Behavior Rule:} 
+\item \textbf{First-Time User:} A User that has not created an Account and thus has not yet been registered by the System. Can have a client version of the application, but he/she can't use the service until Registered.
+\item \textbf{Registered User:} A User that has provided valid credentials and payment informations to create an Account in the System.
+\item \textbf{Account:} Allows the Registered User to authenticate to the System and access the car-sharing service.
+\item \textbf{Car:} An electric motored vehicle registered to the PowerEnJoy car-sharing service and thus interfaced to the System. It can be available for reservation, reserved, ready to use, on use and unavailable.
+\item \textbf{Reservation:} Option for the User to denote their future use of an available Car. Once activated it marks the Car as Reserved and is active until the User starts the use of the Car or until 1 hour after its activation, at which point it's cancelled and an user fee is applied.
+\item \textbf{Ride:} The actual use of the Car by the User. It starts when the User ignites the Car engine for the first time and it ends when the car is parked in a safe area and the User exits the Car.
+\item \textbf{Safe Parking Area:} Pre-defined areas by the System where a Car can be left by the User to be able to finish their ride.
+\item \textbf{Fee:} Amount of money that is due by the User for any of the System services or for any User misbehavior.
+\item \textbf{Transaction:} Any exchange of money made by the System on the User Account, every fee payment is a transaction.
+\item \textbf{Re-Charging Station:} Special stations where the Cars can be left and plugged in to have their battery re-charged. They count as Safe Parking Areas.
+\item \textbf{Virtous Behavior Rule:} Any of the incentive rules that provide the user with a discount on their current ride if they follow it.
 \end{itemize}
+\newpage
 \subsection{Domain Assumptions}
 \subsection{Constraints}
 \subsection{Stakeholders}
@@ -105,19 +112,26 @@ Customer Relationship Manager, will interface with the User in case of any probl
 \begin{description}
 \item [G.1)]First-Time Users must be able to register to the System creating an Account. 
 \begin{itemize}
-	\item[-]
+	\item[-]The System must allow an user that has not created an Account to register by providing valid credentials, an e-mail and payment information.
+	\item[-]The System must sent a password to the Registered User Email that can be used to Log into the Account.
 \end{itemize}
 \item [G.2)]Registered Users must be able to login to their Account at any time they want.
 \begin{itemize}
-	\item[-]
+	\item[-]The System must allow Registered Users to log into their Account only if they provide their correct e-mail and password.
 \end{itemize}
 \item [G.3)]A Registered User will be able to make a Reservation of any available Car near his/her current location or from an address that she/he can specify.
 \begin{itemize}
-	\item[-]
+	\item[-]The System must be able to locate the User via GPS.
+	\item[-]The System must allow the Users to enter a determined address, in case they don't want to use their current location to locate the cars in the area.
+	\item[-]The System must be able to locate all available Cars via GPS.
+	\item[-]The System must show the User all the available Cars near the user given location.
+	\item[-]The System must allow the Users to select one of the Cars showed to them to create a Reservation, the selected Car will be marked as reserved.
 \end{itemize}
 \item [G.4)]Users that have made a Reservation must be able to notify the System when they are nearby the Reserved Car so the system can unlock it.
 \begin{itemize}
-	\item[-]
+	\item[-]While a Reservation is active, the System must allow the User to notify that they are nearby their Reserved Car.
+	\item[-]The System must confirm the notification by checking that the User current location and the Car location coincide.
+	\item[-]The System must unlock the Reserved Car and set it to Ready to Use.
 \end{itemize}
 \item [G.5)]A User that has made a Reservation must be able to cancel it before 1 hour starting from the time when the Reservation was made.
 \begin{itemize}
@@ -177,22 +191,22 @@ The Tools used to develop this RASD document were:
 	26/10/16& 1h & -  & -  \\ \hline
 	27/10/16&  - & - & -  \\ \hline
 	28/10/16& 2h.30m & 4h.30m & 4h.30m \\ \hline
-	29/10/16&  &  &  \\ \hline
-	30/10/16&  &  &  \\ \hline
-	31/10/16&  &  &  \\ \hline
-	01/11/16&  &  &  \\ \hline
-	02/11/16&  &  &  \\ \hline
-	03/11/16&  &  &  \\ \hline
-	04/11/16&  &  &  \\ \hline
-	05/11/16&  &  &  \\ \hline
-	06/11/16&  &  &  \\ \hline
-	07/11/16&  &  &  \\ \hline
-	08/11/16&  &  &  \\ \hline
-	09/11/16&  &  &  \\ \hline
-	10/11/16&  &  &  \\ \hline
-	11/11/16&  &  &  \\ \hline
-	12/11/16&  &  &  \\ \hline
-	13/11/16&  &  &  \\ \hline
+	29/10/16& 1h & -  & - \\ \hline
+	30/10/16&  - & - & - \\ \hline
+	31/10/16&  - & 2h & - \\ \hline
+	01/11/16&  - & - & 2h \\ \hline
+	02/11/16&  2h & - & - \\ \hline
+	03/11/16&  - & - & - \\ \hline
+	04/11/16&  - & - & - \\ \hline
+	05/11/16&  - & - & - \\ \hline
+	06/11/16&  - & - & - \\ \hline
+	07/11/16&  - & - & - \\ \hline
+	08/11/16&  - & - & - \\ \hline
+	09/11/16&  - & - & - \\ \hline
+	10/11/16&  - & - & - \\ \hline
+	11/11/16&  - & - & - \\ \hline
+	12/11/16&  - & - & - \\ \hline
+	13/11/16&  - & - & - \\ \hline
 \end{tabular}
 
 \newpage
