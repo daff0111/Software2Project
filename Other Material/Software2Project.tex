@@ -93,6 +93,17 @@ The System should provided these functionalities based on a mobile and web appli
 \end{itemize}
 \newpage
 \subsection{Domain Assumptions}
+As not all aspects of the given world are considered in the problem definition, the following domain assumptions will be made so they hold for the entirety of the project.
+\begin{itemize}
+\item Once Users have registered with valid payment information, all payments made with their Account will be valid and arrive successfully.
+\item GPS locations on Users and Cars will always be valid.
+\item Available Cars will be always in good working conditions.
+\item Users that have made a Reservation will always be able to follow its status until the end of the ride, meaning that their use of the mobile app will not be interrupted by missing connection or empty battery on their mobile device.
+\item The Cars will be equipped with weight sensors on each seat so it can detect how many passengers they are on a ride as well as being able to issue seat bealt warnings.
+\item All Cars on the service will be at least 5 seat Cars so the option to take 2 passengers or more is always available.
+\item All Available Cars will have at least 20\% battery left, all Cars not available because of low battery will be moved by the service personel to a Re-Charge station by the end of the day. 
+\item Reservations take immediate effect so no conflict of concurrency can happen for a Car, it cannot belong to more than one Reservation at once.
+\end{itemize}
 \subsection{Constraints}
 \subsection{Stakeholders}
 Our Main Stakeholder is the PowerEnJoy Car-Sharing Service, owned by Prof. DiNitto, that wants a management system for the main functionalities of its service.
@@ -109,6 +120,7 @@ Is the Main Actor of our service. Any person that once Registered can take advan
 Customer Relationship Manager, will interface with the User in case of any problem that may arise and can intervene in the System to cancel any Reservation or modify the fee of an User's ride in case of a confirmed major cause.
 
 \section{Requirements}
+\subsection{Functional Requirements}
 \begin{description}
 \item [G.1)]First-Time Users must be able to register to the System creating an Account. 
 \begin{itemize}
@@ -167,6 +179,13 @@ Customer Relationship Manager, will interface with the User in case of any probl
 \end{itemize}
 \end{description}
 
+\subsection{Non Functional Requirements}
+\subsubsection{User Interface}
+\subsubsection{Documentation}
+\subsubsection{System Architecture}
+\subsubsection{Hardware Consideration}
+\subsubsection{Incident Handling}
+\subsubsection{Security}
 \section{Scenario Identifying}
 
 \section{UML Modeling}
@@ -196,7 +215,7 @@ The Tools used to develop this RASD document were:
 	31/10/16&  - & 2h & - \\ \hline
 	01/11/16&  - & - & 2h \\ \hline
 	02/11/16&  2h & - & - \\ \hline
-	03/11/16&  - & - & - \\ \hline
+	03/11/16&  2h & 3h & 3h \\ \hline
 	04/11/16&  - & - & - \\ \hline
 	05/11/16&  - & - & - \\ \hline
 	06/11/16&  - & - & - \\ \hline
