@@ -135,19 +135,22 @@ Customer Relationship Manager, will interface with the User in case of any probl
 \end{itemize}
 \item [G.5)]A User that has made a Reservation must be able to cancel it before 1 hour starting from the time when the Reservation was made.
 \begin{itemize}
-	\item[-]
+	\item[-]The system must check how long has passed from the reservation time, if it less then one hour the user will be able to open the reservation and cancel it without being charged for it.
+	\item[-]The system must confirm the user request and set the car as available again.
 \end{itemize}
 \item [G.6)]In case an User hasn't started using the Reserved Car at 45 minutes after the Reservation was made, he/she will be notified that either if the Reservation is not canceled or the Car is not used in 15 minutes, the Reservation will be automatically canceled and a 1 Euro fee will be charged to her/his Account.
 \begin{itemize}
-	\item[-]
+	\item[-]After 45 minutes from the reservation time has passed, the system must send a notification to the user's registered smartphone warning that he/she has 15 minutes left to pick up the car or to cancel the reservation.
+	\item[-]After the full hour has passed and the reservation is still active, the system must cancel the reservation, block this user account for the next hour and charge the fee of 1 Euro for not picking up the car.
 \end{itemize}
-\item [G.7)]When Users that start using their Reserved Car, they must be able to see their current expenses on the service through a System screen inside the Car.
+\item [G.7)]When Users start using their Reserved Car, they must be able to see their current expenses on the service through a System screen inside the Car.
 \begin{itemize}
-	\item[-]
+	\item[-]The car system must keep track of the gross fee to be paid by the user.
+	\item[-]As soon as the car ignites, the car system must start showing the fee on the computer monitor and keep it this way until the user is finished using the car.
 \end{itemize}
 \item [G.8)]The User must be able to know where the safe parking areas are nearby his/her current location or any address that she/he can specify.
 \begin{itemize}
-	\item[-]
+	\item[-]The system must be able to show, when requested, a map with the safe parking zones and points with eletricity plugs .
 \end{itemize}
 \item [G.9)]Users must be able to finish their use of the Car when leaving it in a safe parking area and exiting the car. The User will then be charged for the use of the service. The used Car will be locked and freed for Users to be reserved.
 \begin{itemize}

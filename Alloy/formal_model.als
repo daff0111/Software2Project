@@ -7,7 +7,7 @@ sig PayInfo{}
 
 // will work as an interface for the various modules, making the bridge between the funcionalities and the user
 sig System{
-	listOfCars: set Car // all existing cars and reservations 
+	listOfCars: set Car, // all existing cars and reservations 
 	listOfReservs: set Reservation 
 }
 
@@ -38,7 +38,7 @@ sig FareCalc{
 	PassengerDisc: one Int,
 	batteryDisc: one Int,
 	specialParkingDisc: one Int,
-	HarshConditionsFee: one int // more then 3km or less the 20% battery
+	HarshConditionsFee: one Int // more then 3km or less the 20% battery
 }
 
 sig Car{
@@ -53,10 +53,10 @@ sig Car{
 sig Location{}
 
 sig SafePlace extends Location{
-	addresses: set //to be done 
+//	addresses: set //to be done 
 }
 
 sig SpecialParking extends SafePlace{
-	addresses: set , //to be done
+//	addresses: set , //to be done
 	availablePlugs: one Int
 }
