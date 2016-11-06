@@ -31,7 +31,7 @@ Authors:
 \begin{itemize}
 	\item Domenico FAVARO (Mat. 837995)
         	\item Matheus FIM (Mat. 876069)
-	\item Caio ZULIANI (Mat.10576264)	
+	\item Caio ZULIANI (Mat. 877266)	
 \end{itemize}
 \raggedleft
 Prof. Elisabetta DI NITTO
@@ -166,19 +166,24 @@ Customer Relationship Manager, will interface with the User in case of any probl
 \end{itemize}
 \item [G.9)]Users must be able to finish their use of the Car when leaving it in a safe parking area and exiting the car. The User will then be charged for the use of the service. The used Car will be locked and freed for Users to be reserved.
 \begin{itemize}
-	\item[-]
+	\item[-]The system must verify if the car is parked in a Safe Parking Area. If the car isn’t located in it the system must notify the user on the screen of the car that it’s not possible to finish the ride.
+	\item[-]The system must show a message on the car’s screen asking if the user want to finish the ride or if want to continuing the use of the car.
+	\item[-]The user must answer to the request. If the user want to keep using it, the system will set the car as reserved for one hour nevertheless in terms of payment the system will charge the same amount of money in the final Transaction. If the user doesn’t want to use the car the system will finish ride.
+	\item[-]Upon the user leaving of the car the system must lock the car and whether set the car as available or reserved evaluating the user answer.
 \end{itemize}
 \item [G.10)]The User will always be notified when any Transaction is made on his Account.
 \begin{itemize}
-	\item[-]
+	\item[-]The system must notify the user of every Transaction made on his Account by email. Further information related to the ride as the Route, charged Fees, o must compose the email.
 \end{itemize}
 \item [G.11)]Notify the Users that are currently using a Car of any available discounts on their ride if they abide by the 'virtous behaviour rules' and of the extra fee in case of not respecting the facilitation of the re-charging of the Car on site. These extra discounts/charges will be applied on the Total fee at the end of the ride.
 \begin{itemize}
-	\item[-]
+	\item[-]The system must notify the user on the car’s screen of the any information related with the a Transaction.
 \end{itemize}
 \item [G.12)]Users can activate the Money Saving option on their Account to be notified of any nearby Re-Charging station on their arrival destination. Leaving the car at the end of the ride t this station and plugging it will register as a 'virtous behavior' and will apply and extra discount when charging the User.
 \begin{itemize}
-	\item[-]
+	\item[-]Users must be allowed to enable the ‘Money Saving’ option on their accounts at any time they choose.
+	\item[-]The system must allow the user to input his/her destination at any time of the ride whether on the app or on the car’s screen.
+	\item[-]Upon the final destination of the user the system must direct the end of the ride considering a uniform distribution of parked cars of the system, the nearest charging station in relation with the address informed and  the availability of these charging stations.
 \end{itemize}
 \end{description}
 
