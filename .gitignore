@@ -1,6 +1,7 @@
 # Ignore backup files #
 #######################
 ~*
+*.dia~
 # Ignore LaTex aux files #
 ##########################
 *.synctex.gz
