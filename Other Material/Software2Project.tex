@@ -49,13 +49,16 @@ As a car-sharing service it should allow the use of a Car via Reservation, takin
 \newline\newline
 The System should allow Users to register so it can authorize them to use the car-sharing services, and allow them to reserve an available Car near their location or on a given address, so they can use it for a ride. 
 \newline\newline
-The Users will provided their credentials and payment info so all the transactions for the service use are made automatically by the System.
+The Users will provide their credentials and payment info so all the transactions for the service use are made automatically by the System.
 \newline\newline
 The System should incentivize Virtuous Behaviors of the Users by providing extra discounts, or fees in case of misconduct, on the current ride. These Virtuous Behavior rules will compensate service expenses for the Cars, specially re-charging costs.
 \newline\newline
-The System should provided these functionalities based on a mobile and web application that can be used by Registered Users to use the PowerEnJoy services. The System should interface as well with the Car so it can obtain important information from it, like location and battery use, and so it can control its locking or unlocking for the use.
+The System should provide these functionalities based on a mobile and web application that can be used by Registered Users to use the PowerEnJoy services. The System should interface as well with the Car so it can obtain important information from it, like location and battery use, and so it can control its locking or unlocking for the use.
+\newline\newline
+For any issue that the User may find using the service or also for any incident a User may cause to the service, we've designed a Customer Relationship Manager (CRM) who'll be allowed to check the status of the Cars and Users, and be able to solve any inconvenient presented during the use of the service. 
 
 \subsection{Goals}
+\textbf{User:}
 \begin{description}
 \item [G.1)]First-Time Users must be able to register to the System creating an Account. 
 \item [G.2)]Registered Users must be able to login to their Account at any time they want.
@@ -77,11 +80,20 @@ The System should provided these functionalities based on a mobile and web appli
 \item [G.12.5)]Apply a 30\% extra fee if the User leaves the Car with the battery less than 20\% full.
 \end{description}
 \item [G.13)]Users can activate the Money Saving option on their Account to be notified of any nearby Re-Charging station on their arrival destination. Leaving the car at the end of the ride t this station and plugging it will register as a 'Virtuous Behavior' and will apply and extra discount when charging the User.
+\item [G.14)]Users must have the option to contact a CRM at any moment, the System must provide a Customer Service area that offers a Chat feature within the App or a phone number.
 \end{description}
+\textbf{CRM:}
+\begin{description}
+\item [G.15)]CRM must be able to log in into the System and see a list of all the Cars available, reserved, in use or unavailable.
+\item [G.16)]CRM has to be able to receive User Reports via chat or outside the app via phone call and be able to register it to the System.
+\item [G.17)]CRM upon request form an User or any major cause can Reserve or cancel any active Reservation.
+\item [G.18)]CRM must be able to change the Status of a Car given a User Report and tag it, in case it's unavailable, if it's due to Re-Charge, Fix, or Removal.
+\item [G.19)]Upon the completion of an User Report CRM must be able to apply extra fees or refund the payment to any User in case the situation demands it.
+\end {description}
 \subsection{Glossary}
 \begin{itemize}
 \item \textbf{First-Time User:} A User that has not created an Account and thus has not yet been registered by the System. Can have a client version of the application, but he/she can't use the service until Registered.
-\item \textbf{Registered User/Users:} A User that has provided valid credentials and payment informations to create an Account in the System.
+\item \textbf{Registered User/Users:} A User that has provided valid credentials and payment information to create an Account in the System.
 \item \textbf{Account:} Allows the Registered User to authenticate to the System and access the car-sharing service.
 \item \textbf{Car:} An electric motored vehicle registered to the PowerEnJoy car-sharing service and thus interfaced to the System. It can be available for reservation, reserved, ready to use, on use and unavailable.
 \item \textbf{Reservation:} Option for the User to denote their future use of an available Car. Once activated it marks the Car as Reserved and is active until the User starts the use of the Car or until 1 hour after its activation, at which point it's cancelled and an user fee is applied.
@@ -92,6 +104,8 @@ The System should provided these functionalities based on a mobile and web appli
 \item \textbf{Re-Charging Station:} Special stations where the Cars can be left and plugged in to have their battery re-charged. They count as Safe Parking Areas.
 \item \textbf{Virtuous Behavior Rule:} Any of the incentive rules that provide the user with a discount on their current ride if they follow it.
 \item \textbf{Status of the Car:} It is the name of a check list made by the car’s System at the end of each ride. This check list consists in the status of battery, the number of passengers on the car, if the car is plugged on a recharge station and their localization.
+\item \textbf{CRM:} or Customer Relationship Manager will be an employee able to Log in to the System with special privileges to update reservation, car status, transactions, etc. in order fix any eventuality an User may find during his/her use of the service.
+\item \textbf{User Report:} A User that has contacted a CRM or a major cause that would create a problem in the System will register into the system as a User Report, made by a CRM. This Report can describe for example an incident, a defect during the ride or a Car that has been fined, and will include if necessary a fine or a refund to the User depending on the case.
 \item \textbf{App:}  Smartphone application that does the interface between the User and the System.
 \item \textbf{Main Page:} A page within the app where a map is showed centered in the users position.
 \end{itemize}
@@ -102,11 +116,13 @@ As not all aspects of the given world are considered in the problem definition, 
 \item Once Users have registered with valid payment information, all payments made with their Account will be valid and arrive successfully.
 \item GPS locations on Users and Cars will always be valid.
 \item Available Cars will be always in good working conditions.
-\item Users that have made a Reservation will always be able to follow its status until the end of the ride, meaning that their use of the mobile app will not be interrupted by missing connection or empty battery on their mobile device.
-\item The Cars will be equipped with weight sensors on each seat so it can detect how many passengers they are on a ride as well as being able to issue seat bealt warnings.
+\item Users that have made a Reservation will always be able to follow its status until the end of the ride, meaning that the screen on the Car will stay functional or by defect their use of the mobile app will not be interrupted by missing connection or empty battery on their mobile device.
+\item The Cars will be equipped with weight sensors on each seat so it can detect how many passengers they are on a ride as well as being able to issue seat belt warnings.
 \item All Cars on the service will be at least 5 seat Cars so the option to take 2 passengers or more is always available.
-\item All Available Cars will have at least 20\% battery left, all Cars not available because of low battery will be moved by the service personel to a Re-Charge station by the end of the day. 
+\item All Available Cars will have at least 20\% battery left, all Cars not available because of low battery will be alerted by a CRM and will be moved by the service personnel to a Re-Charge station by the end of the day. 
 \item Reservations take immediate effect so no conflict of concurrency can happen for a Car, it cannot belong to more than one Reservation at once.
+\item CRM will be employees of the service that will be registered directly into the database, the System does not need to allow the option for them to Register. 
+\item CRM will be working in an office able to login to the web application of the System, with an office phone available and we assume there will be at least one available at every hour the Service is working. 
 \end{itemize}
 
 \subsection{Constraints}
@@ -132,11 +148,11 @@ Our Main Stakeholder is the PowerEnJoy Car-Sharing Service, owned by Prof. DiNit
 \subsection{User}
 Is the Main Actor of our service. Any person that once Registered can take advantage of the features of the PowerEnJoy service.
 \subsection {CRM}
-\textbf{TBD} \textit{- we still need to set this actor's goals and requirements.}
-Customer Relationship Manager, will interface with the User in case of any problem that may arise and can intervene in the System to cancel any Reservation or modify the fee of an User's ride in case of a confirmed major cause.
+Customer Relationship Manager, will interface with the User in case of any problem that may arise and can intervene in the System to fix any issues. His permissions in the System include but are not limited to check on every Car of the service, perform or cancel any Reservation, modify the fee of an User's ride in case of a confirmed major cause, change the Status of a Car and execute a Transaction to a User post-ride.
 
 \section{Requirements}
 \subsection{Functional Requirements}
+\subsubsection{\textbf{User Requirements:}}
 \begin{description}
 \item [G.1)]First-Time Users must be able to register to the System creating an Account. 
 \begin{itemize}
@@ -194,12 +210,12 @@ Customer Relationship Manager, will interface with the User in case of any probl
 \end{itemize}
 \item [G.11)]The User will always be notified when any Transaction is made on his Account.
 \begin{itemize}
-	\item[-]The System must notify the user of every Transaction made on his Account by email. Further information related to the ride as the Route, charged Fees, o must compose the email.
+	\item[-]The System must notify the user of every Transaction made on his Account by email. Further information related to the ride as the total time, the driven route and the charged Fees must compose the email.
 \end{itemize}
 \item [G.12)]Notify the Users that are currently using a Car of any available discounts on their ride if they abide by the 'Virtuous Behaviour Rules' and of the extra fee in case of not respecting the facilitation of the re-charging of the Car on site. These extra discounts/charges will be applied on the Total fee at the end of the ride.
 \begin{itemize}
-	\item[-]The System must notify the user on the car’s screen of the any information related with a discount or extra fee.
-  	\item[-]The System must calculate at the end of the ride if any discount or extra fee is applicable. These fees are
+	\item[-]The System must notify the user on the Car’s screen of the any information related with a discount or extra fee.
+  	\item[-]The System must calculate at the end of the ride if any discount or extra fee is applicable. These fees are:
 	\item [G.12.1)]Apply a 10\% discount if the User takes at least 2 other passenger into the car.
 	\begin{itemize}
 	\item[-]The System must read from the status of the Car the number of passengers and if it's 2 or more, apply the 10\% discount to the ride fee.
@@ -207,26 +223,57 @@ Customer Relationship Manager, will interface with the User in case of any probl
 	\item [G.12.2)]Apply a 20\% discount if the User leaves the Car with the battery at least half-full.
 	\item [G.12.5)]Apply a 30\% extra fee if the User leaves the Car with the battery less than 20\% full.
 	\begin{itemize}
-	\item[-]The System must read from the status of the Car the amount of battery left and if it's 50\% or more apply the 20\% discount else if it's less than 20\% apply the 30\% extra fee.
+	\item[-]The System must read from the status of the Car the amount of battery left and if it's 50\% or more calculate the 20\% discount else if it's less than 20\% calculate the 30\% extra fee.
 	\end{itemize}
 	\item [G.12.3)]Apply a 30\% discount if the User leaves and plugs the Car in a Re-Charging Station.
 	\begin{itemize}
-	\item[-]The System must detect from the status of the Car if it's plugged in to a Re-Charging Station and if it is, apply the 30\% discount.
+	\item[-]The System must detect from the status of the Car if it's plugged in to a Re-Charging Station and if it is, calculate the 30\% discount.
 	\end{itemize}
 	\item [G.12.4)]Apply a 30\% extra fee if the User leaves the Car at more than 3KM from the nearest Re-Charging Station.
 	\begin{itemize}
-	\item[-]The System must read from the status of the Car its current location and the distance to the nearest Re-Charging Station, if it is more than 3KM then applay the 30\% extra fee.
+	\item[-]The System must read from the status of the Car its current location and the distance to the nearest Re-Charging Station, if it is more than 3KM then calculate the 30\% extra fee.
 	\end{itemize}
 	\item[-]The System must apply these discounts or extra fees at the end of the ride over the total fee.
-
 \end{itemize}
+
 \item [G.13)]Users can activate the `Money Saving'a option on their Account to be notified of any nearby Re-Charging station on their arrival destination. Leaving the car at the end of the ride at this station and plugging it will register as a 'Virtuous Behavior' and will apply and extra discount when charging the User.
 \begin{itemize}
 	\item[-]Users must be allowed to enable the ‘Money Saving’ option on their accounts at any time they choose.
 	\item[-]The System must allow the user to input his/her destination at any time of the ride whether on the app or on the car’s screen.
 	\item[-]Upon the final destination of the user the System must direct the end of the ride considering a uniform distribution of parked cars of the System, the nearest charging station in relation with the address informed and  the availability of these charging stations.
 \end{itemize}
+\item [G.14)]Users must have the option to contact a CRM at any moment, the System must provide a Customer Service area that offers a Chat feature within the App or a phone number.
+\begin{itemize}
+	\item[-]The System must show a Customer Service number in its Customer Service Area.
+	\item[-]The System must have a Chat feature that will allow the User contact directly a CRM.
+\end{itemize}
 \end{description}
+
+\subsubsection{\textbf{CRM Requirements:}}
+\begin{description}
+\item [G.15)]CRM must be able to log in into the System and see a list of all the Cars available, reserved, in use or unavailable.
+\begin{itemize}
+	\item[-]The System must allow log in to CRM if they have provided valid username and password.
+	\item[-]The System must show to CRM a list of all the Cars that can be sorted by Status.
+\end{itemize}
+\item [G.16)]CRM has to be able to receive User Reports via chat or outside the app via phone call and be able to register it to the System.
+\begin{itemize}
+	\item[-]When a User uses the Chat feature to contact a CRM the System will redirect the chat to the first available CRM and notify him/her that a User is contacting her/him.
+	\item[-]The System must allow the CRM to create a User Report that will link a User with a Car and if necessary allow the option to add a Transaction.
+\end{itemize}
+\item [G.17)]CRM upon request form an User or any major cause can Reserve or cancel any active Reservation.
+\begin{itemize}
+	\item[-]The System must allow from the list of all Cars showed to the CRM, the option to Reserve any available Car for a User or cancel a Reservation of a Reserved Car. This action does not include a User Report.
+\end{itemize}
+\item [G.18)]CRM must be able to change the Status of a Car given a User Report and tag it, in case it's unavailable, if it's due to Re-Charge, Fix, or Removal.
+\begin{itemize}
+	\item[-]The System must allow from the list of all Cars showed to the CRM, the option to Reserve any available Car for a User or cancel a Reservation of a Reserved Car. This action does not include a User Report.
+\end{itemize}
+\item [G.19)]Upon the completion of an User Report CRM must be able to apply extra fees or refund the payment to any User in case the situation demands it.
+\begin{itemize}
+	\item[-]The System at the end of an User Report must ask for confirmation of the CRM in case the Report includes a Transaction. This can be an extra fee that the User must pay or a refund the service owns the User.
+\end{itemize}
+\end {description}
 
 \subsection{Non Functional Requirements}
 \subsubsection{User Interface}
@@ -244,7 +291,7 @@ Customer Relationship Manager, will interface with the User in case of any probl
 	\textbf{Background conditions}&\parbox[t]{8cm}{Carol do not have an Account but she wants to create one. } \\ \hline
 	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Carol selects the sign-up option on the App;\\\textbullet The System shows a form where Carol can insert her data;\\\textbullet Carol inserts her credentials, email and the payment information and finishes the process;\\\textbullet  The System checks the consistence of the data;\\\textbullet  The System informs Carol of the success of the registration;}\\ \hline
 	\textbf{Exit conditions} &\parbox[t]{8cm}{ System confirms the creation of a new user and send an email to the user's email address informing the password and confirming the registration.}\\ \hline
-	\textbf{Exception} & \parbox[t]{8cm}{Carol inserts data that the System can not validate. System can not finish operation until Carol inserts the correct data.   }\\ \hline
+	\textbf{Exception} & \parbox[t]{8cm}{Carol inserts data that the System can't validate. System can not finish operation until Carol inserts the correct data.   }\\ \hline
 \end{tabular}
 \newline
 \begin{tabular}{ |  l  |   l |  l  |  }
@@ -360,9 +407,96 @@ The CRM operator could not identity the problem with the Car.
 Use case Diagram represents all the situations available to Users explained in the Scenarios.
 \begin{figure}[h]
 \centering
-\includegraphics[width=1.25\textwidth]{UseCase.png}
+\includegraphics[width=1.1\textwidth]{UseCaseCRM.png}
 \caption {Use Case Diagram}
 \end{figure}
+\newpage
+
+\subsubsection{Use Cases Description}
+Use Cases derived from the Scenarios previously detailed and based on the Use Case Diagram.
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+\textbf{Use Case:} First Time User Registers.
+\newline
+\textbf{Actors:} User
+\newline
+\textbf{Flow of Events:}
+\begin{itemize}
+\item User selects the Sign-Up option on the App.
+\item A form is presented to the User where he/she can fill her/his information.
+\item The User inserts all credentials and valid payment options and proceeds with the operation.
+\item The System informs the User the success of the Registration.
+\end{itemize}
+\textbf{Exit Conditions:} The System confirms the creation of the new User and adds its Account to the Database. An email with the User's Password is sent for her/him to Log in.
+\newline
+\textbf{Exceptions:} The User inserts invalid data so the System can't confirm the Registration.
+\newline
+
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+\textbf{Use Case:} User Reserves and Rides a Car.
+\newline
+\textbf{Actors:} User
+\newline
+\textbf{Flow of Events:}
+\begin{itemize}
+\item 
+\end{itemize}
+\textbf{Exit Conditions:}
+\newline
+\textbf{Exceptions:}
+\newline
+
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+\textbf{Use Case:} User asks to cancel a Reservation.
+\newline
+\textbf{Actors:} User, CRM
+\newline
+\textbf{Flow of Events:}
+\begin{itemize}
+\item 
+\end{itemize}
+\textbf{Exit Conditions:}
+\newline
+\textbf{Exceptions:}
+\newline
+
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+\textbf{Use Case:} User Activates and uses the Money Saving Option.
+\newline
+\textbf{Actors:} User
+\newline
+\textbf{Flow of Events:}
+\begin{itemize}
+\item 
+\end{itemize}
+\textbf{Exit Conditions:}
+\newline
+\textbf{Exceptions:}
+\newline
+
+\begin{center}
+\rule{8cm}{0.4pt}
+\end{center}
+\textbf{Use Case:} User cannot pick up Reserved Car
+\newline
+\textbf{Actors:} User, CRM
+\newline
+\textbf{Flow of Events:}
+\begin{itemize}
+\item 
+\end{itemize}
+\textbf{Exit Conditions:}
+\newline
+\textbf{Exceptions:}
+\newline
+
 \subsection{Class Diagram}
 \subsection{Sequence Diagram}
 \subsection{Statechart Diagram}
@@ -397,7 +531,7 @@ The Tools used to develop this RASD document were:
 	04/11/16&  - & - & 2h\\ \hline
 	05/11/16&  1h & - &  6h\\ \hline
 	06/11/16&  - & - & 6h\\ \hline
-	07/11/16&  2h & - & 6h \\ \hline
+	07/11/16& 4h & - & 6h \\ \hline
 	08/11/16&  - & - & - \\ \hline
 	09/11/16&  - & - & - \\ \hline
 	10/11/16&  - & - & - \\ \hline
