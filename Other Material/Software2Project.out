@@ -1,0 +1,34 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Problem Definition - PowerEnJoy}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Goals}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Glossary}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.4}{Domain Assumptions}{section.1}% 5
+\BOOKMARK [2][-]{subsection.1.5}{Constraints}{section.1}% 6
+\BOOKMARK [2][-]{subsection.1.6}{Stakeholders}{section.1}% 7
+\BOOKMARK [2][-]{subsection.1.7}{Reference Documents}{section.1}% 8
+\BOOKMARK [1][-]{section.2}{Proposed System}{}% 9
+\BOOKMARK [1][-]{section.3}{Actors}{}% 10
+\BOOKMARK [2][-]{subsection.3.1}{User}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.2}{CRM}{section.3}% 12
+\BOOKMARK [1][-]{section.4}{Requirements}{}% 13
+\BOOKMARK [2][-]{subsection.4.1}{Functional Requirements}{section.4}% 14
+\BOOKMARK [3][-]{subsubsection.4.1.1}{User Requirements:}{subsection.4.1}% 15
+\BOOKMARK [3][-]{subsubsection.4.1.2}{CRM Requirements:}{subsection.4.1}% 16
+\BOOKMARK [2][-]{subsection.4.2}{Non Functional Requirements}{section.4}% 17
+\BOOKMARK [3][-]{subsubsection.4.2.1}{User Interface}{subsection.4.2}% 18
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Documentation}{subsection.4.2}% 19
+\BOOKMARK [3][-]{subsubsection.4.2.3}{System Architecture}{subsection.4.2}% 20
+\BOOKMARK [3][-]{subsubsection.4.2.4}{Hardware Consideration}{subsection.4.2}% 21
+\BOOKMARK [3][-]{subsubsection.4.2.5}{Incident Handling}{subsection.4.2}% 22
+\BOOKMARK [3][-]{subsubsection.4.2.6}{Security}{subsection.4.2}% 23
+\BOOKMARK [1][-]{section.5}{Scenario Identifying}{}% 24
+\BOOKMARK [1][-]{section.6}{UML Modeling}{}% 25
+\BOOKMARK [2][-]{subsection.6.1}{Use Case Diagram}{section.6}% 26
+\BOOKMARK [3][-]{subsubsection.6.1.1}{Use Cases Description}{subsection.6.1}% 27
+\BOOKMARK [2][-]{subsection.6.2}{Class Diagram}{section.6}% 28
+\BOOKMARK [2][-]{subsection.6.3}{Sequence Diagram}{section.6}% 29
+\BOOKMARK [2][-]{subsection.6.4}{Statechart Diagram}{section.6}% 30
+\BOOKMARK [2][-]{subsection.6.5}{Activity Diagram}{section.6}% 31
+\BOOKMARK [1][-]{section.7}{Alloy Modeling}{}% 32
+\BOOKMARK [1][-]{section.8}{Used Tools}{}% 33
+\BOOKMARK [1][-]{section.9}{Hours of Work}{}% 34

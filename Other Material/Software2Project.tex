@@ -396,7 +396,22 @@ Paulo couldn't make to the car in 15 minutes and the System automatically cancel
 	\textbf{Exit conditions} &\parbox[t]{8cm}{ The CRM operator directs the relation when between the User and the System in such events and is enable to finish the ride and to set the car as unavailable.}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The saved credentials are not valid and the login fail.\\
 The connection between the CRM operator and the User fails.\\
+There is no CRM operator available;\\
 The CRM operator could not identity the problem with the Car. 
+}\\ \hline
+\end{tabular}
+
+\begin{tabular}{ |  l  |   l |  l  |  }
+\hline
+	\textbf { \textbf{Scenario}} & \parbox[t]{8cm}{Frederico had a medical condition and could not pick up the reserved car}\\ \hline
+	 \textbf{Actor}& User, CRM operator\\ \hline
+	\textbf{Background conditions}&\parbox[t]{8cm}{Frederico is a Registered user and had made and missed a reservation.He had an accident and was unable to get the car.} \\ \hline
+	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Frederico open the app and do the login;\\\textbullet He chooses the option ‘Talk with us’ and call for the CRM operator\\\textbullet The calling established a connection of Frederico and the CRM operator;\\\textbullet Frederico explains the case to the CRM operator;\\\textbullet The CRM operator analyses the case and apply some alterations on the system such as canceling the charged fee in one Transaction of Francesco’s Account;\\\textbullet Frederico finishes the call;} \\ \hline
+	\textbf{Exit conditions} &\parbox[t]{8cm}{ CRM operator analyses Francesco's request and apply or not changes is the system following these requests}\\ \hline
+	\textbf{Exception} & \parbox[t]{8cm}{The login fail.\\
+	The connection between the CRM operator and the User fails.\\
+There is no CRM operator available;\\
+The CRM operator could not apply the changes upon the user's request.
 }\\ \hline
 \end{tabular}
 
@@ -529,8 +544,8 @@ The Tools used to develop this RASD document were:
 	02/11/16&  2h & - & - \\ \hline
 	03/11/16&  2h & 3h & 3h \\ \hline
 	04/11/16&  - & - & 2h\\ \hline
-	05/11/16&  1h & - &  6h\\ \hline
-	06/11/16&  - & - & 6h\\ \hline
+	05/11/16&  1h & 4h &  6h\\ \hline
+	06/11/16&  - & 5h & 6h\\ \hline
 	07/11/16& 4h & - & 6h \\ \hline
 	08/11/16&  - & - & - \\ \hline
 	09/11/16&  - & - & - \\ \hline
