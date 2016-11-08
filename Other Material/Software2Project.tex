@@ -382,7 +382,7 @@ Paulo couldn't make to the car in 15 minutes and the System automatically cancel
 	 \textbf{Actor}& User\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Marina is Registered User and she had saved her credentials on the app.\\She had just unlocked the car and is about to begin the ride.} \\ \hline
 	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Marina has a previous knowledge of the ‘Money Saving’ option so when she got in the car she informs in car’s screen map her destination;\\\textbullet The System calculates the optimal destination considering the distribution of the cars in the city, the available plugs and the destination address;\\\textbullet The System return options of parking spots to Marina; \\\textbullet She considers these options and selects one. She starts the ride following the GPS route of the car’s screen;\\\textbullet Mariana drives to the destination;\\\textbullet Marina turn of the car;\\\textbullet The System show a question on the car’s screen asking if Marina will finish the ride;\\\textbullet Marina selects that she will finish the ride; \\\textbullet  The System show a message on the saying that Marina is besides the plug and advice to connect the car to the plug;\\\textbullet Marina left the car and proceeds to connect the plug into the car; \\\textbullet The System finish the ride and lock the car; } \\ \hline
-	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System verifies the Status of the car and   proceeds to finish Marina's ride sending to his email the information of the ride as the route and the transaction.}\\ \hline
+	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System verifies the Status of the car and proceeds to finish Marina's ride sending to his email the information of the ride as the route and the transaction.}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The System can not return a destination due the lack of the available Re-Charging Stations in relation with the distribution of the cars.  }\\ \hline
 \end{tabular}
 \newline
@@ -407,7 +407,7 @@ The CRM operator could not identity the problem with the Car.
 	 \textbf{Actor}& User, CRM operator\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Frederico is a Registered user and had made and missed a reservation.He had an accident and was unable to get the car.} \\ \hline
 	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Frederico open the app and do the login;\\\textbullet He chooses the option ‘Talk with us’ and call for the CRM operator\\\textbullet The calling established a connection of Frederico and the CRM operator;\\\textbullet Frederico explains the case to the CRM operator;\\\textbullet The CRM operator analyses the case and apply some alterations on the system such as canceling the charged fee in one Transaction of Francesco’s Account;\\\textbullet Frederico finishes the call;} \\ \hline
-	\textbf{Exit conditions} &\parbox[t]{8cm}{ CRM operator analyses Francesco's request and apply or not changes is the system following these requests}\\ \hline
+	\textbf{Exit conditions} &\parbox[t]{8cm}{ CRM operator analyses Frederico's request and apply or not changes is the system following these requests}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The login fail.\\
 	The connection between the CRM operator and the User fails.\\
 There is no CRM operator available;\\
@@ -457,11 +457,20 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 \newline
 \textbf{Flow of Events:}
 \begin{itemize}
-\item 
+\item User Logs In to the App in a mobile device.
+\item User sees in the Main Page the map with the available Cars near the User current Location.
+\item User selects a Car and reserves it.
+\item The System creates a Reservation with the User and the Car, maked now as reserved.
+\item User moves toward the Location of the Reserved Car and ask the System to unlock it.
+\item The System confirms that the User and the Car location are the same and unlocks the Car.
+\item As soon as the User ignites the Car the System starts the registration of the Ride.
+\item The User arrives to the desired destination and parks the Car in a Safe Parking Area.
+\item The System asks the User if he/she desires to finish the Ride.
+\item When the User confirms, the System ends the Ride and charges its fee to the User Account. 
 \end{itemize}
-\textbf{Exit Conditions:}
-\newline
-\textbf{Exceptions:}
+\textbf{Exit Conditions:} The System verifies the Status of the Car and sends an email to the User with the information of the ride as the route and the Transaction.
+\newline 
+\textbf{Exceptions:} The User cannot find an available Car, the User cancels the Reservation or the User does not park in a Safe Parking Area, thus the System cannot end the Ride.
 \newline
 
 \begin{center}
@@ -473,11 +482,15 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 \newline
 \textbf{Flow of Events:}
 \begin{itemize}
-\item 
+\item User makes a Reservation for a Car.
+\item After some time before the one hour limit has passed the User decides to cancel the Reservation
+\item Instead of canceling the Reservation with the App the User decides to call the Customer Service Number.
+\item A CRM answers the User an after confirming his/her information is correct, looks for the Reservation in the System.
+\item The CRM cancels the Reservation manually on the System.
 \end{itemize}
-\textbf{Exit Conditions:}
+\textbf{Exit Conditions:} The Reservation is confirmed canceled, the Reserved Car is marked as available, the User is able to make another Reservation.
 \newline
-\textbf{Exceptions:}
+\textbf{Exceptions:} The User cannot provide the CRM valid information of the Reservation to cancel it.
 \newline
 
 \begin{center}
@@ -489,27 +502,37 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 \newline
 \textbf{Flow of Events:}
 \begin{itemize}
-\item 
+\item A Logged in User sees the Money Saving Option in the App and activates it for her/his Ride.
+\item The System asked the User for a final destination of the Ride.
+\item The System finds the best Re-Charging station near the Location given by the User. This station is determined optimally by the System considering Car distribution in the city and availability of power plugs.
+\item The User finish his/her Ride by parking in the suggested Re-Charging Station and plugging in the Car.
+\item The System ends the Ride and charges the User with a 30\% discount for Virtuous Behavior.
 \end{itemize}
-\textbf{Exit Conditions:}
+\textbf{Exit Conditions:} The System ends the Ride confirming that the Car is plugged in to the Power Station.
 \newline
-\textbf{Exceptions:}
+\textbf{Exceptions:} The System cannot find a suitable Re-Charging station near the User preferred Location. The User does not plug in the Car by the end of the Ride.
 \newline
 
 \begin{center}
 \rule{8cm}{0.4pt}
 \end{center}
-\textbf{Use Case:} User cannot pick up Reserved Car
+\textbf{Use Case:} User cannot pick up a Reserved Car.
 \newline
 \textbf{Actors:} User, CRM
 \newline
 \textbf{Flow of Events:}
 \begin{itemize}
-\item 
+\item The User has made a Reservation and goes to the Reserved Car.
+\item The User tries to open up the Car with the App but it does not work.
+\item The User contacts a CRM via Customer Service and explains his/her problem.
+\item The CRM confirms the User information and locates the given Reserved Car.
+\item The CRM tries to Unlock the Car using the System but it doesn't work. Ex. Connection issue.
+\item The CRM then proceeds to cancel the Reservation, mark the Car as unavailable and reserve the next nearest available Car for the User to Ride.
+\item The CRM can decide to apply a 10\% discount to the User's Ride for the inconvenience.
 \end{itemize}
-\textbf{Exit Conditions:}
+\textbf{Exit Conditions:} The User Reservation is cancelled and a new one is created, the User then proceeds with the Ride normally.
 \newline
-\textbf{Exceptions:}
+\textbf{Exceptions:} The CRM override to unlock the Car works and allows the User proceed normally. The CRM cannot find an available Car near the User.
 \newline
 
 \subsection{Class Diagram}
@@ -547,7 +570,7 @@ The Tools used to develop this RASD document were:
 	05/11/16&  1h & 4h &  6h\\ \hline
 	06/11/16&  - & 5h & 6h\\ \hline
 	07/11/16& 4h & 2h & 6h \\ \hline
-	08/11/16&  - & - & - \\ \hline
+	08/11/16&  1h & - & - \\ \hline
 	09/11/16&  - & - & - \\ \hline
 	10/11/16&  - & - & - \\ \hline
 	11/11/16&  - & - & - \\ \hline
