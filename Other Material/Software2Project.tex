@@ -84,7 +84,7 @@ For any issue that the User may find using the service or also for any incident 
 \end{description}
 \textbf{CRM:}
 \begin{description}
-\item [G.15)]CRM must be able to log in into the System and see a list of all the Cars available, reserved, in use or unavailable.
+\item [G.15)]CRM must be able to log in into the System with an Account and see a list of all the Cars available, reserved, in use or unavailable.
 \item [G.16)]CRM has to be able to receive User Reports via chat or outside the app via phone call and be able to register it to the System.
 \item [G.17)]CRM upon request form an User or any major cause can Reserve or cancel any active Reservation.
 \item [G.18)]CRM must be able to change the Status of a Car given a User Report and tag it, in case it's unavailable, if it's due to Re-Charge, Fix, or Removal.
@@ -94,7 +94,7 @@ For any issue that the User may find using the service or also for any incident 
 \begin{itemize}
 \item \textbf{First-Time User:} A User that has not created an Account and thus has not yet been registered by the System. Can have a client version of the application, but he/she can't use the service until Registered.
 \item \textbf{Registered User/Users:} A User that has provided valid credentials and payment information to create an Account in the System.
-\item \textbf{Account:} Allows the Registered User to authenticate to the System and access the car-sharing service.
+\item \textbf{Account:} Allows the Registered User or the CRM to authenticate to the System and access the car-sharing service.
 \item \textbf{Car:} An electric motored vehicle registered to the PowerEnJoy car-sharing service and thus interfaced to the System. It can be available for reservation, reserved, ready to use, on use and unavailable.
 \item \textbf{Reservation:} Option for the User to denote their future use of an available Car. Once activated it marks the Car as Reserved and is active until the User starts the use of the Car or until 1 hour after its activation, at which point it's cancelled and an user fee is applied.
 \item \textbf{Ride:} The actual use of the Car by the User. It starts when the User ignites the Car engine for the first time and it ends when the car is parked in a safe area and the User exits the Car.
@@ -422,8 +422,10 @@ The CRM operator could not apply the changes upon the user's request.
 Use case Diagram represents all the situations available to Users explained in the Scenarios.
 \begin{figure}[h]
 \centering
-\includegraphics[width=1.1\textwidth]{UseCaseCRM.png}
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1.35\textwidth]{UseCaseCRM.png}}%
 \caption {Use Case Diagram}
+\vspace*{2cm}
 \end{figure}
 \newpage
 
@@ -528,6 +530,7 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 \item The CRM confirms the User information and locates the given Reserved Car.
 \item The CRM tries to Unlock the Car using the System but it doesn't work. Ex. Connection issue.
 \item The CRM then proceeds to cancel the Reservation, mark the Car as unavailable and reserve the next nearest available Car for the User to Ride.
+\item The CRM creates an User Report linking the User that reported it and the Car explaining the reason why the Car has been mark as Unavailable and due for inspection.
 \item The CRM can decide to apply a 10\% discount to the User's Ride for the inconvenience.
 \end{itemize}
 \textbf{Exit Conditions:} The User Reservation is cancelled and a new one is created, the User then proceeds with the Ride normally.
@@ -536,6 +539,15 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 \newline
 
 \subsection{Class Diagram}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1.25\textwidth]{ClassDiagram.png}}%
+\caption {Class Diagram}
+\vspace*{2cm}
+\end{figure}
+\newpage
+
 \subsection{Sequence Diagram}
 \subsection{Statechart Diagram}
 \subsection{Activity Diagram}
