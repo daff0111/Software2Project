@@ -282,6 +282,7 @@ Customer Relationship Manager, will interface with the User in case of any probl
 \subsubsection{Hardware Consideration}
 \subsubsection{Incident Handling}
 \subsubsection{Security}
+
 \section{Scenario Identifying}
 
 \begin{tabular}{ |  l  |   l |  l  |  }
@@ -548,7 +549,37 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 \end{figure}
 \newpage
 
-\subsection{Sequence Diagram}
+\subsection{Sequence Diagrams}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width = 0.8\textwidth]{SequenceDiagram1.png}}%
+\caption {Sequence Diagram 1: User takes a Ride}
+\vspace*{0.5cm}
+\end{figure}
+In the first Sequence Diagram (fig. 3) we abstract the elements present inside the System and show the flow of interaction with the external classes of the System, that is showing the System as a mean to interface the User and the Car. This is presented in a normal case of User asking for a Ride.
+\newpage
+
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1.2\textwidth]{SequenceDiagram2.png}}%
+\caption {Sequence Diagram 2: User cancels a Reservation}
+\vspace*{0.5cm}
+\end{figure}
+In this Sequence Diagram (fig. 4) we represent a sequence within the lifecycle of a Reservation, that is a class which funcionality exists inside the System and serves as the mean for the System to communicate with the Car.
+\newpage
+
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1\textwidth]{SequenceDiagram3.png}}%
+\caption {Sequence Diagram 3: User finds a problem with a Car}
+\vspace*{0.5cm}
+\end{figure}
+In this last example of Sequence Diagram (fig. 5) we present a situation in which the User uses the System to interface with our other Actor, the CRM, which in turn uses the System again to interface with the Car.
+\newpage
+
 \subsection{Statechart Diagram}
 \subsection{Activity Diagram}
 \section{Alloy Modeling}
@@ -583,7 +614,7 @@ The Tools used to develop this RASD document were:
 	06/11/16&  - & 5h & 6h\\ \hline
 	07/11/16& 4h & 2h & 6h \\ \hline
 	08/11/16&  3h & - & - \\ \hline
-	09/11/16&  - & - & - \\ \hline
+	09/11/16&  2h & - & - \\ \hline
 	10/11/16&  - & - & - \\ \hline
 	11/11/16&  - & - & - \\ \hline
 	12/11/16&  - & - & - \\ \hline
