@@ -277,11 +277,49 @@ Customer Relationship Manager, will interface with the User in case of any probl
 
 \subsection{Non Functional Requirements}
 \subsubsection{User Interface}
+For our User Interface (UI) we'll offer a mobile App for Users and a desktop web App for Users and CRM. They will offer:
+\begin {itemize}
+\item \textbf{LogIn Page:}
+\item \textbf{Main Page:}
+\item \textbf{Car Selection Page:}
+\item \textbf{Car Details Page:}
+\item \textbf{Reservation Page:}
+\item \textbf{Ride Page:} As well as another screen that will be present inside of each Car.
+\item \textbf{User Report Page:}
+\end{itemize}
 \subsubsection{Documentation}
+To organize this project workflow and development the following Documents will be drafted:
+\begin {itemize}
+\item Requirements And Specifications Document (RASD): Describes the Goals of the project and how to achieve them by specifying the Requirements.
+\item Design Document (DD): Defines the real structure of the System. Architecture, Components and design decisions will be explained here.
+\item Project Testing Document: Will detail the Test process for the system before deployment. Test case specifications, procedues, incident, reports will be considered Documentation Testing.
+\item Project Management Documentation: Specific assignment of tasks, stimations and goals for each of the development phases.
+\end{itemize}
 \subsubsection{System Architecture}
+Project will be developed using a JEE Platform based in a 2-Tier Client/Server Architecture. First idea consists in Remote Presentation structured layers where the Client Apps will serve just to interface with the Server that will store the logic and the Data of the System. The architecture as explained briefly in the proposed System will consist of:
+\begin {itemize}
+\item Client Tier: 
+\begin {itemize}
+\item [-]Web Client on a browser with abilitated JavaScript for the Web App use. 
+\item [-]Application Client for the Mobile App (Android and iOS), with GPS functionalities. We will consider the screen present in the Car as a Client App of the System that'll implement some logic to interface to the Car Software to Lock, Unlock, read the Battery level and other functions. This can be seen to as some level of logic distribution.
+\end{itemize}
+\item Server Tier:
+\begin {itemize}
+\item [-]Web Server that'll answer connections for Web Clients. Implemented as an Apache Server, will interface with the Application Server.
+\item [-]Java Application Server, that'll implement the logic of the System. Application Clients will connect directly to it. Will implement JavaBeans to handle request from multiple Clients at a time.
+\item [-]DataBase Server, accessed by the Application Server to store all the data refering to the System.
+\end{itemize}
+\end{itemize}
+
 \subsubsection{Hardware Consideration}
+As stated in the Architecture Considerations we'll need a server able to store our Application and DataBase and be accessible by multiple Clients at a time. We'll consider the Server to be always accesible through an stable connection to Internet. 
+As an extension of the System we have the Clients running in the Cars, they'll need to be accessible via 3G and have GPS feature for localization.
+
 \subsubsection{Incident Handling}
+We'll consider our data to be persistent. If by any case any data is lost or corrupted we expect not to create big losses to the System, all transactions of data will be considered atomic we expect no loss during any kind of transaction. 
+
 \subsubsection{Security}
+Data Backups will be considered daily for data security. Accounts will be protected by hashed passwords. As one of the requirements of the project asked to send Users a password via mail we assume that it'll be handled by secure servers (IMAPS) so we're assured just the User can see it. Firewalls will be considered for our Servers connections. In case of breach, User Accounts can be blocked by CRMs. CRM Accounts are introduced directly into the DataBase by a separate system that register the Company employees, we assume it safely as well.
 
 \section{Scenario Identifying}
 
