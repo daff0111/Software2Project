@@ -84,7 +84,7 @@ For any issue that the User may find using the service or also for any incident 
 \end{description}
 \textbf{CRM:}
 \begin{description}
-\item [G.15)]CRM must be able to log in into the System and see a list of all the Cars available, reserved, in use or unavailable.
+\item [G.15)]CRM must be able to log in into the System with an Account and see a list of all the Cars available, reserved, in use or unavailable.
 \item [G.16)]CRM has to be able to receive User Reports via chat or outside the app via phone call and be able to register it to the System.
 \item [G.17)]CRM upon request form an User or any major cause can Reserve or cancel any active Reservation.
 \item [G.18)]CRM must be able to change the Status of a Car given a User Report and tag it, in case it's unavailable, if it's due to Re-Charge, Fix, or Removal.
@@ -94,7 +94,7 @@ For any issue that the User may find using the service or also for any incident 
 \begin{itemize}
 \item \textbf{First-Time User:} A User that has not created an Account and thus has not yet been registered by the System. Can have a client version of the application, but he/she can't use the service until Registered.
 \item \textbf{Registered User/Users:} A User that has provided valid credentials and payment information to create an Account in the System.
-\item \textbf{Account:} Allows the Registered User to authenticate to the System and access the car-sharing service.
+\item \textbf{Account:} Allows the Registered User or the CRM to authenticate to the System and access the car-sharing service.
 \item \textbf{Car:} An electric motored vehicle registered to the PowerEnJoy car-sharing service and thus interfaced to the System. It can be available for reservation, reserved, ready to use, on use and unavailable.
 \item \textbf{Reservation:} Option for the User to denote their future use of an available Car. Once activated it marks the Car as Reserved and is active until the User starts the use of the Car or until 1 hour after its activation, at which point it's cancelled and an user fee is applied.
 \item \textbf{Ride:} The actual use of the Car by the User. It starts when the User ignites the Car engine for the first time and it ends when the car is parked in a safe area and the User exits the Car.
@@ -277,11 +277,50 @@ Customer Relationship Manager, will interface with the User in case of any probl
 
 \subsection{Non Functional Requirements}
 \subsubsection{User Interface}
+For our User Interface (UI) we'll offer a mobile App for Users and a desktop web App for Users and CRM. They will offer:
+\begin {itemize}
+\item \textbf{LogIn Page:}
+\item \textbf{Main Page:}
+\item \textbf{Car Selection Page:}
+\item \textbf{Car Details Page:}
+\item \textbf{Reservation Page:}
+\item \textbf{Ride Page:} As well as another screen that will be present inside of each Car.
+\item \textbf{User Report Page:}
+\end{itemize}
 \subsubsection{Documentation}
+To organize this project workflow and development the following Documents will be drafted:
+\begin {itemize}
+\item Requirements And Specifications Document (RASD): Describes the Goals of the project and how to achieve them by specifying the Requirements.
+\item Design Document (DD): Defines the real structure of the System. Architecture, Components and design decisions will be explained here.
+\item Project Testing Document: Will detail the Test process for the system before deployment. Test case specifications, procedues, incident, reports will be considered Documentation Testing.
+\item Project Management Documentation: Specific assignment of tasks, stimations and goals for each of the development phases.
+\end{itemize}
 \subsubsection{System Architecture}
+Project will be developed using a JEE Platform based in a 2-Tier Client/Server Architecture. First idea consists in Remote Presentation structured layers where the Client Apps will serve just to interface with the Server that will store the logic and the Data of the System. The architecture as explained briefly in the proposed System will consist of:
+\begin {itemize}
+\item Client Tier: 
+\begin {itemize}
+\item [-]Web Client on a browser with abilitated JavaScript for the Web App use. 
+\item [-]Application Client for the Mobile App (Android and iOS), with GPS functionalities. We will consider the screen present in the Car as a Client App of the System that'll implement some logic to interface to the Car Software to Lock, Unlock, read the Battery level and other functions. This can be seen to as some level of logic distribution.
+\end{itemize}
+\item Server Tier:
+\begin {itemize}
+\item [-]Web Server that'll answer connections for Web Clients. Implemented as an Apache Server, will interface with the Application Server.
+\item [-]Java Application Server, that'll implement the logic of the System. Application Clients will connect directly to it. Will implement JavaBeans to handle request from multiple Clients at a time.
+\item [-]DataBase Server, accessed by the Application Server to store all the data refering to the System.
+\end{itemize}
+\end{itemize}
+
 \subsubsection{Hardware Consideration}
+As stated in the Architecture Considerations we'll need a server able to store our Application and DataBase and be accessible by multiple Clients at a time. We'll consider the Server to be always accesible through an stable connection to Internet. 
+As an extension of the System we have the Clients running in the Cars, they'll need to be accessible via 3G and have GPS feature for localization.
+
 \subsubsection{Incident Handling}
+We'll consider our data to be persistent. If by any case any data is lost or corrupted we expect not to create big losses to the System, all transactions of data will be considered atomic we expect no loss during any kind of transaction. 
+
 \subsubsection{Security}
+Data Backups will be considered daily for data security. Accounts will be protected by hashed passwords. As one of the requirements of the project asked to send Users a password via mail we assume that it'll be handled by secure servers (IMAPS) so we're assured just the User can see it. Firewalls will be considered for our Servers connections. In case of breach, User Accounts can be blocked by CRMs. CRM Accounts are introduced directly into the DataBase by a separate system that register the Company employees, we assume it safely as well.
+
 \section{Scenario Identifying}
 
 \begin{tabular}{ |  l  |   l |  l  |  }
@@ -382,7 +421,7 @@ Paulo couldn't make to the car in 15 minutes and the System automatically cancel
 	 \textbf{Actor}& User\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Marina is Registered User and she had saved her credentials on the app.\\She had just unlocked the car and is about to begin the ride.} \\ \hline
 	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Marina has a previous knowledge of the ‘Money Saving’ option so when she got in the car she informs in car’s screen map her destination;\\\textbullet The System calculates the optimal destination considering the distribution of the cars in the city, the available plugs and the destination address;\\\textbullet The System return options of parking spots to Marina; \\\textbullet She considers these options and selects one. She starts the ride following the GPS route of the car’s screen;\\\textbullet Mariana drives to the destination;\\\textbullet Marina turn of the car;\\\textbullet The System show a question on the car’s screen asking if Marina will finish the ride;\\\textbullet Marina selects that she will finish the ride; \\\textbullet  The System show a message on the saying that Marina is besides the plug and advice to connect the car to the plug;\\\textbullet Marina left the car and proceeds to connect the plug into the car; \\\textbullet The System finish the ride and lock the car; } \\ \hline
-	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System verifies the Status of the car and   proceeds to finish Marina's ride sending to his email the information of the ride as the route and the transaction.}\\ \hline
+	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System verifies the Status of the car and proceeds to finish Marina's ride sending to his email the information of the ride as the route and the transaction.}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The System can not return a destination due the lack of the available Re-Charging Stations in relation with the distribution of the cars.  }\\ \hline
 \end{tabular}
 \newline
@@ -407,7 +446,7 @@ The CRM operator could not identity the problem with the Car.
 	 \textbf{Actor}& User, CRM operator\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Frederico is a Registered user and had made and missed a reservation.He had an accident and was unable to get the car.} \\ \hline
 	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Frederico open the app and do the login;\\\textbullet He chooses the option ‘Talk with us’ and call for the CRM operator\\\textbullet The calling established a connection of Frederico and the CRM operator;\\\textbullet Frederico explains the case to the CRM operator;\\\textbullet The CRM operator analyses the case and apply some alterations on the system such as canceling the charged fee in one Transaction of Francesco’s Account;\\\textbullet Frederico finishes the call;} \\ \hline
-	\textbf{Exit conditions} &\parbox[t]{8cm}{ CRM operator analyses Francesco's request and apply or not changes is the system following these requests}\\ \hline
+	\textbf{Exit conditions} &\parbox[t]{8cm}{ CRM operator analyses Frederico's request and apply or not changes is the system following these requests}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The login fail.\\
 	The connection between the CRM operator and the User fails.\\
 There is no CRM operator available;\\
@@ -422,8 +461,10 @@ The CRM operator could not apply the changes upon the user's request.
 Use case Diagram represents all the situations available to Users explained in the Scenarios.
 \begin{figure}[h]
 \centering
-\includegraphics[width=1.1\textwidth]{UseCaseCRM.png}
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1.35\textwidth]{UseCaseCRM.png}}%
 \caption {Use Case Diagram}
+\vspace*{2cm}
 \end{figure}
 \newpage
 
@@ -457,11 +498,20 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 \newline
 \textbf{Flow of Events:}
 \begin{itemize}
-\item 
+\item User Logs In to the App in a mobile device.
+\item User sees in the Main Page the map with the available Cars near the User current Location.
+\item User selects a Car and reserves it.
+\item The System creates a Reservation with the User and the Car, maked now as reserved.
+\item User moves toward the Location of the Reserved Car and ask the System to unlock it.
+\item The System confirms that the User and the Car location are the same and unlocks the Car.
+\item As soon as the User ignites the Car the System starts the registration of the Ride.
+\item The User arrives to the desired destination and parks the Car in a Safe Parking Area.
+\item The System asks the User if he/she desires to finish the Ride.
+\item When the User confirms, the System ends the Ride and charges its fee to the User Account. 
 \end{itemize}
-\textbf{Exit Conditions:}
-\newline
-\textbf{Exceptions:}
+\textbf{Exit Conditions:} The System verifies the Status of the Car and sends an email to the User with the information of the ride as the route and the Transaction.
+\newline 
+\textbf{Exceptions:} The User cannot find an available Car, the User cancels the Reservation or the User does not park in a Safe Parking Area, thus the System cannot end the Ride.
 \newline
 
 \begin{center}
@@ -473,11 +523,15 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 \newline
 \textbf{Flow of Events:}
 \begin{itemize}
-\item 
+\item User makes a Reservation for a Car.
+\item After some time before the one hour limit has passed the User decides to cancel the Reservation
+\item Instead of canceling the Reservation with the App the User decides to call the Customer Service Number.
+\item A CRM answers the User an after confirming his/her information is correct, looks for the Reservation in the System.
+\item The CRM cancels the Reservation manually on the System.
 \end{itemize}
-\textbf{Exit Conditions:}
+\textbf{Exit Conditions:} The Reservation is confirmed canceled, the Reserved Car is marked as available, the User is able to make another Reservation.
 \newline
-\textbf{Exceptions:}
+\textbf{Exceptions:} The User cannot provide the CRM valid information of the Reservation to cancel it.
 \newline
 
 \begin{center}
@@ -489,31 +543,81 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 \newline
 \textbf{Flow of Events:}
 \begin{itemize}
-\item 
+\item A Logged in User sees the Money Saving Option in the App and activates it for her/his Ride.
+\item The System asked the User for a final destination of the Ride.
+\item The System finds the best Re-Charging station near the Location given by the User. This station is determined optimally by the System considering Car distribution in the city and availability of power plugs.
+\item The User finish his/her Ride by parking in the suggested Re-Charging Station and plugging in the Car.
+\item The System ends the Ride and charges the User with a 30\% discount for Virtuous Behavior.
 \end{itemize}
-\textbf{Exit Conditions:}
+\textbf{Exit Conditions:} The System ends the Ride confirming that the Car is plugged in to the Power Station.
 \newline
-\textbf{Exceptions:}
+\textbf{Exceptions:} The System cannot find a suitable Re-Charging station near the User preferred Location. The User does not plug in the Car by the end of the Ride.
 \newline
 
 \begin{center}
 \rule{8cm}{0.4pt}
 \end{center}
-\textbf{Use Case:} User cannot pick up Reserved Car
+\textbf{Use Case:} User cannot pick up a Reserved Car.
 \newline
 \textbf{Actors:} User, CRM
 \newline
 \textbf{Flow of Events:}
 \begin{itemize}
-\item 
+\item The User has made a Reservation and goes to the Reserved Car.
+\item The User tries to open up the Car with the App but it does not work.
+\item The User contacts a CRM via Customer Service and explains his/her problem.
+\item The CRM confirms the User information and locates the given Reserved Car.
+\item The CRM tries to Unlock the Car using the System but it doesn't work. Ex. Connection issue.
+\item The CRM then proceeds to cancel the Reservation, mark the Car as unavailable and reserve the next nearest available Car for the User to Ride.
+\item The CRM creates an User Report linking the User that reported it and the Car explaining the reason why the Car has been mark as Unavailable and due for inspection.
+\item The CRM can decide to apply a 10\% discount to the User's Ride for the inconvenience.
 \end{itemize}
-\textbf{Exit Conditions:}
+\textbf{Exit Conditions:} The User Reservation is cancelled and a new one is created, the User then proceeds with the Ride normally.
 \newline
-\textbf{Exceptions:}
+\textbf{Exceptions:} The CRM override to unlock the Car works and allows the User proceed normally. The CRM cannot find an available Car near the User.
 \newline
 
 \subsection{Class Diagram}
-\subsection{Sequence Diagram}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1.25\textwidth]{ClassDiagram.png}}%
+\caption {Class Diagram}
+\vspace*{2cm}
+\end{figure}
+\newpage
+
+\subsection{Sequence Diagrams}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width = 0.8\textwidth]{SequenceDiagram1.png}}%
+\caption {Sequence Diagram 1: User takes a Ride}
+\vspace*{0.5cm}
+\end{figure}
+In the first Sequence Diagram (fig. 3) we abstract the elements present inside the System and show the flow of interaction with the external classes of the System, that is showing the System as a mean to interface the User and the Car. This is presented in a normal case of User asking for a Ride.
+\newpage
+
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1.2\textwidth]{SequenceDiagram2.png}}%
+\caption {Sequence Diagram 2: User cancels a Reservation}
+\vspace*{0.5cm}
+\end{figure}
+In this Sequence Diagram (fig. 4) we represent a sequence within the lifecycle of a Reservation, that is a class which funcionality exists inside the System and serves as the mean for the System to communicate with the Car.
+\newpage
+
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1\textwidth]{SequenceDiagram3.png}}%
+\caption {Sequence Diagram 3: User finds a problem with a Car}
+\vspace*{0.5cm}
+\end{figure}
+In this last example of Sequence Diagram (fig. 5) we present a situation in which the User uses the System to interface with our other Actor, the CRM, which in turn uses the System again to interface with the Car.
+\newpage
+
 \subsection{Statechart Diagram}
 \subsection{Activity Diagram}
 \section{Alloy Modeling}
@@ -547,8 +651,8 @@ The Tools used to develop this RASD document were:
 	05/11/16&  1h & 4h &  6h\\ \hline
 	06/11/16&  - & 5h & 6h\\ \hline
 	07/11/16& 4h & 2h & 6h \\ \hline
-	08/11/16&  - & - & - \\ \hline
-	09/11/16&  - & - & - \\ \hline
+	08/11/16&  3h & - & - \\ \hline
+	09/11/16&  2h & - & - \\ \hline
 	10/11/16&  - & - & - \\ \hline
 	11/11/16&  - & - & - \\ \hline
 	12/11/16&  - & - & - \\ \hline
