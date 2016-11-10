@@ -7,6 +7,7 @@
 \usepackage[colorlinks=true, allcolors=black]{hyperref}
 \usepackage[fontsize=11pt]{scrextend}
 \usepackage{titlesec}
+ \usepackage[section]{placeins}
 
 \setlength\parindent{0pt}
 \titleformat*{\section}{\Large\bfseries}
@@ -620,15 +621,261 @@ In this last example of Sequence Diagram (fig. 5) we present a situation in whic
 
 \subsection{Statechart Diagram}
 \subsection{Activity Diagram}
-\section{Alloy Modeling}
 \newpage
+
+\section{Alloy Modeling}
+\subsection{Model}
+The whole system model was implemented in Alloy and the functionalities of  "Login creation" and "Making a new reservation" were tested by the Alloy Analysing tool. These specific functionalities were choosen to be implemented in a formal language for being the key points of the system. 
+\subsubsection{Signatures}
+
+sig Date\{\} \newline
+\newline
+sig PayInfo\{\} \newline
+\newline
+sig Location\{ \newline
+\hspace*{5 mm}	latitude: Int, \newline
+\hspace*{5 mm}	longitude: Int \newline
+\} \newline
+
+sig System\{ \newline
+\hspace*{5 mm}	listOfRentedCars: set Car, // all reserved cars   \newline
+\hspace*{5 mm}	listOfAvailableCars: set Car, // cars that are available for pick up  \newline
+\hspace*{5 mm}	listOfReservs: set Reservation, // all active reservations  \newline
+\hspace*{5 mm}	listOfAccounts: set Account, // accounts createad  \newline
+\hspace*{5 mm}	listofInvoice: set Ride, // Archive of old rides and reservations  \newline
+\hspace*{5 mm}	listOfReports: set UserReport //CRM operations  \newline
+\} \newline
+
+// User will be considered as a first time user, so it has no attibutes  \newline
+sig User\{\} \newline
+
+sig Account\{  \newline
+\hspace*{5 mm}	id: one Int, \newline
+\hspace*{5 mm}	credentials: one User,  \newline
+\hspace*{5 mm}	bankData: one PayInfo, \newline
+\hspace*{5 mm}	password: one Int \newline
+\} \newline
+
+sig Reservation\{ \newline
+\hspace*{5 mm}	id: one Int, \newline
+\hspace*{5 mm}	madeBy: one Account, \newline
+\hspace*{5 mm}	selectedCar: one Car, \newline
+\hspace*{5 mm}	time: one Date, // charging for not picking up the car \newline
+\} \newline
+
+sig Car\{ \newline
+\hspace*{5 mm}	id: one Int, \newline
+\hspace*{5 mm}	loc: one Location, \newline
+\hspace*{5 mm}	numOfPassengers: one Int, \newline
+\hspace*{5 mm}	battery: one Int, \newline
+\}\{ \newline
+\hspace*{5 mm}	numOfPassengers < 5 \newline
+\hspace*{5 mm}	battery <= 100 \newline
+\hspace*{5 mm}	battery >= 0 \newline
+\} \newline
+
+sig Ride\{ \newline
+\hspace*{5 mm}	reservInQuestion : one Reservation, \newline
+\hspace*{5 mm}	timeofPickUp: lone Date, \newline
+\hspace*{5 mm}	timeofDropOff: lone Date,  \newline
+\hspace*{5 mm}	NotPickUp: one Int, //will be charged fee for not picking up the car \newline
+\hspace*{5 mm}	PassengerDisc: one Int, \newline
+\hspace*{5 mm}	batteryDisc: one Int, \newline
+\hspace*{5 mm}	ReChargingStationDisc: one Int, \newline
+\hspace*{5 mm}	HarshConditionsFee: one Int // more then 3km or less the 20\% battery  \newline 
+\} \newline
+
+sig SafeParkingArea\{ \newline
+\hspace*{5 mm}	zone: set Location  \newline
+\} \newline
+ 
+sig ReChargingStation extends SafeParkingArea\{ \newline
+\hspace*{5 mm}	spots: set Location -> one Int, //this Int is the number of available plugs \newline
+\} \newline
+
+sig Crm\{ \newline
+\hspace*{5 mm}	name: String, \newline
+\hspace*{5 mm}	email: String \newline
+\} \newline
+
+sig UserReport\{ \newline
+\hspace*{5 mm}	crmName: Crm, \newline
+\hspace*{5 mm}	car: Car, \newline
+\hspace*{5 mm}	userName: Account, \newline
+\hspace*{5 mm}	reportFee: Int \newline
+\} \newline
+
+\subsubsection{Facts}
+ 
+//every car, reservation and account is managed by the system \newline
+fact systemManagesAll\{ \newline
+\hspace*{5 mm}	all c:Car | one s: System | c in (s.listOfRentedCars + s.listOfAvailableCars) \newline
+\hspace*{5 mm}	all r:Reservation | one s: System | r in s.listOfReservs \newline
+\hspace*{5 mm}	all a:Account | one s:System | a in s.listOfAccounts \newline
+\} \newline
+
+fact noCarIntwoLists\{ \newline 
+\hspace*{5 mm}	all s:System | \newline
+\hspace*{5 mm}	s.listOfRentedCars \& s.listOfAvailableCars = none \newline
+\} \newline
+
+fact noFareIn2List\{ \newline
+\hspace*{5 mm}	all s:System | \newline 
+\hspace*{5 mm}	s.listOfReservs \& s.listofInvoice.reservInQuestion = none \newline	
+\} \newline
+
+fact OneFareOneRide\{\newline
+\hspace*{5 mm}	no disj f1,f2:Ride, r:Reservation |  f1.reservInQuestion=r and  f2.reservInQuestion=r \newline
+\} \newline
+
+fact noDuplicateId\{ \newline
+\hspace*{5 mm}	no disj a1, a2: Account | a1.id = a2.id \newline
+\hspace*{5 mm}	no disj r1, r2: Reservation | r1.id = r2.id \newline
+\hspace*{5 mm}	no disj c1, c2: Car | c1.id = c2.id \newline
+\} \newline
+\subsubsection{Login Creation}
+
+// the same user cannot create two accounts  \newline
+fact noUserHas2Accounts\{  \newline 
+\hspace*{5 mm}	no disj a1, a2:Account, u: User | a1 != a2 and a1.credentials = u \hspace*{5 mm} and a2.credentials = u  \newline
+\}  \newline
+
+// returns a list of accounts that has "a" in it. will be used to assure no duplicates  \newline
+fun lookup [a: Account, s: System] : set Account \{  \newline
+\hspace*{5 mm}	a \& s.listOfAccounts // \& = intersection  \newline
+\} \newline
+
+// the list cannot have more then one item  \newline
+fact noDuplicateUser\{  \newline
+\hspace*{5 mm}	all a: Account, s:System |  \newline
+\hspace*{5 mm}	\#lookup[a, s] < 2  \newline
+\}  \newline
+
+// Creating a new account  \newline
+pred addAccountToSystem(a:Account, s, s':System)\{  \newline
+\hspace*{5 mm}	(s'.listOfAccounts = s.listOfAccounts + a)  \newline
+\}  \newline
+run addAccountToSystem  \newline
+
+// if two accounts have the same data, they are equal  \newline  
+assert addEqualAccount\{  \newline
+\hspace*{5 mm}	all a, a':Account, s, s':System |  \newline
+\hspace*{5 mm}		addAccountToSystem[a,s,s'] and lookup[a, s'] = lookup[a', s']  \newline
+\hspace*{5 mm}		implies  \newline
+\hspace*{5 mm}		a = a'   \newline		
+\}  \newline
+check addEqualAccount for 4 but 1 System  \newline
+\subsubsection{Making a new Reservation}
+fact carOnlyInOneReserv\{ \newline
+\hspace*{5 mm}	all c:Car | no disj r1, r2: Reservation | \newline
+\hspace*{5 mm}		r1.selectedCar = c and r2.selectedCar = c \newline
+\} \newline
+
+fact UserOnlyInOneReserv\{ \newline
+\hspace*{5 mm}	all a:Account | no disj r1, r2: Reservation | \newline
+\hspace*{5 mm}		r1.madeBy = a and r2.madeBy = a \newline
+\} \newline
+
+fact noReservedCars\{ \newline
+\hspace*{5 mm}	all c:Car, s:System | \newline
+\hspace*{5 mm}	c in s.listOfReservs.selectedCar \newline
+\hspace*{5 mm}	implies \newline
+\hspace*{5 mm}	c in s.listOfRentedCars \newline
+\} \newline
+
+fact noReservedCars2\{ \newline
+\hspace*{5 mm}	all c:Car, s:System | \newline
+\hspace*{5 mm}	c not in s.listOfReservs.selectedCar \newline
+\hspace*{5 mm}	implies \newline
+\hspace*{5 mm}	c in s.listOfAvailableCars \newline
+\} \newline
+
+pred createReservation[a: Account, c:Car, r,r': Reservation]\{ \newline
+\hspace*{5 mm}		r'.id = r.id + 1 \newline
+\hspace*{5 mm}		r'.madeBy = a \newline 
+\hspace*{5 mm}		r'.selectedCar = c \newline 
+\hspace*{5 mm}		r'.time = Date \newline
+\} \newline
+run createReservation \newline
+
+pred makeReservation[a: Account, c:Car, s,s',s'': System, r, r':Reservation]\{ \newline
+\hspace*{5 mm}		// create a reservation \newline
+\hspace*{5 mm}		createReservation[a, c, r,r']  \newline
+\hspace*{5 mm}		// add reservation the the list \newline	
+\hspace*{5 mm}		s'.listOfReservs = s.listOfReservs + r' \newline
+\hspace*{5 mm}		// change car list  \newline
+\hspace*{5 mm}		s'.listOfAvailableCars = s.listOfAvailableCars - c \newline
+\hspace*{5 mm}		s''.listOfRentedCars = s'.listOfRentedCars + c \newline
+\} \newline
+run makeReservation for 5 but 3 Reservation, 1 System  \newline
+
+assert sameCar2Reserv\{ \newline
+\hspace*{5 mm}		no disj a1,a2:Account, s1,s2,s3:System, c:Car, r1,r2, r3:Reservation | \newline
+\hspace*{5 mm}			makeReservation[a1, c, s1,s2,s3, r1,r2] and makeReservation[a2, c, s1,s2,s3, r2,r3] \newline
+\} \newline
+check sameCar2Reserv \newline
+
+assert sameUser2Reserv\{ \newline
+\hspace*{5 mm}		no disj c1,c2:Car, a:Account, s1,s2,s3:System, r1,r2, r3:Reservation| \newline
+\hspace*{5 mm}			makeReservation[a, c1, s1,s2,s3, r1,r2] and makeReservation[a, c2, \hspace*{5 mm}	s1,s2,s3, r2,r3] \newline
+\} \newline
+check sameUser2Reserv \newline
+
+\subsection{Alloy Result}
+As stated  in the previous Alloy code, the following checks were made:
+\begin{itemize}
+\item Adding an account to the system
+\item Trying to add two equal accounts
+\item Creating a new reservation
+\item Creating a new reservation and integrating it with the rest of the system
+\item Trying to reserve the same car twice
+\item The same user tries to make two reservations
+\end{itemize}
+
+The Alloy Analyser tool gave the following feedback:
+
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width = 0.8\textwidth]{tests.png}}%
+\caption {Alloy result}
+\vspace*{0.5cm}
+\end{figure}
+This result proves our model is mathematically consistent for the implemented cases.
+
+\subsection{Generated World}
+Each of the worlds generated with the Alloy Analysing tool are consistent with the proposed system. Special attention was given for the relations between entities to respect especific rules that could potentially cause inconsistency in the system with its use, as not allowing duplicates or always making sure that cars that appears in reservations are placed only in the rented cars list.   
+
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width = 1.3\textwidth]{world1.png}}%
+\caption {First generated instance}
+\vspace*{0.5cm}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width = 1.5\textwidth]{world2.png}}%
+\caption {Second generated instance}
+\vspace*{0.5cm}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width = 1.7\textwidth, angle =90]{world3.png}}%
+\caption {Third generated instance}
+\vspace*{0.5cm}
+\end{figure}
 
 \section{Used Tools}
 The Tools used to develop this RASD document were:
 \begin{itemize}
 	\item \textbf{GitHub:} for Version Control
 	\item \textbf {Dia Diagram Editor:} for UML Diagrams
-	\item \textbf{Alloy Analizer 4.2:} for Alloy Modelling and proving consistency 
+	\item \textbf{Alloy Analyzer 4.2:} for Alloy Modelling and proving consistency 
 	\item \textbf {TeXworks:} for LaTex editing of this Document
 \end{itemize}
 \newpage
@@ -652,8 +899,8 @@ The Tools used to develop this RASD document were:
 	06/11/16&  - & 5h & 6h\\ \hline
 	07/11/16& 4h & 2h & 6h \\ \hline
 	08/11/16&  3h & - & - \\ \hline
-	09/11/16&  2h & - & - \\ \hline
-	10/11/16&  - & - & - \\ \hline
+	09/11/16&  2h & - & 3h \\ \hline
+	10/11/16&  - & - & 2h\\ \hline
 	11/11/16&  - & - & - \\ \hline
 	12/11/16&  - & - & - \\ \hline
 	13/11/16&  - & - & - \\ \hline
