@@ -1,6 +1,5 @@
 // Signatures
 
-// raw types 
 sig Date{}
 sig PayInfo{}
 
@@ -16,7 +15,8 @@ sig System{
 	listOfAvailableCars: set Car, // cars that are available for pick up 
 	listOfReservs: set Reservation, // all active reservations 
 	listOfAccounts: set Account, // accounts createad 
-	listofInvoice: set FareCalc // Archive of old rides and reservations 
+	listofInvoice: set Ride, // Archive of old rides and reservations 
+	listOfReports: set UserReport //CRM operations 
 }
 
 // User will be considered as a first time user, so it has no attibutes 
@@ -36,8 +36,6 @@ sig Reservation{
 	madeBy: one Account,
 	selectedCar: one Car, 
 	time: one Date, // so we can know when to charge the "not pick up the car" fee
-
-//consider making an archive for old reservations
 }
 
 sig Car{
@@ -55,25 +53,38 @@ sig Car{
 
 // after the user sinalises he's nearby, the car is unlocked and as soon as the engine ignites, it starts charging
 // after the car is dropped off or an hour has passed and the user did not show up the invoice will be made
-sig FareCalc{
+sig Ride{
 	reservInQuestion : one Reservation,
 	timeofPickUp: lone Date,
 	timeofDropOff: lone Date,  
 	NotPickUp: one Int, // if will be charged fee for not picking up the car
 	PassengerDisc: one Int,
 	batteryDisc: one Int,
-	specialParkingDisc: one Int,
+	ReChargingStationDisc: one Int,
 	HarshConditionsFee: one Int // more then 3km or less the 20% battery
 }
 
 
-sig SafePlace{
+sig SafeParkingArea{
 	zone: set Location 
 }
-//REVIEW 
-sig SpecialParking extends SafePlace{
+ 
+sig ReChargingStation extends SafeParkingArea{
 	spots: set Location -> one Int, //this Int is the number of available plugs
 }
+
+sig Crm{
+	name: String,
+	email: String
+}
+
+sig UserReport{
+	crmName: Crm,
+	car: Car,
+	userName: Account,
+	reportFee: Int
+}
+
 
 //FACTS
 
@@ -92,6 +103,10 @@ fact noCarIntwoLists{
 fact noFareIn2List{
 	all s:System | 
 	s.listOfReservs & s.listofInvoice.reservInQuestion = none 	
+}
+
+fact OneFareOneRide{
+	no disj f1,f2:Ride, r:Reservation |  f1.reservInQuestion = r and  f2.reservInQuestion = r
 }
 
 fact noDuplicateId{
