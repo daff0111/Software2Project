@@ -27,6 +27,9 @@
 
 
 \maketitle
+\textbf{Version 1.1}
+\newline
+
 \raggedright
 Authors:
 \begin{itemize}
@@ -58,6 +61,7 @@ The System should provide these functionalities based on a mobile and web applic
 \newline\newline
 For any issue that the User may find using the service or also for any incident a User may cause to the service, we've designed a Customer Relationship Manager (CRM) who'll be allowed to check the status of the Cars and Users, and be able to solve any inconvenient presented during the use of the service. 
 
+\newpage
 \subsection{Goals}
 \textbf{User:}
 \begin{description}
@@ -91,6 +95,8 @@ For any issue that the User may find using the service or also for any incident 
 \item [G.18)]CRM must be able to change the Status of a Car given a User Report and tag it, in case it's unavailable, if it's due to Re-Charge, Fix, or Removal.
 \item [G.19)]Upon the completion of an User Report CRM must be able to apply extra fees or refund the payment to any User in case the situation demands it.
 \end {description}
+
+\newpage
 \subsection{Glossary}
 \begin{itemize}
 \item \textbf{First-Time User:} A User that has not created an Account and thus has not yet been registered by the System. Can have a client version of the application, but he/she can't use the service until Registered.
@@ -104,7 +110,7 @@ For any issue that the User may find using the service or also for any incident 
 \item \textbf{Transaction:} Any exchange of money made by the System on the User Account, every fee payment is a transaction.
 \item \textbf{Re-Charging Station:} Special stations where the Cars can be left and plugged in to have their battery re-charged. They count as Safe Parking Areas.
 \item \textbf{Virtuous Behavior Rule:} Any of the incentive rules that provide the user with a discount on their current ride if they follow it.
-\item \textbf{Status of the Car:} It is the name of a check list made by the car’s System at the end of each ride. This check list consists in the status of battery, the number of passengers on the car, if the car is plugged on a recharge station and their localization.
+\item \textbf{Status of the Car:} It is the name of a check list made by the car's System at the end of each ride. This check list consists in the status of battery, the number of passengers on the car, if the car is plugged on a recharge station and their localization.
 \item \textbf{CRM:} or Customer Relationship Manager will be an employee able to Log in to the System with special privileges to update reservation, car status, transactions, etc. in order fix any eventuality an User may find during his/her use of the service.
 \item \textbf{User Report:} A User that has contacted a CRM or a major cause that would create a problem in the System will register into the system as a User Report, made by a CRM. This Report can describe for example an incident, a defect during the ride or a Car that has been fined, and will include if necessary a fine or a refund to the User depending on the case.
 \item \textbf{App:}  Smartphone application that does the interface between the User and the System.
@@ -118,6 +124,7 @@ As not all aspects of the given world are considered in the problem definition, 
 \item GPS locations on Users and Cars will always be valid.
 \item Available Cars will be always in good working conditions.
 \item Users that have made a Reservation will always be able to follow its status until the end of the ride, meaning that the screen on the Car will stay functional or by defect their use of the mobile app will not be interrupted by missing connection or empty battery on their mobile device.
+\item Once a Car is Picked Up and Unlocked we assume the Users will follow to start its engine and proceed with the Ride. 
 \item The Cars will be equipped with weight sensors on each seat so it can detect how many passengers they are on a ride as well as being able to issue seat belt warnings.
 \item All Cars on the service will be at least 5 seat Cars so the option to take 2 passengers or more is always available.
 \item All Available Cars will have at least 20\% battery left, all Cars not available because of low battery will be alerted by a CRM and will be moved by the service personnel to a Re-Charge station by the end of the day. 
@@ -127,6 +134,16 @@ As not all aspects of the given world are considered in the problem definition, 
 \end{itemize}
 
 \subsection{Constraints}
+As the problem description has not explained every aspect of the System in detail, we'll impose the following constraints that'll ensure the consistency and good functioning of our System.
+\begin{itemize} 
+\item Users will be able to have at most one active Reservation at a time.
+\item Cars can have at most one Reservation active at a time and only one active Ride that originates from that Reservation.
+\item Once a Car is Picked Up a Ride is created by the Reservation and the base fee is set for that Ride, even if the User does not move the Car.
+\item If a Car is left parked Unlocked in an active Ride for any reason (not confirming the end of the Ride) after one hour the System should Lock it and end the current Ride.
+\item Fee Calculation will have a base Fee, that is applied as soon as the Ride is created and will have a fixed fee by minute of use from the moment the User ignites the Engine. When the Ride is finished, the discounts (or extra fees) will deduce from these subtotal to get the Total Fee of the Ride.
+\item To avoid misusage of the Reservations and cancelation a CRM will be notified when an User has made and canceled 3 reservations in a row and will be able to block the User Account for an ammount of time that will deny him from any Reservation during that time.
+
+\end{itemize}
 
 \subsection{Stakeholders}
 Our Main Stakeholder is the PowerEnJoy Car-Sharing Service, owned by Prof. DiNitto, that wants a management System for the main functionalities of its service.
@@ -142,7 +159,16 @@ Our Main Stakeholder is the PowerEnJoy Car-Sharing Service, owned by Prof. DiNit
 \end{itemize}
 \end{itemize}
 
+\newpage
 \section{Proposed System}
+Our Proposed System consist in a 3-tier Client-Server Architecture, with web clients for Users and CRM, mobile App clients for Users and the Car interface that will be implemented as a Client as it's external to our Server System. The Server side will consist on a Java EE Server that will implement a Web Tier for Web Clients and a Business Tier that'll communicate directly to the App Clients. The Server will then connect to the Company's Database that'll be located in our EIS Tier.
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1.35\textwidth]{ProposedSystem.png}}%
+\caption {Proposed System Architecture}
+\vspace*{0.5cm}
+\end{figure}
 \newpage
 
 \section{Actors}
@@ -215,7 +241,7 @@ Customer Relationship Manager, will interface with the User in case of any probl
 \end{itemize}
 \item [G.12)]Notify the Users that are currently using a Car of any available discounts on their ride if they abide by the 'Virtuous Behaviour Rules' and of the extra fee in case of not respecting the facilitation of the re-charging of the Car on site. These extra discounts/charges will be applied on the Total fee at the end of the ride.
 \begin{itemize}
-	\item[-]The System must notify the user on the Car’s screen of the any information related with a discount or extra fee.
+	\item[-]The System must notify the user on the Car's screen of the any information related with a discount or extra fee.
   	\item[-]The System must calculate at the end of the ride if any discount or extra fee is applicable. These fees are:
 	\item [G.12.1)]Apply a 10\% discount if the User takes at least 2 other passenger into the car.
 	\begin{itemize}
@@ -239,8 +265,8 @@ Customer Relationship Manager, will interface with the User in case of any probl
 
 \item [G.13)]Users can activate the `Money Saving'a option on their Account to be notified of any nearby Re-Charging station on their arrival destination. Leaving the car at the end of the ride at this station and plugging it will register as a 'Virtuous Behavior' and will apply and extra discount when charging the User.
 \begin{itemize}
-	\item[-]Users must be allowed to enable the ‘Money Saving’ option on their accounts at any time they choose.
-	\item[-]The System must allow the user to input his/her destination at any time of the ride whether on the app or on the car’s screen.
+	\item[-]Users must be allowed to enable the 'Money Saving' option on their accounts at any time they choose.
+	\item[-]The System must allow the user to input his/her destination at any time of the ride whether on the app or on the car's screen.
 	\item[-]Upon the final destination of the user the System must direct the end of the ride considering a uniform distribution of parked cars of the System, the nearest charging station in relation with the address informed and  the availability of these charging stations.
 \end{itemize}
 \item [G.14)]Users must have the option to contact a CRM at any moment, the System must provide a Customer Service area that offers a Chat feature within the App or a phone number.
@@ -280,72 +306,72 @@ Customer Relationship Manager, will interface with the User in case of any probl
 \subsubsection{User Interface}
 For our User Interface (UI) we'll offer a mobile App for Users and a desktop web App for Users and CRM. They will offer:
 \begin {itemize}
-\item \textbf{LogIn Page:}
+\item \textbf{LogIn Page:} First screen of the app with the LogIn and SignIn options.
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.3\textwidth]{1.png}}%
-\caption {First screen of the app with the LogIn and SignIn options.}
-\vspace*{0.5cm}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.28\textwidth]{1.png}}%
+\caption {UI LogIn Page}
+\vspace*{0.2cm}
 \end{figure}
 \pagebreak
-\item \textbf{Main Page:}
+\item \textbf{Main Page:} Main page of the app where the user sees the map his location and selects the available cars. In Case of CRM, it can see all Cars.
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.3\textwidth]{2.png}}%
-\caption {Main page of the app where the user sees and selects the available cars.}
-\vspace*{0.5cm}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.28\textwidth]{2.png}}%
+\caption {UI Main Page}
+\vspace*{0.2cm}
 \end{figure}
-\item \textbf{Car Details Page:}
+\item \textbf{Car Details Page:} Once a Car is selected this page allows to reserve a car and contais informations for the decision.
 \begin{figure}[h!]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.3\textwidth]{4.png}}%
-\caption {Page to reserve a car that contais informations for the decision.}
-\vspace*{0.5cm}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.28\textwidth]{4.png}}%
+\caption {UI Car Details Page}
+\vspace*{0.2cm}
 \end{figure}
 \pagebreak
-\item \textbf{Reservation Page:}
+\item \textbf{Reservation Page:} Once the Reservation is made, the User can see the details of her/his Reservation and have the option to cancel it.
 \begin{figure}[h!]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.3\textwidth]{5.png}}%
-\caption {Page to reserve a car that contais informations for the decision.}
-\vspace*{0.5cm}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.28\textwidth]{5.png}}%
+\caption {UI Reservation Page}
+\vspace*{0.2cm}
 \end{figure}
-\item \textbf{Ride Page:} 
+\item \textbf{Ride Page:} Once a Ride started this page shows the details of the current ride, it's present also in the Car screen App.
 \begin{figure}[h!]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.4\textwidth]{3.png}}%
-\caption {Page of the riding in the App.}
-\vspace*{0.5cm}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.36\textwidth]{3.png}}%
+\caption {UI Mobile Ride Page}
+\vspace*{0.2cm}
 \end{figure}
 \pagebreak
 \begin{figure}[h!]
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.7\textwidth]{CarScreen.png}}%
-\caption {Page of the riding in the Car screen.}
-\vspace*{0.5cm}
+\caption {UI Car Ride Page.}
+\vspace*{0.2cm}
 \end{figure}
-\item \textbf{User Report Page:}
+\item \textbf{Email Page:} While not part of the App UI, the System should respond with an email to the User at the end of the Ride showing the final details for it.
 \begin{figure}[h!]
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.7\textwidth]{EmailUser.png}}%
-\caption {Page of the riding in the App.}
-\vspace*{0.5cm}
+\caption {UI Email Page}
+\vspace*{0.2cm}
 \end{figure}
 \pagebreak
-\item \textbf{Page of contact:} 
+\item \textbf{Contact Page:} Page where the User can contact the CRM operator.
 \begin{figure}[h!]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.3\textwidth]{6.png}}%
-\caption {Page where the user can contact the CRM operator.}
-\vspace*{0.5cm}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.28\textwidth]{6.png}}%
+\caption {UI Contact Page}
+\vspace*{0.2cm}
 \end{figure}
 
 \end{itemize}
@@ -357,6 +383,8 @@ To organize this project workflow and development the following Documents will b
 \item Project Testing Document: Will detail the Test process for the system before deployment. Test case specifications, procedues, incident, reports will be considered Documentation Testing.
 \item Project Management Documentation: Specific assignment of tasks, stimations and goals for each of the development phases.
 \end{itemize}
+
+\newpage
 \subsubsection{System Architecture}
 Project will be developed using a JEE Platform based in a 2-Tier Client/Server Architecture. First idea consists in Remote Presentation structured layers where the Client Apps will serve just to interface with the Server that will store the logic and the Data of the System. The architecture as explained briefly in the proposed System will consist of:
 \begin {itemize}
@@ -395,6 +423,7 @@ Data Backups will be considered daily for data security. Accounts will be protec
 	\textbf{Exception} & \parbox[t]{8cm}{Carol inserts data that the System can't validate. System can not finish operation until Carol inserts the correct data.   }\\ \hline
 \end{tabular}
 \newline
+
 \begin{tabular}{ |  l  |   l |  l  |  }
 \hline
 	\textbf { \textbf{Scenario}} & Alex wants to reserve the nearest car\\ \hline
@@ -414,10 +443,10 @@ The car that Alex selects is already reserved and the System can not effectuate 
 	\textbf { \textbf{Scenario}} & \parbox[t]{8cm}{Francesco wants to login to see available cars without doing a reservation}\\ \hline
 	 \textbf{Actor}& User\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Francesco is a Registered user.\\He is a new user and want to explore the functions of the System. } \\ \hline
-	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Francesco open the app and login;\\\textbullet Francesco try to find a car manually searching in the map, but he does not like of searching by himself;\\\textbullet Francesco open the side menu and find the option ‘Search for a car’, he selects it;\\\textbullet The System automatically search for the nearest car based on Francesco's location;\\\textbullet 	The System find the finds a car and trace the route in the map of the App's map;\\\textbullet  Francesco satisfied to know this functionality of the app and closes it without reserving a car; }
+	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Francesco open the app and login;\\\textbullet Francesco try to find a car manually searching in the map, but he does not like of searching by himself;\\\textbullet Francesco open the side menu and find the option 'Search for a car', he selects it;\\\textbullet The System automatically search for the nearest car based on Francesco's location;\\\textbullet 	The System find the finds a car and trace the route in the map of the App's map;\\\textbullet  Francesco satisfied to know this functionality of the app and closes it without reserving a car; }
   \\ \hline
 	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System allows the user to search for the available cars without the need of a reservation.}\\ \hline
-	\textbf{Exception} & \parbox[t]{8cm}{The login fail.\\The System does not find available cars and can’t return results for the search.
+	\textbf{Exception} & \parbox[t]{8cm}{The login fail.\\The System does not find available cars and can't return results for the search.
 
 }\\ \hline
 \end{tabular}
@@ -427,7 +456,7 @@ The car that Alex selects is already reserved and the System can not effectuate 
 	\textbf { \textbf{Scenario}} & \parbox[t]{8cm}{Mario is doing overtime. He knows that the metro stops at 0h so he wants to reserve a car near the metro station. He'll exit at 0h20.}\\ \hline
 	 \textbf{Actor}& User\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Mario is a Registered user.\\He uses the System occasionally.} \\ \hline
-	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  It’s 23h50. Mario open the App and login;\\\textbullet The System redirects to the Main Page where there is an option to inform an address to find a car;\\\textbullet Mario inform the address of the metro;\\\textbullet The System return the metro station location;\\\textbullet  Mario see the available cars selects one and reserve it;} \\ \hline
+	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  It's 23h50. Mario open the App and login;\\\textbullet The System redirects to the Main Page where there is an option to inform an address to find a car;\\\textbullet Mario inform the address of the metro;\\\textbullet The System return the metro station location;\\\textbullet  Mario see the available cars selects one and reserve it;} \\ \hline
 	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System reserves the car selected by the user and assure reservation for a period of one hour.}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The login fail.\\There is no available car in the address that Mario and he does not reserve a car.}\\ \hline
 \end{tabular}
@@ -439,7 +468,7 @@ The car that Alex selects is already reserved and the System can not effectuate 
 	\textbf{Background conditions}&\parbox[t]{8cm}{Angela is a Registered user.\\She did not make a reservation of the car that she wants to drive. } \\ \hline
 	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Angela open the App and do the login;\\\textbullet The System redirects to the Main Page;\\\textbullet Angela immediately finds the car, that is beside her location;\\\textbullet She selects the car and request a reservation;\\\textbullet The System reserves the car;\\\textbullet Angela proceeds to unlock the car in the App; \\\textbullet The System checks the reserve and the current position of the User and the Car;\\\textbullet The System unlocks the car and set it for Ready to Use mode;\\\textbullet Angela get in the car and drives home;} \\ \hline
 	\textbf{Exit conditions} &\parbox[t]{8cm}{ System reserves the car and unlock it upon User location.}\\ \hline
-	\textbf{Exception} & \parbox[t]{8cm}{The login fail.\\The car that is besides Angela is already reserved so she can’t reserve the car for her use in the moment.
+	\textbf{Exception} & \parbox[t]{8cm}{The login fail.\\The car that is besides Angela is already reserved so she can't reserve the car for her use in the moment.
 }\\ \hline
 \end{tabular}
 \newline
@@ -448,8 +477,8 @@ The car that Alex selects is already reserved and the System can not effectuate 
 	\textbf { \textbf{Scenario}} & \parbox[t]{8cm}{Sarah wants to cancel a reservation}\\ \hline
 	 \textbf{Actor}& User\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Sarah is a Registered User.\\She does not need to get the car anymore so she wants to cancel the reservation that she made 30 minutes ago. } \\ \hline
-	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Sarah open the App and do the login;\\\textbullet Sarah selects in the menu of the App the option 'My reservation';\\\textbullet The System shows Sarah’s reservation;\\\textbullet Sarah see the status of the reservation;\\\textbullet Sarah selects the option of canceling the reservation;\\\textbullet The System checks the time that Sarah did the reservation, verifies that is possible to cancel the ride and proceeds to do this operation;} \\ \hline
-	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System verifies if the reservation’s time is under 1 hour if so the user can cancel the reservation.}\\ \hline
+	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Sarah open the App and do the login;\\\textbullet Sarah selects in the menu of the App the option 'My reservation';\\\textbullet The System shows Sarah's reservation;\\\textbullet Sarah see the status of the reservation;\\\textbullet Sarah selects the option of canceling the reservation;\\\textbullet The System checks the time that Sarah did the reservation, verifies that is possible to cancel the ride and proceeds to do this operation;} \\ \hline
+	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System verifies if the reservation's time is under 1 hour if so the user can cancel the reservation.}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The login fails.\\
 Sarah tries to cancel the reservation after one hour period  of reservation and System does not allow Sarah cancel the reserve.
 }\\ \hline
@@ -461,7 +490,7 @@ Sarah tries to cancel the reservation after one hour period  of reservation and 
 	 \textbf{Actor}& User\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Paulo is a Registered User.\\He had reserved a car. It has passed 45 minutes.} \\ \hline
 	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Paulo have 15 minutes left to pick the reserved car; \\\textbullet The System emits an alert in the App informing that Paulo is running out of time;\\\textbullet  Paulo sees the alert and rushes into the location where the car is parked;} \\ \hline
-	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System emits an alert when the period of the car’s reserve is ending.}\\ \hline
+	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System emits an alert when the period of the car's reserve is ending.}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The alert fails.\\ Paulo don't see the alert.\\
 Paulo couldn't make to the car in 15 minutes and the System automatically cancel the reservation, charges 1 euro of Paulo's account and will not allow Paulo to reserve a car for 1 hour.
 }\\ \hline
@@ -472,7 +501,7 @@ Paulo couldn't make to the car in 15 minutes and the System automatically cancel
 	\textbf { \textbf{Scenario}} & \parbox[t]{8cm}{Hugo is about to finish a ride.}\\ \hline
 	 \textbf{Actor}& User\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Hugo is a Registered User.\\He was driving into a unknow direction.} \\ \hline
-	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  At some point Hugo decides to stop the car;\\\textbullet He finds parking spot and proceeds to park the car;\\\textbullet Hugo finishes the maneuver and turn off the car; \\\textbullet The System verifies if the parking spot is in some Safe Park Area and proceeds to finish the ride;\\\textbullet The System shows an interface on the car’s screen asking if Hugo will finish the ride; \\\textbullet Hugo selects that he will finish the ride; \\\textbullet Hugo left the car;\\\textbullet The System finish the ride and lock the car;} \\ \hline
+	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  At some point Hugo decides to stop the car;\\\textbullet He finds parking spot and proceeds to park the car;\\\textbullet Hugo finishes the maneuver and turn off the car; \\\textbullet The System verifies if the parking spot is in some Safe Park Area and proceeds to finish the ride;\\\textbullet The System shows an interface on the car's screen asking if Hugo will finish the ride; \\\textbullet Hugo selects that he will finish the ride; \\\textbullet Hugo left the car;\\\textbullet The System finish the ride and lock the car;} \\ \hline
 	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System verifies the Status of the car and   proceeds to finish Hugo's ride sending to his email the information of the ride as the route and the transaction.}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{Hugo park the car in a no Safe Park Area, and the System can not finish the ride.}\\ \hline
 \end{tabular}
@@ -482,7 +511,7 @@ Paulo couldn't make to the car in 15 minutes and the System automatically cancel
 	\textbf { \textbf{Scenario}} & \parbox[t]{8cm}{Marina wants to use the System in the most economical way.}\\ \hline
 	 \textbf{Actor}& User\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Marina is Registered User and she had saved her credentials on the app.\\She had just unlocked the car and is about to begin the ride.} \\ \hline
-	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Marina has a previous knowledge of the ‘Money Saving’ option so when she got in the car she informs in car’s screen map her destination;\\\textbullet The System calculates the optimal destination considering the distribution of the cars in the city, the available plugs and the destination address;\\\textbullet The System return options of parking spots to Marina; \\\textbullet She considers these options and selects one. She starts the ride following the GPS route of the car’s screen;\\\textbullet Mariana drives to the destination;\\\textbullet Marina turn of the car;\\\textbullet The System show a question on the car’s screen asking if Marina will finish the ride;\\\textbullet Marina selects that she will finish the ride; \\\textbullet  The System show a message on the saying that Marina is besides the plug and advice to connect the car to the plug;\\\textbullet Marina left the car and proceeds to connect the plug into the car; \\\textbullet The System finish the ride and lock the car; } \\ \hline
+	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Marina has a previous knowledge of the 'Money Saving' option so when she got in the car she informs in car's screen map her destination;\\\textbullet The System calculates the optimal destination considering the distribution of the cars in the city, the available plugs and the destination address;\\\textbullet The System return options of parking spots to Marina; \\\textbullet She considers these options and selects one. She starts the ride following the GPS route of the car's screen;\\\textbullet Mariana drives to the destination;\\\textbullet Marina turn of the car;\\\textbullet The System show a question on the car's screen asking if Marina will finish the ride;\\\textbullet Marina selects that she will finish the ride; \\\textbullet  The System show a message on the saying that Marina is besides the plug and advice to connect the car to the plug;\\\textbullet Marina left the car and proceeds to connect the plug into the car; \\\textbullet The System finish the ride and lock the car; } \\ \hline
 	\textbf{Exit conditions} &\parbox[t]{8cm}{ The System verifies the Status of the car and proceeds to finish Marina's ride sending to his email the information of the ride as the route and the transaction.}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The System can not return a destination due the lack of the available Re-Charging Stations in relation with the distribution of the cars.  }\\ \hline
 \end{tabular}
@@ -493,7 +522,7 @@ Paulo couldn't make to the car in 15 minutes and the System automatically cancel
 	\textbf { \textbf{Scenario}} & \parbox[t]{8cm}{The Car that Julia was driving had mechanical problems during the Ride.}\\ \hline
 	 \textbf{Actor}& User, CRM operator\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Julia is Registered User and she had saved her credentials on the app. She was driving a Car when it suddenly stops.} \\ \hline
-	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Julia open the App;\\\textbullet She selects the option ‘Problems with the Car’;\\\textbullet The System immediately provides an option whether to chat or call to an CRM operator; \\\textbullet Julia chooses to call and the System redirects to the dialing process;\\\textbullet The calling established a connection of Julia and the CRM operator;\\\textbullet Julia describe the situation to the CRM operator;\\\textbullet The CRM operator finishes the Julia’s ride, check if there is any extra charging in the Transaction of the riding and set the car as unavailable;\\\textbullet Julia finishes the call and left the car;} \\ \hline
+	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Julia open the App;\\\textbullet She selects the option 'Problems with the Car';\\\textbullet The System immediately provides an option whether to chat or call to an CRM operator; \\\textbullet Julia chooses to call and the System redirects to the dialing process;\\\textbullet The calling established a connection of Julia and the CRM operator;\\\textbullet Julia describe the situation to the CRM operator;\\\textbullet The CRM operator finishes the Julia's ride, check if there is any extra charging in the Transaction of the riding and set the car as unavailable;\\\textbullet Julia finishes the call and left the car;} \\ \hline
 	\textbf{Exit conditions} &\parbox[t]{8cm}{ The CRM operator directs the relation when between the User and the System in such events and is enable to finish the ride and to set the car as unavailable.}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The saved credentials are not valid and the login fail.\\
 The connection between the CRM operator and the User fails.\\
@@ -507,7 +536,7 @@ The CRM operator could not identity the problem with the Car.
 	\textbf { \textbf{Scenario}} & \parbox[t]{8cm}{Frederico had a medical condition and could not pick up the reserved car}\\ \hline
 	 \textbf{Actor}& User, CRM operator\\ \hline
 	\textbf{Background conditions}&\parbox[t]{8cm}{Frederico is a Registered user and had made and missed a reservation.He had an accident and was unable to get the car.} \\ \hline
-	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Frederico open the app and do the login;\\\textbullet He chooses the option ‘Talk with us’ and call for the CRM operator\\\textbullet The calling established a connection of Frederico and the CRM operator;\\\textbullet Frederico explains the case to the CRM operator;\\\textbullet The CRM operator analyses the case and apply some alterations on the system such as canceling the charged fee in one Transaction of Francesco’s Account;\\\textbullet Frederico finishes the call;} \\ \hline
+	\textbf{Flux of events} & \parbox[t]{8cm}{\textbullet  Frederico open the app and do the login;\\\textbullet He chooses the option 'Talk with us' and call for the CRM operator\\\textbullet The calling established a connection of Frederico and the CRM operator;\\\textbullet Frederico explains the case to the CRM operator;\\\textbullet The CRM operator analyses the case and apply some alterations on the system such as canceling the charged fee in one Transaction of Francesco's Account;\\\textbullet Frederico finishes the call;} \\ \hline
 	\textbf{Exit conditions} &\parbox[t]{8cm}{ CRM operator analyses Frederico's request and apply or not changes is the system following these requests}\\ \hline
 	\textbf{Exception} & \parbox[t]{8cm}{The login fail.\\
 	The connection between the CRM operator and the User fails.\\
@@ -598,6 +627,7 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 
 \begin{center}
 \rule{8cm}{0.4pt}
+\newpage
 \end{center}
 \textbf{Use Case:} User Activates and uses the Money Saving Option.
 \newline
@@ -643,9 +673,9 @@ Use Cases derived from the Scenarios previously detailed and based on the Use Ca
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=1.25\textwidth]{ClassDiagram.png}}%
+\noindent\makebox[\textwidth]{\includegraphics[width=1.27\textwidth]{ClassDiagram.png}}
 \caption {Class Diagram}
-\vspace*{2cm}
+\vspace*{0.5cm}
 \end{figure}
 \newpage
 
@@ -961,12 +991,18 @@ The Tools used to develop this RASD document were:
 	07/11/16& 4h & 2h & 6h \\ \hline
 	08/11/16&  3h & - & - \\ \hline
 	09/11/16&  2h & 2h & 3h \\ \hline
-	10/11/16&  - & 3h & 2h\\ \hline
-	11/11/16&  - & - & - \\ \hline
+	10/11/16&  2h & 3h & 2h\\ \hline
+	11/11/16&  2h & - & - \\ \hline
 	12/11/16&  - & - & - \\ \hline
 	13/11/16&  - & - & - \\ \hline
 \end{tabular}
 
 \newpage
 
+\section{Changelog}
+As the project and design decisions may change during the development this document is also prone to change.
+We'll document every version in this part.
+\begin{itemize}
+\item \textbf {Version 1.1:} 13/11/2016
+\end{itemize}
 \end{document}

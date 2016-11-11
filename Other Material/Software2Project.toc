@@ -1,0 +1,42 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}Problem Definition - PowerEnJoy}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Goals}{4}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Glossary}{6}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Domain Assumptions}{7}{subsection.1.4}
+\contentsline {subsection}{\numberline {1.5}Constraints}{8}{subsection.1.5}
+\contentsline {subsection}{\numberline {1.6}Stakeholders}{9}{subsection.1.6}
+\contentsline {subsection}{\numberline {1.7}Reference Documents}{9}{subsection.1.7}
+\contentsline {section}{\numberline {2}Proposed System}{10}{section.2}
+\contentsline {section}{\numberline {3}Actors}{11}{section.3}
+\contentsline {subsection}{\numberline {3.1}User}{11}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}CRM}{11}{subsection.3.2}
+\contentsline {section}{\numberline {4}Requirements}{11}{section.4}
+\contentsline {subsection}{\numberline {4.1}Functional Requirements}{11}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}\textbf {User Requirements:}}{11}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}\textbf {CRM Requirements:}}{15}{subsubsection.4.1.2}
+\contentsline {subsection}{\numberline {4.2}Non Functional Requirements}{16}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}User Interface}{16}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Documentation}{20}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}System Architecture}{21}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}Hardware Consideration}{21}{subsubsection.4.2.4}
+\contentsline {subsubsection}{\numberline {4.2.5}Incident Handling}{21}{subsubsection.4.2.5}
+\contentsline {subsubsection}{\numberline {4.2.6}Security}{22}{subsubsection.4.2.6}
+\contentsline {section}{\numberline {5}Scenario Identifying}{22}{section.5}
+\contentsline {section}{\numberline {6}UML Modeling}{30}{section.6}
+\contentsline {subsection}{\numberline {6.1}Use Case Diagram}{30}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {6.1.1}Use Cases Description}{31}{subsubsection.6.1.1}
+\contentsline {subsection}{\numberline {6.2}Class Diagram}{34}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Sequence Diagrams}{35}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Statechart Diagram}{38}{subsection.6.4}
+\contentsline {subsection}{\numberline {6.5}Activity Diagram}{38}{subsection.6.5}
+\contentsline {section}{\numberline {7}Alloy Modeling}{39}{section.7}
+\contentsline {subsection}{\numberline {7.1}Model}{39}{subsection.7.1}
+\contentsline {subsubsection}{\numberline {7.1.1}Signatures}{39}{subsubsection.7.1.1}
+\contentsline {subsubsection}{\numberline {7.1.2}Facts}{41}{subsubsection.7.1.2}
+\contentsline {subsubsection}{\numberline {7.1.3}Login Creation}{41}{subsubsection.7.1.3}
+\contentsline {subsubsection}{\numberline {7.1.4}Making a new Reservation}{42}{subsubsection.7.1.4}
+\contentsline {subsection}{\numberline {7.2}Alloy Result}{44}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Generated World}{44}{subsection.7.3}
+\contentsline {section}{\numberline {8}Used Tools}{47}{section.8}
+\contentsline {section}{\numberline {9}Hours of Work}{48}{section.9}
+\contentsline {section}{\numberline {10}Changelog}{49}{section.10}
