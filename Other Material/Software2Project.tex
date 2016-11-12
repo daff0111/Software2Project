@@ -162,6 +162,7 @@ Our Main Stakeholder is the PowerEnJoy Car-Sharing Service, owned by Prof. DiNit
 
 \newpage
 \section{Proposed System}
+\label{sec:propSystem}
 Our Proposed System consist in a 3-tier Client-Server Architecture, with web clients for Users and CRM, mobile App clients for Users and the Car interface that will be implemented as a Client as it's external to our Server System. The Server side will consist on a Java EE Server that will implement a Web Tier for Web Clients and a Business Tier that'll communicate directly to the App Clients. The Server will then connect to the Company's Database that'll be located in our EIS Tier.
 \begin{figure}[h]
 \centering
@@ -387,19 +388,25 @@ To organize this project workflow and development the following Documents will b
 
 \newpage
 \subsubsection{System Architecture}
-Project will be developed using a JEE Platform based in a 2-Tier Client/Server Architecture. First idea consists in Remote Presentation structured layers where the Client Apps will serve just to interface with the Server that will store the logic and the Data of the System. The architecture as explained briefly in the proposed System will consist of:
+Project will be developed using a JEE Platform based in a 3-Tier Client/Server Architecture. First idea consists in a Distributed Logic structured layers where the Client Apps will interface with the Server that will store the logic and will connect with the Data Layer of the System. The architecture as explained briefly in the \textbf{\hyperref[sec:propSystem]{Proposed System}} section will consist of:
 \begin {itemize}
 \item Client Tier: 
 \begin {itemize}
 \item [-]Web Client on a browser with abilitated JavaScript for the Web App use. 
-\item [-]Application Client for the Mobile App (Android and iOS), with GPS functionalities. We will consider the screen present in the Car as a Client App of the System that'll implement some logic to interface to the Car Software to Lock, Unlock, read the Battery level and other functions. This can be seen to as some level of logic distribution.
+\item [-]Application Client for the Mobile App (Android and iOS), with GPS functionalities. We will consider the screen present in the Car as a Client App of the System that'll implement some logic to interface to the Car Software to Lock, Unlock, read the Battery level and other functions.
 \end{itemize}
+
 \item Server Tier:
 \begin {itemize}
-\item [-]Web Server that'll answer connections for Web Clients. Implemented as an Apache Server, will interface with the Application Server.
-\item [-]Java Application Server, that'll implement the logic of the System. Application Clients will connect directly to it. Will implement JavaBeans to handle request from multiple Clients at a time.
+\item [-]Web Server that'll answer connections for Web Clients. It will interface with the Application Server.
+\item [-]JavaEE Application Server, that'll implement the logic of the System. Application Clients (Users and Cars) will connect directly to it. Will implement JavaBeans to handle request from multiple Clients at a time.
+\end{itemize}
+
+\item Enterprise Information System (EIS) Tier:
+\begin{itemize}
 \item [-]DataBase Server, accessed by the Application Server to store all the data refering to the System.
 \end{itemize}
+
 \end{itemize}
 
 \subsubsection{Hardware Consideration}
@@ -713,7 +720,7 @@ In this last example of Sequence Diagram (fig. 5) we present a situation in whic
 
 \subsection{Statechart Diagram}
 \begin {itemize}
-\item \textbf{Reserve:}
+\item \textbf{Reservation:}
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
@@ -749,6 +756,7 @@ In this last example of Sequence Diagram (fig. 5) we present a situation in whic
 The whole system model was implemented in Alloy and the functionalities of  "Login creation" and "Making a new reservation" were tested by the Alloy Analysing tool. These specific functionalities were choosen to be implemented in a formal language for being the key points of the system. 
 \subsubsection{Signatures}
 
+\ttfamily
 sig Date\{\} \newline
 \newline
 sig PayInfo\{\} \newline
@@ -826,8 +834,10 @@ sig UserReport\{ \newline
 \hspace*{5 mm}	reportFee: Int \newline
 \} \newline
 
+\rmfamily
 \subsubsection{Facts}
  
+\ttfamily
 //every car, reservation and account is managed by the system \newline
 fact systemManagesAll\{ \newline
 \hspace*{5 mm}	all c:Car | one s: System | c in (s.listOfRentedCars + s.listOfAvailableCars) \newline
@@ -854,8 +864,11 @@ fact noDuplicateId\{ \newline
 \hspace*{5 mm}	no disj r1, r2: Reservation | r1.id = r2.id \newline
 \hspace*{5 mm}	no disj c1, c2: Car | c1.id = c2.id \newline
 \} \newline
+
+\rmfamily
 \subsubsection{Login Creation}
 
+\ttfamily
 // the same user cannot create two accounts  \newline
 fact noUserHas2Accounts\{  \newline 
 \hspace*{5 mm}	no disj a1, a2:Account, u: User | a1 != a2 and a1.credentials = u \hspace*{5 mm} and a2.credentials = u  \newline
@@ -886,7 +899,10 @@ assert addEqualAccount\{  \newline
 \hspace*{5 mm}		a = a'   \newline		
 \}  \newline
 check addEqualAccount for 4 but 1 System  \newline
+
+\rmfamily
 \subsubsection{Making a new Reservation}
+\ttfamily
 fact carOnlyInOneReserv\{ \newline
 \hspace*{5 mm}	all c:Car | no disj r1, r2: Reservation | \newline
 \hspace*{5 mm}		r1.selectedCar = c and r2.selectedCar = c \newline
@@ -941,6 +957,7 @@ assert sameUser2Reserv\{ \newline
 \hspace*{5 mm}			makeReservation[a, c1, s1,s2,s3, r1,r2] and makeReservation[a, c2, \hspace*{5 mm}	s1,s2,s3, r2,r3] \newline
 \} \newline
 check sameUser2Reserv \newline
+\rmfamily
 
 \subsection{Alloy Result}
 As stated  in the previous Alloy code, the following checks were made:
@@ -1013,21 +1030,20 @@ The Tools used to develop this RASD document were:
 	27/10/16&  - & - & -  \\ \hline
 	28/10/16& 2h.30m & 4h.30m & 4h.30m \\ \hline
 	29/10/16& 1h & -  & - \\ \hline
-	30/10/16&  - & - & 2h\\ \hline
+	30/10/16&  1h & - & 2h\\ \hline
 	31/10/16&  - & 2h & - \\ \hline
 	01/11/16&  - & - & 2h \\ \hline
 	02/11/16&  2h & - & - \\ \hline
 	03/11/16&  2h & 3h & 3h \\ \hline
 	04/11/16&  - & - & 2h\\ \hline
-	05/11/16&  1h & 4h &  6h\\ \hline
+	05/11/16&  2h & 4h &  6h\\ \hline
 	06/11/16&  - & 5h & 6h\\ \hline
 	07/11/16& 4h & 2h & 6h \\ \hline
 	08/11/16&  3h & - & - \\ \hline
 	09/11/16&  2h & 2h & 3h \\ \hline
-	10/11/16&  2h & 3h & 2h\\ \hline
-	11/11/16&  2h & 1h30 & - \\ \hline
-	12/11/16&  - & - & - \\ \hline
-	13/11/16&  - & - & - \\ \hline
+	10/11/16&  3h & 3h & 2h\\ \hline
+	11/11/16&  2h & 2h & - \\ \hline
+	12/11/16&  3h & 3h & - \\ \hline
 \end{tabular}
 
 \newpage
@@ -1036,6 +1052,6 @@ The Tools used to develop this RASD document were:
 As the project and design decisions may change during the development this document is also prone to change.
 We'll document every version in this part.
 \begin{itemize}
-\item \textbf {Version 1.1:} 13/11/2016
+\item \textbf {Version 1.1:} 12/11/2016
 \end{itemize}
 \end{document}
