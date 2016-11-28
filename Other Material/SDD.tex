@@ -47,7 +47,9 @@ Prof. Elisabetta DI NITTO
  
 \section{Introduction}
 \subsection{Purpose}
+This Design Document serves the purpose to present to all parties interested the description of the structure for the PowerEnjoy Service. It provides documentation of Software, Architecture and other important aspects of Design to help the understanding and development of the System. Every component that is implemented for the System will be explained as well as the purpose they serve to contribute to the fullfilment of all the project Requirements. All strategies and design decisions will be documented as well.
 \subsection{Scope}
+This Document presents the PowerEnjoy Software Design Description, decisions and key information to be used to communicate the general purpose of the structure to our stakeholders, and serve as detailed documentation for the components of the System for the developers. This Document will not include detailed information on all the tools and protocols that will be used in the development of the System but rather their purpose and functionality inside the PowerEnjoy System. As example, general knowledge of the Client-Server structure is expected as it will not be rigorously explained but instead how such structure will be used to satisfy our System's Requirements. 
 \subsection{Glossary: Definitions, Acronyms, Abbreviations}
 \begin{itemize}
 \item \textbf{First-Time User:}
@@ -56,21 +58,23 @@ Prof. Elisabetta DI NITTO
 \subsection{Reference Documents}
 \begin{itemize}
 \item Specification Document: Assignments AA 2016-2017.pdf
+\item PowerEnjoy Requirements And Specifications Document (RASD)
 \item IEEE Std 1016-2009 IEEE Standard for Information Technology-Systems Designs-Software Design Descriptions (SDD IEEE 1016-2009.pdf)
 \item Example Documents:
 \begin{itemize}
-\item[-] 
+\item[-] Remote-Controlled Dissolved Oxygen Monitoring System  (fett\_student\_application\_paper.pdf)
+\item[-] Software Design Document (SDD) Template (sdd\_template.pdf)
 \end{itemize}
 \end{itemize}
 \subsection{Document Structure}
 \begin{description}
-\item \textbf{Section 1 - Introduction:}
-\item \textbf{Section 2 - Architectural Design:}
-\item \textbf{Section 3 - Algorithm Design:}
-\item \textbf{Section 4 - User Interface Design:}
-\item \textbf{Section 5 - Requirements Traceability:}
-\item \textbf{Section 6 - EffortSpent:}
-\item \textbf{Section 7 - References:}
+\item \textbf{Section 1 - Introduction:} This section provides a general description of the purpose and structure of this Design Document.
+\item \textbf{Section 2 - Architectural Design:} This section illustrates a broader to specific view of the components that form part of the System, presenting from the overview of the architecture of the system to a description of how each component will interface inside the structure.
+\item \textbf{Section 3 - Algorithm Design:} Important functionalities of the System that require the development of algorithms will be described in this section.  
+\item \textbf{Section 4 - User Interface Design:} All details refering to how the User will interface with the System, from the Web Application to the screens inside the Cars will be shown in this section. As well as general mockups of the Graphical User Interface (GUI) screens.
+\item \textbf{Section 5 - Requirements Traceability:} In this section is explained how the Design decisions and structure help fulfill the Requirements for the System that were defined in the RASD. 
+\item \textbf{Section 6 - Effort Spent:} Detailed record of the hours worked for each member of the team is documented in this section.
+\item \textbf{Section 7 - References:} Any reference to additional external sources that can help the better understanding of this Document is documented in this section.
 \end{description}
 
 \newpage
@@ -193,11 +197,8 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 \begin{tabular}{ | l | l | l | l | }
 \hline
 	\textbf {Date} & \textbf {Domenico} & \textbf {Caio} & \textbf {Matheus} \\ \hline
-	24/11/16& - & - & - \\ \hline
-	25/11/16& - & - & - \\ \hline
-	26/11/16& - & - & - \\ \hline
-	27/11/16& - & - & -  \\ \hline
-	28/11/16& - & - & - \\ \hline
+	27/11/16& 1h & 1h & 1h  \\ \hline
+	28/11/16& 2h & - & - \\ \hline
 	29/11/16& - & - & - \\ \hline
 	30/11/16& - & - & - \\ \hline
 	31/11/16& - & - & - \\ \hline
