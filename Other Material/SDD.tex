@@ -47,13 +47,19 @@ Prof. Elisabetta DI NITTO
  
 \section{Introduction}
 \subsection{Purpose}
-This Design Document serves the purpose to present to all parties interested the description of the structure for the PowerEnjoy Service. It provides documentation of Software, Architecture and other important aspects of Design to help the understanding and development of the System. Every component that is implemented for the System will be explained as well as the purpose they serve to contribute to the fullfilment of all the project Requirements. All strategies and design decisions will be documented as well.
+This Design Document serves the purpose to present to all parties interested the description of the structure for the PowerEnjoy Service. It provides documentation of Software, Architecture and other important aspects of Design to help the understanding and development of the System. Every component that is implemented for the System will be explained as well as the purpose they serve to contribute to the fullfilment of all the project Requirements. All strategies and design decisions will be documented as well. Software Design Description, decisions and key information to be used to communicate the general purpose of the structure to our stakeholders, and serve as detailed documentation for the components of the System for the developers.
+
 \subsection{Scope}
-This Document presents the PowerEnjoy Software Design Description, decisions and key information to be used to communicate the general purpose of the structure to our stakeholders, and serve as detailed documentation for the components of the System for the developers. This Document will not include detailed information on all the tools and protocols that will be used in the development of the System but rather their purpose and functionality inside the PowerEnjoy System. As example, general knowledge of the Client-Server structure is expected as it will not be rigorously explained but instead how such structure will be used to satisfy our System's Requirements. 
+This Document presents the PowerEnjoy Service System, an electric car sharing service. To better understand the broader scope of the service, it is presented in the RASD Document. This Document will not include detailed information on all the tools and protocols that will be used in the development of the System but rather their purpose and functionality inside the PowerEnjoy System. As example, general knowledge of the Client-Server structure is expected as it will not be rigorously explained but instead how such structure will be used to satisfy our System's Requirements. 
+
 \subsection{Glossary: Definitions, Acronyms, Abbreviations}
 \begin{itemize}
-\item \textbf{First-Time User:}
+\item \textbf{RASD:} Reqirements And Specifications Document.
+\item \textbf{DD:} Design Document.
+\item \textbf{Java EE:} Java Enterprise Edition. Software Development Platform.
+\item \textbf{EJB:} Enterprise Java Beans. Component in the Business Tier for the Application Logic.
 \end{itemize}
+For other concepts concerning the Service definition look in the \textbf{Glossary} section of the RASD.
 
 \subsection{Reference Documents}
 \begin{itemize}
@@ -62,10 +68,12 @@ This Document presents the PowerEnjoy Software Design Description, decisions and
 \item IEEE Std 1016-2009 IEEE Standard for Information Technology-Systems Designs-Software Design Descriptions (SDD IEEE 1016-2009.pdf)
 \item Example Documents:
 \begin{itemize}
-\item[-] Remote-Controlled Dissolved Oxygen Monitoring System  (fett\_student\_application\_paper.pdf)
+\item[-] Sample Design Deliverable Discussed on Nov. 2.pdf
 \item[-] Software Design Document (SDD) Template (sdd\_template.pdf)
+\item[-] Remote-Controlled Dissolved Oxygen Monitoring System  (fett\_student\_application\_paper.pdf)
 \end{itemize}
 \end{itemize}
+
 \subsection{Document Structure}
 \begin{description}
 \item \textbf{Section 1 - Introduction:} This section provides a general description of the purpose and structure of this Design Document.
@@ -80,37 +88,25 @@ This Document presents the PowerEnjoy Software Design Description, decisions and
 \newpage
 \section{Architectural Design}
 \subsection{Overview}
-\label{sec:propSystem}
-Our Proposed System consist in a 3-tier Client-Server Architecture, with web clients for Users and CRM, mobile App clients for Users and the Car interface that will be implemented as a Client as it's external to our Server System. The Server side will consist on a Java EE Server that will implement a Web Tier for Web Clients and a Business Tier that'll communicate directly to the App Clients. The Server will then connect to the Company's Database that'll be located in our EIS Tier.
-Project will be developed using a JEE Platform based in a 3-Tier Client/Server Architecture. First idea consists in a Distributed Logic structured layers where the Client Apps will interface with the Server that will store the logic and will connect with the Data Layer of the System. The architecture as explained briefly in the \textbf{\hyperref[sec:propSystem]{Proposed System}} section will consist of:
-\begin {itemize}
-\item Client Tier: 
-\begin {itemize}
-\item [-]Web Client on a browser with abilitated JavaScript for the Web App use. 
-\item [-]Application Client for the Mobile App (Android and iOS), with GPS functionalities. We will consider the screen present in the Car as a Client App of the System that'll implement some logic to interface to the Car Software to Lock, Unlock, read the Battery level and other functions.
-\end{itemize}
+As was show in the Proposed System part of the RASD, the PowerEnjoy structure will consist on a 3-tier Client-Server Architecture. The server part built on a JEE Platform with access to the Company's Database Server and the Client consisting of Users, CRM and Cars that will use a browser to access our Web Application and a Mobile Device and Screen inside the Cars will access the Mobile Application.
+As we need to interface our application with the Car functions (i.e. Lock, Unlock, Battery state) the application must have some Logic implemented client side. This distributed Logic structure will allow GUI to be created on the Client side as well.
 
-\item Server Tier:
-\begin {itemize}
-\item [-]Web Server that'll answer connections for Web Clients. It will interface with the Application Server.
-\item [-]JavaEE Application Server, that'll implement the logic of the System. Application Clients (Users and Cars) will connect directly to it. Will implement JavaBeans to handle request from multiple Clients at a time.
-\end{itemize}
-
-\item Enterprise Information System (EIS) Tier:
 \begin{itemize}
-\item [-]DataBase Server, accessed by the Application Server to store all the data refering to the System.
-\end{itemize}
+\item Client Tier (Web App, Mobile App, Car)
+\item Server Tier (Java EE Web and Application Server)
+\item Enterprise Information System (EIS) Tier (DataBase Server)
 \end{itemize}
 
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=1.35\textwidth]{ProposedSystem.png}}%
+\noindent\makebox[\textwidth]{\includegraphics[width=1.2\textwidth]{ProposedSystem.png}}%
 \caption {Proposed System Architecture}
 \vspace*{0.5cm}
 \end{figure}
 \newpage
 
+\subsection{High level components and their interaction}
 \subsection{Component View}
 \subsection{Deployment View}
 \subsection{Runtime View}
@@ -199,7 +195,7 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 	\textbf {Date} & \textbf {Domenico} & \textbf {Caio} & \textbf {Matheus} \\ \hline
 	27/11/16& 1h & 1h & 1h  \\ \hline
 	28/11/16& 2h & - & - \\ \hline
-	29/11/16& - & - & - \\ \hline
+	29/11/16& 2h & - & - \\ \hline
 	30/11/16& - & - & - \\ \hline
 	31/11/16& - & - & - \\ \hline
 	01/12/16& - & - & - \\ \hline
