@@ -1,0 +1,74 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 30-nov-2016, 21.17.53
+    Author     : Domenico
+*/
+
+.header img {
+  float: left;
+  width: 100px;
+  height: 100px;
+  background: #555;
+}
+
+.keepcentered center{
+    position:    absolute;
+    left:        50%;   
+    top:         50%;
+    width:       800px;   
+    height:      300px; 
+}
+input[type=button] {
+    background-color: #F4DF42;
+    color:#08233e;
+    font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; font-weight: bold;
+    font-size:80%;
+    padding: 6px 10px;
+    border-radius: 4px;
+    /* ... other rules ... */
+    cursor:pointer;
+}
+
+input[type=submit] {
+    background-color: #F4DF42;
+    color:#08233e;
+    font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; font-weight: bold;
+    font-size:80%;
+    padding: 6px 10px;
+    border-radius: 4px;
+    /* ... other rules ... */
+    cursor:pointer;
+}
+
+input[type=button]:hover {
+    background-color:rgba(255,204,0,0.8);
+} 
+
+yellow{
+    color: #FFD11A; 
+    font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; 
+    font-size: 30px; font-weight: bold;
+}
+white{
+    color: #FFFFFF; 
+    font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; 
+    font-size: 30px; font-weight: bold;
+}
+
+memberfield{
+    color: #FFFFFF; 
+    font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; 
+    font-size: 15px; font-weight: bold;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
