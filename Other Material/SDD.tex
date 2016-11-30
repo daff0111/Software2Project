@@ -58,6 +58,8 @@ This Document presents the PowerEnjoy Service System, an electric car sharing se
 \item \textbf{DD:} Design Document.
 \item \textbf{Java EE:} Java Enterprise Edition. Software Development Platform.
 \item \textbf{EJB:} Enterprise Java Beans. Component in the Business Tier for the Application Logic.
+\item \textbf{DBMS:} DataBase Management System.
+\item \textbf{App:} Application. Refers to the deployed service as Web or Mobile Application.
 \end{itemize}
 For other concepts concerning the Service definition look in the \textbf{Glossary} section of the RASD.
 
@@ -70,7 +72,6 @@ For other concepts concerning the Service definition look in the \textbf{Glossar
 \begin{itemize}
 \item[-] Sample Design Deliverable Discussed on Nov. 2.pdf
 \item[-] Software Design Document (SDD) Template (sdd\_template.pdf)
-\item[-] Remote-Controlled Dissolved Oxygen Monitoring System  (fett\_student\_application\_paper.pdf)
 \end{itemize}
 \end{itemize}
 
@@ -90,6 +91,7 @@ For other concepts concerning the Service definition look in the \textbf{Glossar
 \subsection{Overview}
 As was show in the Proposed System part of the RASD, the PowerEnjoy structure will consist on a 3-tier Client-Server Architecture. The server part built on a JEE Platform with access to the Company's Database Server and the Client consisting of Users, CRM and Cars that will use a browser to access our Web Application and a Mobile Device and Screen inside the Cars will access the Mobile Application.
 As we need to interface our application with the Car functions (i.e. Lock, Unlock, Battery state) the application must have some Logic implemented client side. This distributed Logic structure will allow GUI to be created on the Client side as well.
+The Database Server will belong to the Company and will allow registration of User, Reservations, Rides and Payments. Cars, CRM Employees and Parking Locations are asumed to be added outside of this System.
 
 \begin{itemize}
 \item Client Tier (Web App, Mobile App, Car)
@@ -100,14 +102,39 @@ As we need to interface our application with the Car functions (i.e. Lock, Unloc
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=1.2\textwidth]{ProposedSystem.png}}%
+\noindent\makebox[\textwidth]{\includegraphics[width=1.2\textwidth]{ProposedSystemFW.png}}%
 \caption {Proposed System Architecture}
 \vspace*{0.5cm}
 \end{figure}
 \newpage
 
 \subsection{High level components and their interaction}
+Following our Architecture we organize the High level components on the 3 Tiers. As this is not yet the Deployment view this components do not represent the actual distribution, it shows the interaction between them and what they represent inside the System. Clients will have their User and CRM Components, distributed part in the Client as Interface for the App, and part in the Server as Service Requestors. Inside the Server through Session Beans a Session Manager will provide the services to the clients by communicating with the respective Controllers. Each Controller will manage and represent the System Entities previously explained in the RASD and will interface with a Persistent DataBase Connection to the DBMS. Helpers and Extra Feature Components are represented as well.
+
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1.35\textwidth]{HighLevelComponents.png}}%
+\caption {High Level Component Structure}
+\vspace*{0.5cm}
+\end{figure}
+
+\begin{itemize}
+\item User and CRM Components: Implement the Sessions for each Actor (App) and will have ServiceRequestors to interface with the central Server Component.
+\item Session Manager: Will manage sessions and forward requests to the correspondant Controller.
+\item Reservation Controller: Will manage Reservations made by Users.
+\item Ride Controller: Manages Rides created by an activated Reservation.
+\item Payment Controller: Manages Payment at the end of a Ride.
+\item Location Helper: Will provide an interface for Location queries. Can interface to an external Service Provider API (Google Maps).
+\item User Report Controller: Will manage User Reports made by a CRM.
+\item Car Controller: Will manage Cars Status and interface to Cars to send them instructions.
+\item Car: Represents the Interface to control the Car and the screen inside it.
+\item Chat Service: Will provide the chat feature to provide communication between Users and available CRMs.
+\item DBMS: Each Controller will implement Persistent Entity Beans for each object that will be mapped on the DB.
+\end{itemize}
+
 \subsection{Component View}
+
 \subsection{Deployment View}
 \subsection{Runtime View}
 \subsection{Component Interfaces}
@@ -196,7 +223,7 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 	27/11/16& 1h & 1h & 1h  \\ \hline
 	28/11/16& 2h & - & - \\ \hline
 	29/11/16& 2h & - & - \\ \hline
-	30/11/16& - & - & - \\ \hline
+	30/11/16& 2h & - & - \\ \hline
 	31/11/16& - & - & - \\ \hline
 	01/12/16& - & - & - \\ \hline
 	02/12/16& - & - & - \\ \hline
