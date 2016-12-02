@@ -119,21 +119,72 @@ Following our Architecture we organize the High level components on the 3 Tiers.
 \vspace*{0.5cm}
 \end{figure}
 
-\begin{itemize}
-\item User and CRM Components: Implement the Service Requests for each Actor (Web Pages and App) and will have to interface with the central Server Component.
-\item Session Manager: Will manage sessions with servlets and session beans and forward requests to the correspondant Controller.
-\item Reservation Controller: Will manage Reservations made by Users.
-\item Ride Controller: Manages Rides created by an activated Reservation.
-\item Payment Controller: Manages Payment at the end of a Ride.
-\item Location Helper: Will provide an interface for Location queries. Can interface to an external Service Provider API (Google Maps).
-\item User Report Controller: Will manage User Reports made by a CRM.
-\item Car Controller: Will manage Cars Status and interface to Cars to send them instructions.
-\item Car: Represents the Interface to control the Car and the screen inside it.
-\item Chat Service: Will provide the chat feature to provide communication between Users and available CRMs.
-\item DBMS: Each Controller will implement Persistent Entity Beans for each object that will be mapped on the DB.
-\end{itemize}
-
 \subsection{Component View}
+\subsubsection{User Component}
+Represents the User in the Client Tier that translates user actions and send requests to the Session Manager Component, then presents the output to the User. Is composed of several pages that present different types of information. Implement the Service Requests for each Actor (Web Pages and App) and will have to interface with the central Server Component.
+\subsubsection{CRM Component}
+The CRM in the Client Tier will access just via web browser to the service. Is composed of a different set of pages and the Session Manager presents different services to it.
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{UserCRMComponents.png}}%
+\caption {Client Components}
+\vspace*{0.5cm}
+\end{figure}
+\subsubsection{Car Component}
+Represents the Car outside of our system that presents an interface to provide information and receive commands from the Car Controller Component.
+\subsubsection{Reservation Controller}
+Manages the Reservations made by Users, when a reservation is corfirmed, it will create the correspondant Ride.
+\subsubsection{Ride Controller}
+Manages the Active Rides. When a ride is finished, it creates a Payment using the Payment Controller.
+\subsubsection{Payment Controller}
+Implements the Logic to make a Payment or Transaction to a User Account, used by the Ride and the CRM Session Controllers.
+\subsubsection{User Report Controller}
+Used by the CRM Session to generate User Reports.
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.8\textwidth]{ReservationRidePaymentComponents.png}}%
+\caption {Entity Controllers}
+\vspace*{0.5cm}
+\end{figure}
+\subsubsection{Session Manager}
+The Session Manager is a Macro component. Will handle the main functionalities for the Uses and CRM and will redirect requests to their respectve Controllers. Inside, the CRM and User Controllers will handle the CRM and User sessions respectively.
+\newline
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.87\textwidth]{SessionManagerComponent.png}}%
+\caption {Session Manager}
+\vspace*{0.5cm}
+\end{figure}
+\subsubsection{Car Controller}
+Will manage Cars Status, Locations and interface to Cars to send them instructions.
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.7\textwidth]{CarControllerComponent.png}}%
+\caption {Car Controller}
+\vspace*{0.5cm}
+\end{figure}
+\subsubsection{Location Helper}
+Will provide an interface for Location queries. Can interface to an external Service Provider API (Google Maps).
+\subsubsection{Chat Service}
+ Will provide the chat platform to provide a channel of communication between Users and available CRMs
+\subsubsection{Email Helper}
+Will allow the System to communicate via mail with the Users (password, payment).
+\newpage
+\subsubsection{DBMS} 
+Each Controller will implement a Persistent Entity for each class that will be mapped on the DB.
+The Structure of the DB will mirror the Classes in our System.
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.8\textwidth]{DBClasses.png}}%
+\caption {DB Structure}
+\vspace*{0.5cm}
+\end{figure}
+
 
 \subsection{Deployment View}
 \subsection{Runtime View}
@@ -226,7 +277,7 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 	30/11/16& 3h & - & - \\ \hline
 	31/11/16& 1h & - & - \\ \hline
 	01/12/16& - & 1h & - \\ \hline
-	02/12/16& 3h & - & - \\ \hline
+	02/12/16& 5h & - & - \\ \hline
 	03/12/16& - & - & - \\ \hline
 	04/12/16& - & - & - \\ \hline
 	05/12/16& - & - & - \\ \hline
