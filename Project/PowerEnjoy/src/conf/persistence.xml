@@ -4,7 +4,20 @@
     <jta-data-source>jdbc/penjoyDatasource</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="User" transaction-type="RESOURCE_LOCAL">
+    <description>Persistence Unit that represent the User</description>
+    <jta-data-source>jdbc/penjoyDatasource</jta-data-source>
+    <class>penjoySrc.entities.User</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/penjoy_db"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.password" value="password"/>
     </properties>
   </persistence-unit>
 </persistence>

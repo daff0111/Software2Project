@@ -8,13 +8,6 @@ and open the template in the editor.
     Author     : Domenico
 */
 
-.header img {
-  float: left;
-  width: 100px;
-  height: 100px;
-  background: #555;
-}
-
 .keepcentered center{
     position:    absolute;
     left:        50%;   
@@ -22,6 +15,8 @@ and open the template in the editor.
     width:       800px;   
     height:      300px; 
 }
+
+/*Input button Styles*/
 input[type=button] {
     background-color: #F4DF42;
     color:#08233e;
@@ -48,6 +43,7 @@ input[type=button]:hover {
     background-color:rgba(255,204,0,0.8);
 } 
 
+/*Font Styles*/
 yellow{
     color: #FFD11A; 
     font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; 
@@ -58,13 +54,18 @@ white{
     font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; 
     font-size: 30px; font-weight: bold;
 }
-
+comment{
+    color: #FFFFFF; 
+    font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; 
+    font-size: 12px; font-style: italic;
+}
 memberfield{
     color: #FFFFFF; 
     font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; 
     font-size: 15px; font-weight: bold;
 }
 
+/*Other Styles*/
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;

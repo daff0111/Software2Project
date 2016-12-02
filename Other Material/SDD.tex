@@ -109,7 +109,7 @@ The Database Server will belong to the Company and will allow registration of Us
 \newpage
 
 \subsection{High level components and their interaction}
-Following our Architecture we organize the High level components on the 3 Tiers. As this is not yet the Deployment view this components do not represent the actual distribution, it shows the interaction between them and what they represent inside the System. Clients will have their User and CRM Components, distributed part in the Client as Interface for the App, and part in the Server as Service Requestors. Inside the Server through Session Beans a Session Manager will provide the services to the clients by communicating with the respective Controllers. Each Controller will manage and represent the System Entities previously explained in the RASD and will interface with a Persistent DataBase Connection to the DBMS. Helpers and Extra Feature Components are represented as well.
+Following our Architecture we organize the High level components on the 3 Tiers. This overview shows the interaction between the components and the entities they represent inside the System. Clients will have their User and CRM Components, distributed as Interfaces and Web Pages for the Apps. Inside the Server through Servlets and Session Beans a Session Manager will provide the services to the clients by communicating with the respective Controllers. Each Controller will manage and represent the System Entities previously explained in the RASD and will interface with a Persistent DataBase Connection to the DBMS. Helpers and Extra Feature Components are represented as well.
 
 \begin{figure}[h]
 \centering
@@ -120,8 +120,8 @@ Following our Architecture we organize the High level components on the 3 Tiers.
 \end{figure}
 
 \begin{itemize}
-\item User and CRM Components: Implement the Sessions for each Actor (App) and will have ServiceRequestors to interface with the central Server Component.
-\item Session Manager: Will manage sessions and forward requests to the correspondant Controller.
+\item User and CRM Components: Implement the Service Requests for each Actor (Web Pages and App) and will have to interface with the central Server Component.
+\item Session Manager: Will manage sessions with servlets and session beans and forward requests to the correspondant Controller.
 \item Reservation Controller: Will manage Reservations made by Users.
 \item Ride Controller: Manages Rides created by an activated Reservation.
 \item Payment Controller: Manages Payment at the end of a Ride.
@@ -224,9 +224,9 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 	28/11/16& 2h & - & - \\ \hline
 	29/11/16& 2h & - & - \\ \hline
 	30/11/16& 3h & - & - \\ \hline
-	31/11/16& - & - & - \\ \hline
+	31/11/16& 1h & - & - \\ \hline
 	01/12/16& - & 1h & - \\ \hline
-	02/12/16& - & - & - \\ \hline
+	02/12/16& 3h & - & - \\ \hline
 	03/12/16& - & - & - \\ \hline
 	04/12/16& - & - & - \\ \hline
 	05/12/16& - & - & - \\ \hline

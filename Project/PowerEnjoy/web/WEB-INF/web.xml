@@ -5,22 +5,48 @@
             30
         </session-timeout>
     </session-config>
-    
+    <!-- SMTP settings -->
+    <context-param>
+        <param-name>host</param-name>
+        <param-value>smtp.gmail.com</param-value>
+    </context-param>
+    <context-param>
+        <param-name>port</param-name>
+        <param-value>587</param-value>
+    </context-param>
+    <context-param>
+        <param-name>emailUser</param-name>
+        <param-value>powerEnjoyService@gmail.com</param-value>
+    </context-param>
+    <context-param>
+        <param-name>emailPass</param-name>
+        <param-value>powEnjoy</param-value>
+    </context-param>
+    <!--Registration Servlet-->
     <servlet>
         <display-name>Registration Servlet</display-name>
         <servlet-name>registrationServlet</servlet-name>
-        <servlet-class>penjoySrc.servlets.registrationServlet</servlet-class>
+        <servlet-class>penjoySrc.session.registrationServlet</servlet-class>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>registrationServlet</servlet-name>
         <url-pattern>/registrationServlet</url-pattern>
     </servlet-mapping>
-    
+    <!--Login Servlet-->
+    <servlet>
+        <display-name>Login Servlet</display-name>
+        <servlet-name>loginServlet</servlet-name>
+        <servlet-class>penjoySrc.session.loginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>loginServlet</servlet-name>
+        <url-pattern>/loginServlet</url-pattern>
+    </servlet-mapping>
+    <!--Welcome Page-->
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-    
+    <!--Data Source-->
     <resource-ref>
         <res-ref-name>penjoyDataSource</res-ref-name>
         <res-type>javax.sql.ConnectionPoolDataSource</res-type>

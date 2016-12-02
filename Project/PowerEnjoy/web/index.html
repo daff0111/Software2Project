@@ -14,14 +14,17 @@ and open the template in the editor.
     </head>
     <body bgcolor="#006FF1">
     <center>
+        <!--Login Body-->
         <div class="login">
-            <input type="text" placeholder="username" name="user"><br>
-            <input type="password" placeholder="password" name="password"><br>
-            <input type="button" value="Login">&nbsp;
+            <form method ="post" action="/PowerEnjoy/loginServlet">
+            <input type="text" placeholder="username" name="username" size="20"><br><br>
+            <input type="password" placeholder="password" name="password"size="20"><br><br>
+            <input type="submit" value="Login">&nbsp;
             <a href="registerPage.html">
                 <input type="button" value="Register">
             </a>           
 	</div>
+        
         <br><br><br>
         <center id="carlogo"><a href=""><img src="resources/powerEnjoyCar.png" alt="carlogo" style="width:340px;height:160px;"/></center>
     </center>
