@@ -57,9 +57,15 @@ This Document presents the PowerEnjoy Service System, an electric car sharing se
 \item \textbf{RASD:} Reqirements And Specifications Document.
 \item \textbf{DD:} Design Document.
 \item \textbf{Java EE:} Java Enterprise Edition. Software Development Platform.
+\item \textbf{App:} Application. Refers to the deployed service as Web or Mobile Application.
+\item \textbf{Component:} Software element that implements and offer functionalities in the System.
 \item \textbf{EJB:} Enterprise Java Beans. Component in the Business Tier for the Application Logic.
 \item \textbf{DBMS:} DataBase Management System.
-\item \textbf{App:} Application. Refers to the deployed service as Web or Mobile Application.
+\item \textbf{JDBC:} Java Database Connectivity, Java API to connect to DataBases.
+\item \textbf{HTTPS:} Hypertext Transfer Protocol over TLS. Protocol to safefully communicate over the Internet.
+\item \textbf{TLS:} Transport Layer Security that provides communication security.
+\item \textbf{REST/RESTful:} Representational state transfer, architectural style for the System communications.
+\item \textbf{API:} Application Programming Interface.
 \end{itemize}
 For other concepts concerning the Service definition look in the \textbf{Glossary} section of the RASD.
 
@@ -121,9 +127,9 @@ Following our Architecture we organize the High level components on the 3 Tiers.
 
 \subsection{Component View}
 \subsubsection{User Component}
-Represents the User in the Client Tier that translates user actions and send requests to the Session Manager Component, then presents the output to the User. Is composed of several pages that present different types of information. Implement the Service Requests for each Actor (Web Pages and App) and will have to interface with the central Server Component.
+Represents the User in the Client Tier that translates user actions and send requests to the Session Manager Component, then presents the output to the User. Is composed of several pages that present different types of information. Implement the Service Requests for each Actor, Web Pages in Web Server and Mobile Application and will have to interface with the central Server Component.
 \subsubsection{CRM Component}
-The CRM in the Client Tier will access just via web browser to the service. Is composed of a different set of pages and the Session Manager presents different services to it.
+The CRM in the Client Tier will access just via browser, web server to the System. Is composed of a different set of pages and the Session Manager provides different services to it.
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
@@ -149,7 +155,7 @@ Used by the CRM Session to generate User Reports.
 \vspace*{0.5cm}
 \end{figure}
 \subsubsection{Session Manager}
-The Session Manager is a Macro component. Will handle the main functionalities for the Uses and CRM and will redirect requests to their respectve Controllers. Inside, the CRM and User Controllers will handle the CRM and User sessions respectively.
+The Session Manager is a Macro component. Will expose an API for User and CRM Clients. Will handle the main functionalities for them and will redirect requests to their respectve Controllers. Inside, the CRM and User Controllers will handle the CRM and User sessions respectively.
 \newline
 \begin{figure}[h]
 \centering
@@ -180,13 +186,28 @@ The Structure of the DB will mirror the Classes in our System.
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.8\textwidth]{DBClasses.png}}%
-\caption {DB Structure}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.6\textwidth]{DatabaseStructure.png}}%
+\caption {Database Structure}
 \vspace*{0.5cm}
 \end{figure}
 
-
+\newpage
 \subsection{Deployment View}
+A first proposal for the Deployment View shows our main components in their deployed hardware as seen in the proposed Architechture. Mainly our Web, Application and DB Servers and the Client Devices. Our proposal for the communication protocols include:
+\begin{itemize} 
+\item The Web Clients communicate to the Web Server via HTTPS. 
+\item The Application Server exposes a RESTful API for the Web Server, Mobile Apps and Cars. 
+\item The Application Server communicates with the DB Server using JDBC connection.
+\end{itemize}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=1.2\textwidth]{DeploymentView.png}}%
+\caption {Deployment View}
+\vspace*{0.5cm}
+\end{figure}
+\newpage
+
 \subsection{Runtime View}
 \subsection{Component Interfaces}
 \subsection{Selected Architectural Styles and Patterns}
@@ -278,7 +299,7 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 	31/11/16& 1h & - & - \\ \hline
 	01/12/16& - & 1h & - \\ \hline
 	02/12/16& 5h & - & - \\ \hline
-	03/12/16& - & - & - \\ \hline
+	03/12/16& 2h & - & - \\ \hline
 	04/12/16& - & - & - \\ \hline
 	05/12/16& - & - & - \\ \hline
 	06/12/16& - & - & - \\ \hline
