@@ -65,6 +65,7 @@ This Document presents the PowerEnjoy Service System, an electric car sharing se
 \item \textbf{HTTPS:} Hypertext Transfer Protocol over TLS. Protocol to safefully communicate over the Internet.
 \item \textbf{TLS:} Transport Layer Security that provides communication security.
 \item \textbf{REST/RESTful:} Representational state transfer, architectural style for the System communications.
+\item \textbf{MVC:} Model View Controller, software design pattern for implementing interfaces.
 \item \textbf{API:} Application Programming Interface.
 \end{itemize}
 For other concepts concerning the Service definition look in the \textbf{Glossary} section of the RASD.
@@ -81,6 +82,7 @@ For other concepts concerning the Service definition look in the \textbf{Glossar
 \end{itemize}
 \end{itemize}
 
+\newpage
 \subsection{Document Structure}
 \begin{description}
 \item \textbf{Section 1 - Introduction:} This section provides a general description of the purpose and structure of this Design Document.
@@ -115,7 +117,7 @@ The Database Server will belong to the Company and will allow registration of Us
 \newpage
 
 \subsection{High level components and their interaction}
-Following our Architecture we organize the High level components on the 3 Tiers. This overview shows the interaction between the components and the entities they represent inside the System. Clients will have their User and CRM Components, distributed as Interfaces and Web Pages for the Apps. Inside the Server through Servlets and Session Beans a Session Manager will provide the services to the clients by communicating with the respective Controllers. Each Controller will manage and represent the System Entities previously explained in the RASD and will interface with a Persistent DataBase Connection to the DBMS. Helpers and Extra Feature Components are represented as well.
+Following our Architecture we organize the High level components on the 3 Tiers. This overview shows the interaction between the components and the entities they represent inside the System. Clients will have their User and CRM Components, distributed as Interfaces and Web Pages for the Apps. Inside the Server through Servlets and Session Beans a Session Manager will provide the services to the clients by communicating with the respective Controllers. Based in the MVC patter Controllers will manage the data that will be viewed by the Client. Each Controller will manage and represent the System Entities previously explained in the RASD and will interface with a Persistent DataBase Connection to the DBMS. Helpers and Extra Feature Components are represented as well.
 
 \begin{figure}[h]
 \centering
@@ -209,12 +211,122 @@ A first proposal for the Deployment View shows our main components in their depl
 \newpage
 
 \subsection{Runtime View}
+
+\newpage
 \subsection{Component Interfaces}
+
+\subsubsection{User Component}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{UserComponentInterface.png}}%
+\vspace*{0.25cm}
+\end{figure}
+
+\subsubsection{Car Component}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{CarInterface.png}}%
+\vspace*{0.25cm}
+\end{figure}
+
+\subsubsection{Reservation Controller}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{ReservationInterface.png}}%
+\vspace*{0.25cm}
+\end{figure}
+\newpage
+
+\subsubsection{Ride Controller}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{RideInterface.png}}%
+\vspace*{0.25cm}
+\end{figure}
+
+\subsubsection{Payment Controller}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{PaymentInterface.png}}%
+\vspace*{0.25cm}
+\end{figure}
+
+\subsubsection{User Report Controller}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{UserReportInterface.png}}%
+\vspace*{0.25cm}
+\end{figure}
+
+\newpage
+\subsubsection{Session Manager}
+Will Interface with the Clients and answer requests redirecting them to the corresponding Controller.
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.6\textwidth]{SessionInterface.png}}%
+\vspace*{0.25cm}
+\end{figure}
+
+\subsubsection{Car Controller}
+The Car Controller will interface directly to the Car so as well to communicate the Car methods will offer these other methods.
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{CarControllerInterface.png}}%
+\vspace*{0.25cm}
+\end{figure}
+
+\subsubsection{Location Helper}
+Location Helper will Implement our Location search Algorithms. It will help the System get the best ReCharging Station to ensure the best distribution of Cars in the city, as well as calculate Path and seach for nearby Cars or ReCharging Stations.
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.7\textwidth]{LocationInterface.png}}%
+\vspace*{0.25cm}
+\end{figure}
+
+\subsubsection{Chat Service}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{ChatInterface.png}}
+\vspace*{0.25cm}
+\end{figure}
+
+\subsubsection{Email Helper}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{EmailInterface.png}}%
+\vspace*{0.25cm}
+\end{figure}
+
 \subsection{Selected Architectural Styles and Patterns}
+\subsubsection{MVC 3 Tier Architecture}
+The 3 tier Architecture will be based in the MVC pattern as the Client represents the View, the Controllers will be implemented in the Application logic and the Model will be present in the Data Layer. This design allow us to present the data to our Users in a consistent and reliable way.
+\subsubsection{Client-Server Architecture}
+As the abstraction of our System is providing a service, the logical choice is to present the Client-Server model. The logic of our System implemented in our Servers and the Clients (Users and CRMs) will communicate with them to access our service. The simplicity and effectiveness of this model facilitates the deployment. Contrary to peer-to-peer 
+\newpage
+\subsubsection{Communication: REST, HTTPS, JDBC}
+\begin{itemize}
+\item Basing our communication patterns on REST will allow simplicity for the Client requests, mantaining persistence on our data, this helps keeping the communication stateless. 
+\item  REST over HTTPS is the most common practice and HTTPS is as well the standard secure protocol of communication on the Internet. 
+\item Since we are deploying our App with Java EE, JDBC is the Java standard of communication with the DBMS.
+\end{itemize}
+
 \subsection{Other Design Decisions}
 
+\newpage
 \section{Algorithm Design}
 
+\newpage
 \section{User Interface Design}
 For our User Interface (UI) we'll offer a mobile App for Users and a desktop web App for Users and CRM. They will offer:
 \begin {itemize}
@@ -287,7 +399,10 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 \end{figure}
 \end{itemize}
 
+\newpage
 \section{Requirements Traceability}
+
+\newpage
 \section{Effort Spent}
 \begin{tabular}{ | l | l | l | l | }
 \hline
@@ -300,7 +415,7 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 	01/12/16& - & 1h & - \\ \hline
 	02/12/16& 5h & - & - \\ \hline
 	03/12/16& 2h & - & - \\ \hline
-	04/12/16& - & - & - \\ \hline
+	04/12/16& 2h & - & - \\ \hline
 	05/12/16& - & - & - \\ \hline
 	06/12/16& - & - & - \\ \hline
 	07/12/16& - & - & - \\ \hline
