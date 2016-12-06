@@ -331,101 +331,145 @@ As the abstraction of our System is providing a service, the logical choice is t
 For our User Interface (UI) we'll offer a mobile App for Users and a desktop web App for Users and CRM. They will offer:
 
 \begin {itemize}
-
 \item \textbf{User experience diagram}
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=1.1\textwidth]{uxUser.png}}%
+\noindent\makebox[\textwidth]{\includegraphics[width=1.3\textwidth]{uxUser.png}}%
 \caption {User experience diagram for the User/Registered User.}
 \vspace*{0.2cm}
 \end{figure}
 \newpage
+\item \textbf{CRM experience diagram}
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=1.1\textwidth]{uxCRM.png}}%
+\noindent\makebox[\textwidth]{\includegraphics[width=1.2\textwidth]{uxCRM.png}}%
 \caption {User experience diagram for the CRM.}
 \vspace*{0.2cm}
 \end{figure}
 \pagebreak
-\item \textbf{LogIn Page:} First screen of the app with the LogIn and SignIn options.
+\item MockUps for the MobileApp UI are presented in the RASD in section \textbf{4.2.1}. 
+\item Following some WebApp UI examples not yet presented.
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.28\textwidth]{1.png}}%
-\caption {UI LogIn Page}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.8\textwidth]{BrowserLogInPage.png}}%
+\caption {Browser LogIn Page}
 \vspace*{0.2cm}
 \end{figure}
-
-\item \textbf{Main Page:} Main page of the app where the user sees the map his location and selects the available cars. In Case of CRM, it can see all Cars.
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.28\textwidth]{2.png}}%
-\caption {UI Main Page}
-\vspace*{0.2cm}
-\end{figure}
-\pagebreak
-\item \textbf{Car Details Page:} Once a Car is selected this page allows to reserve a car and contais informations for the decision.
-\begin{figure}[h!]
-\centering
-\vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.28\textwidth]{4.png}}%
-\caption {UI Car Details Page}
-\vspace*{0.2cm}
-\end{figure}
-\pagebreak
-
-
-\item \textbf{Reservation Page:} Once the Reservation is made, the User can see the details of her/his Reservation and have the option to cancel it.
-\begin{figure}[h!]
-\centering
-\vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.28\textwidth]{5.png}}%
-\caption {UI Reservation Page}
-\vspace*{0.2cm}
-\end{figure}
-
-\item \textbf{Ride Page:} Once a Ride started this page shows the details of the current ride, it's present also in the Car screen App.
-\begin{figure}[h!]
-\centering
-\vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.36\textwidth]{3.png}}%
-\caption {UI Mobile Ride Page}
-\vspace*{0.2cm}
-\end{figure}
-\pagebreak
-
-\begin{figure}[h!]
-\centering
-\vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.7\textwidth]{CarScreen.png}}%
-\caption {UI Car Ride Page.}
-\vspace*{0.2cm}
-\end{figure}
-
-\item \textbf{Email Page:} While not part of the App UI, the System should respond with an email to the User at the end of the Ride showing the final details for it.
-\begin{figure}[h!]
-\centering
-\vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.7\textwidth]{EmailUser.png}}%
-\caption {UI Email Page}
-\vspace*{0.2cm}
-\end{figure}
-\pagebreak
-\item \textbf{Contact Page:} Page where the User can contact the CRM operator.
-\begin{figure}[h!]
-\centering
-\vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.28\textwidth]{6.png}}%
-\caption {UI Contact Page}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.8\textwidth]{BrowserRegisterPage.png}}%
+\caption {Browser Register User Page}
 \vspace*{0.2cm}
 \end{figure}
 \end{itemize}
 
+
 \newpage
 \section{Requirements Traceability}
+\subsubsection{\textbf{User Requirements:}}
+\begin{description}
+\item [G.1)]First-Time Users must be able to register to the System creating an Account. 
+\begin{itemize}
+	\item[-]SessionManager will answer for the Registration Request
+	\item[-]UserController will add the User Account in the DB.
+	\item[-]EmailHelper will send the Email with the Password to the User Email.
+\end{itemize}
+\item [G.2)]Registered Users must be able to login to their Account at any time they want.
+\begin{itemize}
+	\item[-]SessionManager will allow the Login Request checking with the UserController for the correct credentials.
+\end{itemize}
+\item [G.3)]Users can save his/hers credentials in the System.
+\begin{itemize}
+	\item[-]UserComponent in the Client side can be set to send the LogIn request automatically to the SessionManager whenever the App is opened.
+\end{itemize}
+\item [G.4)]A Registered User will be able to make a Reservation of any available Car near his/her current location or from an address that she/he can specify.
+\begin{itemize}
+	\item[-]SessionManager will answer the Search Car Request sending it to the CarController.
+	\item[-]CarController will check all the available Cars and using the LocationHelper it will answer with the ones close to the User Location.
+	\item[-]A Reservation Request will be forwarded to the ReservationController that will create it and add it to the DB.
+\end{itemize}
+\item [G.5)]Users that have made a Reservation must be able to notify the System when they are nearby the Reserved Car so the System can unlock it.
+\begin{itemize}
+	\item[-]SessionManager will control with the LocationHelper if the User and Car Location match.
+	\item[-]ReservationController will be asked to activate the Reservation.
+	\item[-]CarController will unlock the Car.	
+\end{itemize}
+\newpage
+\item [G.6)]A User that has made a Reservation must be able to cancel it before 1 hour starting from the time when the Reservation was made.
+\begin{itemize}
+	\item[-]SessionManager will forward the Reservation Cancelation request to the ReservationController.
+\end{itemize}
+\item [G.7)]In case an User hasn't started using the Reserved Car at 45 minutes after the Reservation was made, he/she will be notified that either if the Reservation is not canceled or the Car is not used in 15 minutes, the Reservation will be automatically canceled and a 1 Euro fee will be charged to her/his Account.
+\begin{itemize}
+	\item[-]ReservationController will control for pending Reservations the start time. If it surpass the 45 minutes it will notify the EmailHelper to send the User a notification.
+\end{itemize}
+\item [G.8)]When Users start using their Reserved Car, they must be able to see their current expenses on the service through a System screen inside the Car.
+\begin{itemize}
+	\item[-]The CarComponent Screen will request the RideController the status of the Ride to show the expenses.
+\end{itemize}
+\item [G.9)]The User must be able to know where the safe parking areas are nearby his/her current location or any address that she/he can specify.
+\begin{itemize}
+	\item[-]SessionManager using the LocationHelper will request for Safe Parking Areas new the User.
+\end{itemize}
+\item [G.10)]Users must be able to finish their use of the Car when leaving it in a Safe Parking Area and exiting the car. The User will then be charged for the use of the service. The used Car will be locked and freed for Users to be reserved.
+\begin{itemize}
+	\item[-]The CarController is notified when the Car is stopped, ask the LocationHelper if it is in a Safe Parking Area.
+	\item[-]If the Car sends the End Ride Request, the RideController will the end the Ride and ask the PaymentController to generate the Payment.
+\end{itemize}
+\item [G.11)]The User will always be notified when any Transaction is made on his Account.
+\begin{itemize}
+	\item[-]PaymentController when executes the transaction, asks the EmailHelper to send the User the Payment details.
+\end{itemize}
+\newpage
+\item [G.12)]Notify the Users that are currently using a Car of any available discounts on their ride if they abide by the 'Virtuous Behaviour Rules' and of the extra fee in case of not respecting the facilitation of the re-charging of the Car on site. These extra discounts/charges will be applied on the Total fee at the end of the ride.
+\begin{itemize}
+	\item[-]The CarComponent will present this options to the User.
+	\item[-]The RideController will calculate if any of them are applicable.
+	\item[-]CarController will check for Car passengers, battery state and if it is plugged in.
+	\item[-]LocationHelper will provide the Location for ReCharging Stations.
+\end{itemize}
+
+\item [G.13)]Users can activate the `Money Saving'a option on their Ride to be notified of any nearby Re-Charging station on their arrival destination. Leaving the car at the end of the ride at this station and plugging it will register as a 'Virtuous Behavior' and will apply and extra discount when charging the User.
+\begin{itemize}
+	\item[-]LocationHelper will search for the best ReCharging Stations considering a uniform distribution of parked cars and provide their Locations.
+	\item[-]CarController Screen will show this ReCharging Stations nearby to the User's final destination.
+\end{itemize}
+\item [G.14)]Users must have the option to contact a CRM at any moment, the System must provide a Customer Service area that offers a Chat feature within the App or a phone number.
+\begin{itemize}
+	\item[-]ChatService will provide this feature.
+\end{itemize}
+\end{description}
+
+\newpage
+\subsubsection{\textbf{CRM Requirements:}}
+\begin{description}
+\item [G.15)]CRM must be able to log in into the System and see a list of all the Cars available, reserved, in use or unavailable.
+\begin{itemize}
+	\item[-]SessionManager will send the LogIn Request to the CRM Controller to check correct credentials.
+\end{itemize}
+\item [G.16)]CRM has to be able to receive User Reports via chat or outside the app via phone call and be able to register it to the System.
+\begin{itemize}
+	\item[-]ChatService will find available CRM and contact it in cases of an User Request
+\end{itemize}
+\item [G.17)]CRM upon request form an User or any major cause can Reserve or cancel any active Reservation.
+\begin{itemize}
+	\item[-]ReservationController will provide different searchs for CRM Requests.
+	\item[-]A Reservation Cancelation Request can be sent from a CRM to the ReservationController.
+\end{itemize}
+\item [G.18)]CRM must be able to change the Status of a Car given a User Report and tag it, in case it's unavailable, if it's due to Re-Charge, Fix, or Removal.
+\begin{itemize}
+	\item[-]CarController will offer this option to CRMs.
+\end{itemize}
+\item [G.19)]Upon the completion of an User Report CRM must be able to apply extra fees or refund the payment to any User in case the situation demands it.
+\begin{itemize}
+	\item[-]UserReportController will allow the Creation of a User Report in the DB.
+	\item[-]If necessary the PaymentController will make a transaction linked with the User Report.
+\end{itemize}
+\end {description}
 
 \newpage
 \section{Effort Spent}
@@ -441,7 +485,7 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 	02/12/16& 5h & 2h & - \\ \hline
 	03/12/16& 2h & 4h & - \\ \hline
 	04/12/16& 2h & 4h & - \\ \hline
-	05/12/16& - & - & - \\ \hline
+	05/12/16& 2h & - & - \\ \hline
 	06/12/16& - & - & - \\ \hline
 	07/12/16& - & - & - \\ \hline
 	08/12/16& - & - & - \\ \hline
@@ -452,10 +496,7 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 \newpage
 
 \section{References}
-\newpage
-
-
-\section{Used Tools}
+\subsection{Used Tools}
 Keeping track of the Tools used during develop the DD document were:
 \begin{itemize}
 	\item \textbf{GitHub:} for Version Control
