@@ -117,7 +117,7 @@ The Database Server will belong to the Company and will allow registration of Us
 \newpage
 
 \subsection{High level components and their interaction}
-Following our Architecture we organize the High level components on the 3 Tiers. This overview shows the interaction between the components and the entities they represent inside the System. Clients will have their User and CRM Components, distributed as Interfaces and Web Pages for the Apps. Inside the Server through Servlets and Session Beans a Session Manager will provide the services to the clients by communicating with the respective Controllers. Based in the MVC patter Controllers will manage the data that will be viewed by the Client. Each Controller will manage and represent the System Entities previously explained in the RASD and will interface with a Persistent DataBase Connection to the DBMS. Helpers and Extra Feature Components are represented as well.
+Following our Architecture we organize the High level components on the 3 Tiers. This overview shows the interaction between the components and the entities they represent inside the System. Clients will have their User and CRM Components, distributed as Interfaces and Web Pages for the Apps. Inside the Server through Servlets and Session Beans a User and CRM Controllers will provide the services to the clients sending the requests with the respective Controllers. Based in the MVC pattern Controllers will manage the data that will be viewed by the Client. Each Controller will manage and represent the System Entities previously explained in the RASD and will interface with a Persistent DataBase Connection to the DBMS. Helpers and Extra Feature Components are represented as well.
 
 \begin{figure}[h]
 \centering
@@ -129,9 +129,9 @@ Following our Architecture we organize the High level components on the 3 Tiers.
 
 \subsection{Component View}
 \subsubsection{User Component}
-Represents the User in the Client Tier that translates user actions and send requests to the Session Manager Component, then presents the output to the User. Is composed of several pages that present different types of information. Implement the Service Requests for each Actor, Web Pages in Web Server and Mobile Application and will have to interface with the central Server Component.
+Represents the User in the Client Tier that translates user actions and send requests to the UserController Component, then presents the output to the User. Is composed of several pages that present different types of information. Implement the Service Requests for each Actor, Web Pages in Web Server and Mobile Application and will have to interface with the central Server Component.
 \subsubsection{CRM Component}
-The CRM in the Client Tier will access just via browser, web server to the System. Is composed of a different set of pages and the Session Manager provides different services to it.
+The CRM in the Client Tier will access just via browser, web server to the System. Is composed of a different set of pages that perform the requests to the CRM Controller.
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
@@ -146,9 +146,9 @@ Manages the Reservations made by Users, when a reservation is corfirmed, it will
 \subsubsection{Ride Controller}
 Manages the Active Rides. When a ride is finished, it creates a Payment using the Payment Controller.
 \subsubsection{Payment Controller}
-Implements the Logic to make a Payment or Transaction to a User Account, used by the Ride and the CRM Session Controllers.
+Implements the Logic to make a Payment or Transaction to a User Account, using a PaymentHelper to interface with Credit Card and online Payment. Used by the Ride and the User Report Controllers.
 \subsubsection{User Report Controller}
-Used by the CRM Session to generate User Reports.
+Used by the CRM Controller to generate User Reports.
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
@@ -156,15 +156,17 @@ Used by the CRM Session to generate User Reports.
 \caption {Entity Controllers}
 \vspace*{0.5cm}
 \end{figure}
-\subsubsection{Session Manager}
-The Session Manager is a Macro component. Will expose an API for User and CRM Clients. Will handle the main functionalities for them and will redirect requests to their respectve Controllers. Inside, the CRM and User Controllers will handle the CRM and User sessions respectively.
+\subsubsection{User Controller}
+Will handle the requests coming from the Users. Handle their Login, Registration and Session functionalities and redirect others to their respective controllers.
+\subsubsection{CRM Controller}
+Will handle the requests from CRMs. Similar to the UserController it will handle CRM Login and Session functionalities and redirect others to their respective controllers.
 \newline
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.87\textwidth]{SessionManagerComponent.png}}%
-\caption {Session Manager}
-\vspace*{0.5cm}
+\noindent\makebox[\textwidth]{\includegraphics[width=1.1\textwidth]{UserCRMControllers.png}}%
+\caption {User CRM Controllers}
+\vspace*{0.1cm}
 \end{figure}
 \subsubsection{Car Controller}
 Will manage Cars Status, Locations and interface to Cars to send them instructions.
@@ -220,7 +222,7 @@ A first proposal for the Deployment View shows our main components in their depl
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{UserComponentInterface.png}}%
-\vspace*{0.25cm}
+\vspace*{0.1cm}
 \end{figure}
 
 \subsubsection{Car Component}
@@ -228,7 +230,7 @@ A first proposal for the Deployment View shows our main components in their depl
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{CarInterface.png}}%
-\vspace*{0.25cm}
+\vspace*{0.1cm}
 \end{figure}
 
 \subsubsection{Reservation Controller}
@@ -236,7 +238,7 @@ A first proposal for the Deployment View shows our main components in their depl
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{ReservationInterface.png}}%
-\vspace*{0.25cm}
+\vspace*{0.1cm}
 \end{figure}
 \newpage
 
@@ -245,7 +247,7 @@ A first proposal for the Deployment View shows our main components in their depl
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{RideInterface.png}}%
-\vspace*{0.25cm}
+\vspace*{0.1cm}
 \end{figure}
 
 \subsubsection{Payment Controller}
@@ -253,7 +255,7 @@ A first proposal for the Deployment View shows our main components in their depl
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{PaymentInterface.png}}%
-\vspace*{0.25cm}
+\vspace*{0.1cm}
 \end{figure}
 
 \subsubsection{User Report Controller}
@@ -261,17 +263,26 @@ A first proposal for the Deployment View shows our main components in their depl
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{UserReportInterface.png}}%
-\vspace*{0.25cm}
+\vspace*{0.1cm}
 \end{figure}
 
 \newpage
-\subsubsection{Session Manager}
-Will Interface with the Clients and answer requests redirecting them to the corresponding Controller.
+\subsubsection{User Controller}
+Will Interface with the Users and answer requests redirecting them to the corresponding Controller.
 \begin{figure}[h]
 \centering
 \vspace*{\fill}
-\noindent\makebox[\textwidth]{\includegraphics[width=0.6\textwidth]{SessionInterface.png}}%
-\vspace*{0.25cm}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.6\textwidth]{UserInterface.png}}%
+\vspace*{0.1cm}
+\end{figure}
+
+\subsubsection{CRM Controller}
+Will Interface with the CRM and answer their requests.
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.6\textwidth]{CRMInterface.png}}%
+\vspace*{0.1cm}
 \end{figure}
 
 \subsubsection{Car Controller}
@@ -280,7 +291,7 @@ The Car Controller will interface directly to the Car so as well to communicate 
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{CarControllerInterface.png}}%
-\vspace*{0.25cm}
+\vspace*{0.1cm}
 \end{figure}
 
 \subsubsection{Location Helper}
@@ -289,7 +300,7 @@ Location Helper will Implement our Location search Algorithms. It will help the 
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.7\textwidth]{LocationInterface.png}}%
-\vspace*{0.25cm}
+\vspace*{0.1cm}
 \end{figure}
 
 \subsubsection{Chat Service}
@@ -297,7 +308,7 @@ Location Helper will Implement our Location search Algorithms. It will help the 
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{ChatInterface.png}}
-\vspace*{0.25cm}
+\vspace*{0.1cm}
 \end{figure}
 
 \subsubsection{Email Helper}
@@ -305,7 +316,7 @@ Location Helper will Implement our Location search Algorithms. It will help the 
 \centering
 \vspace*{\fill}
 \noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{EmailInterface.png}}%
-\vspace*{0.25cm}
+\vspace*{0.1cm}
 \end{figure}
 
 \subsection{Selected Architectural Styles and Patterns}
@@ -313,7 +324,7 @@ Location Helper will Implement our Location search Algorithms. It will help the 
 The 3 tier Architecture will be based in the MVC pattern as the Client represents the View, the Controllers will be implemented in the Application logic and the Model will be present in the Data Layer. This design allow us to present the data to our Users in a consistent and reliable way.
 \subsubsection{Client-Server Architecture}
 As the abstraction of our System is providing a service, the logical choice is to present the Client-Server model. The logic of our System implemented in our Servers and the Clients (Users and CRMs) will communicate with them to access our service. The simplicity and effectiveness of this model facilitates the deployment. Contrary to peer-to-peer 
-\newpage
+
 \subsubsection{Communication: REST, HTTPS, JDBC}
 \begin{itemize}
 \item Basing our communication patterns on REST will allow simplicity for the Client requests, mantaining persistence on our data, this helps keeping the communication stateless. 
@@ -374,34 +385,33 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 \begin{description}
 \item [G.1)]First-Time Users must be able to register to the System creating an Account. 
 \begin{itemize}
-	\item[-]SessionManager will answer for the Registration Request
-	\item[-]UserController will add the User Account in the DB.
+	\item[-]UserController will answer for the Registration Request andl add the User Account in the DB.
 	\item[-]EmailHelper will send the Email with the Password to the User Email.
 \end{itemize}
 \item [G.2)]Registered Users must be able to login to their Account at any time they want.
 \begin{itemize}
-	\item[-]SessionManager will allow the Login Request checking with the UserController for the correct credentials.
+	\item[-]UserController will allow the Login Request checking the DB for the correct credentials.
 \end{itemize}
 \item [G.3)]Users can save his/hers credentials in the System.
 \begin{itemize}
-	\item[-]UserComponent in the Client side can be set to send the LogIn request automatically to the SessionManager whenever the App is opened.
+	\item[-]UserComponent in the Client side can be set to send the LogIn request automatically to the UserController whenever the App is opened.
 \end{itemize}
 \item [G.4)]A Registered User will be able to make a Reservation of any available Car near his/her current location or from an address that she/he can specify.
 \begin{itemize}
-	\item[-]SessionManager will answer the Search Car Request sending it to the CarController.
+	\item[-]UserController will answer the Search Car Request sending it to the CarController.
 	\item[-]CarController will check all the available Cars and using the LocationHelper it will answer with the ones close to the User Location.
 	\item[-]A Reservation Request will be forwarded to the ReservationController that will create it and add it to the DB.
 \end{itemize}
 \item [G.5)]Users that have made a Reservation must be able to notify the System when they are nearby the Reserved Car so the System can unlock it.
 \begin{itemize}
-	\item[-]SessionManager will control with the LocationHelper if the User and Car Location match.
+	\item[-]UserController will control with the LocationHelper if the User and Car Location match.
 	\item[-]ReservationController will be asked to activate the Reservation.
 	\item[-]CarController will unlock the Car.	
 \end{itemize}
 \newpage
 \item [G.6)]A User that has made a Reservation must be able to cancel it before 1 hour starting from the time when the Reservation was made.
 \begin{itemize}
-	\item[-]SessionManager will forward the Reservation Cancelation request to the ReservationController.
+	\item[-]UserController will forward the Reservation Cancelation request to the ReservationController.
 \end{itemize}
 \item [G.7)]In case an User hasn't started using the Reserved Car at 45 minutes after the Reservation was made, he/she will be notified that either if the Reservation is not canceled or the Car is not used in 15 minutes, the Reservation will be automatically canceled and a 1 Euro fee will be charged to her/his Account.
 \begin{itemize}
@@ -413,7 +423,7 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 \end{itemize}
 \item [G.9)]The User must be able to know where the safe parking areas are nearby his/her current location or any address that she/he can specify.
 \begin{itemize}
-	\item[-]SessionManager using the LocationHelper will request for Safe Parking Areas new the User.
+	\item[-]UserController using the LocationHelper will request for Safe Parking Areas new the User.
 \end{itemize}
 \item [G.10)]Users must be able to finish their use of the Car when leaving it in a Safe Parking Area and exiting the car. The User will then be charged for the use of the service. The used Car will be locked and freed for Users to be reserved.
 \begin{itemize}
@@ -449,7 +459,7 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 \begin{description}
 \item [G.15)]CRM must be able to log in into the System and see a list of all the Cars available, reserved, in use or unavailable.
 \begin{itemize}
-	\item[-]SessionManager will send the LogIn Request to the CRM Controller to check correct credentials.
+	\item[-]CRMController will send the LogIn Request to the CRM Controller to check correct credentials.
 \end{itemize}
 \item [G.16)]CRM has to be able to receive User Reports via chat or outside the app via phone call and be able to register it to the System.
 \begin{itemize}
@@ -472,7 +482,17 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 \end {description}
 
 \newpage
-\section{Effort Spent}
+
+\section{References}
+\subsection{Used Tools}
+Keeping track of the Tools used during develop the DD document were:
+\begin{itemize}
+	\item \textbf{GitHub:} for Version Control
+	\item \textbf {Dia Diagram Editor:} for UML Diagrams
+	\item \textbf {TeXworks:} for LaTex editing of this Document
+\end{itemize}
+\newpage
+\subsection{Effort Spent}
 \begin{tabular}{ | l | l | l | l | }
 \hline
 	\textbf {Date} & \textbf {Domenico} & \textbf {Caio} & \textbf {Matheus} \\ \hline
@@ -493,16 +513,6 @@ For our User Interface (UI) we'll offer a mobile App for Users and a desktop web
 	10/12/16& - & - & - \\ \hline
 	11/12/16& - & - & - \\ \hline
 \end{tabular}
-\newpage
-
-\section{References}
-\subsection{Used Tools}
-Keeping track of the Tools used during develop the DD document were:
-\begin{itemize}
-	\item \textbf{GitHub:} for Version Control
-	\item \textbf {Dia Diagram Editor:} for UML Diagrams
-	\item \textbf {TeXworks:} for LaTex editing of this Document
-\end{itemize}
 \newpage
 
 \section{Changelog}
