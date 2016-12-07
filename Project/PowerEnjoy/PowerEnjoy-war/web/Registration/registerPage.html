@@ -9,8 +9,8 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Register Page</title>
-                <center id="logo"><a href="/PowerEnjoy-war"><img src="resources/powerEnjoyLogo.png" alt="logo" style="width:700px;height:240px;"/></a></center>
-        <link rel="stylesheet" href="styles/main.css" media="screen">
+                <center id="logo"><a href="/PowerEnjoy-war"><img src="../resources/powerEnjoyLogo.png" alt="logo" style="width:700px;height:240px;"/></a></center>
+        <link rel="stylesheet" href="../styles/main.css" media="screen">
     </head>                          
     <body bgcolor="#006FF1">
 
@@ -28,7 +28,7 @@ and open the template in the editor.
             <tr>
             <td>
                 <memberfield> Username </memberfield><br>
-                <input type="text" placeholder="username" name="username"size="35">
+                <input type="text" placeholder="username" name="username"size="35" value=${username}>
             </td>
             <td>
             </td>
@@ -41,7 +41,7 @@ and open the template in the editor.
             <tr>
             <td>
                 <memberfield> E-Mail </memberfield><br>
-                <input type="text" placeholder="name@example.com"name="email"size="35">
+                <input type="text" placeholder="name@example.com"name="email"size="35" value=${email}>
             </td>
             <td>
             </td>
@@ -53,19 +53,19 @@ and open the template in the editor.
             <tr>
             <td> 
                 <memberfield> Confirm E-mail </memberfield><br>
-                <input type="text" placeholder="name@example.com" name="repeatEmail"size="35">   
+                <input type="text" placeholder="name@example.com" name="repeatEmail"size="35" value=${repeatemail}>   
             </td> 
             </tr>
             <tr>
             <td> 
                 <memberfield> License Number </memberfield><br>
-                <input type="text" placeholder="ex. RM6895245Y" name="licenseNumber"size="35">   
+                <input type="text" placeholder="ex. RM6895245Y" name="licenseNumber"size="35" value=${licenseNumber}>   
             </td> 
             </tr>
             <tr>
             <td> 
                 <memberfield> Payment Info </memberfield><br>
-                <input type="number" placeholder="credit card number" name="paymentInfo"size="35">  
+                <input type="text" placeholder="credit card number" name="paymentInfo"size="35" value=${paymentInfo}> 
             </td> 
             </tr>            
             </table>

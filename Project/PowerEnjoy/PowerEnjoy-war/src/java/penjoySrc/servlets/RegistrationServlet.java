@@ -17,11 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import penjoy.ejb.user.RegistrationBean;
-import penjoy.ejb.user.UserFacade;
 import penjoySrc.utils.EmailHelper;
+import penjoySrc.utils.StringValidator;
 import penjoy.utils.PasswordHelper;
-
-import java.io.PrintWriter;
 
 /**
  *
@@ -36,7 +34,6 @@ public class RegistrationServlet extends HttpServlet {
     private String m_pass;
     @EJB
     private RegistrationBean m_registrationBean;
-    //private UserFacade m_userfacade;
 
     public void init() {
         // reads SMTP server setting from web.xml file
@@ -66,16 +63,14 @@ public class RegistrationServlet extends HttpServlet {
 
         request.setAttribute("username", username);
         request.setAttribute("email", email);
+        request.setAttribute("repeatEmail", repeatEmail);
         request.setAttribute("licenseNumber", licenseNumber);
         request.setAttribute("paymentInfo", paymentInfo);
 
-        if (true) { //Check fields JSP
+        //Validate Fields (Server side)
+        if (validateFields(request, username, email, licenseNumber, paymentInfo)) {
+
             String password = PasswordHelper.generatePassword();
-            /*int i = -1;
-            if(m_userfacade.findAll() != null)
-            {
-                i = m_userfacade.findAll().size();
-            }*/
             //Registrate User
             if (m_registrationBean.registerUser(username, password, email, licenseNumber, paymentInfo) != null) {
                 //Send Password
@@ -84,23 +79,15 @@ public class RegistrationServlet extends HttpServlet {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } finally {
-                    getServletContext().getRequestDispatcher("/jsp/registrationResult.jsp").forward(request, response);
+                    getServletContext().getRequestDispatcher("/Registration/registrationSuccess.jsp").forward(request, response);
                 }
+            } else {
+                //Error User Not Registered
+                getServletContext().getRequestDispatcher("/errorPage.html").forward(request, response);
             }
-            PrintWriter out = response.getWriter();
-            out.println(
-                    "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" +"
-                    + "http://www.w3.org/TR/html4/loose.dtd\">\n"
-                    + "<html> \n"
-                    + "<head> \n"
-                    + "<title> Crunchify.com JSP Servlet Example  </title> \n"
-                    + "</head> \n"
-                    + "<body> <div align='center'> \n"
-                    + "<style= \"font-size=\"12px\" color='black'\"" + "\">"
-                    + "Users: " + password + " <br> "
-                    + "</font></body> \n"
-                    + "</html>"
-            );
+        } else {
+            //Error Fields not Valid
+            getServletContext().getRequestDispatcher("/jsp/registerPage.jsp").forward(request, response);
         }
     }
 
@@ -145,4 +132,28 @@ public class RegistrationServlet extends HttpServlet {
         return "Servlet for User Registration";
     }// </editor-fold>
 
+    private boolean validateFields(HttpServletRequest request, String username, String email, String licenseNumber, String paymentInfo) {
+        StringValidator validator = new StringValidator();
+        if (!validator.validateUsername(username)) {
+            request.setAttribute("usernameVal", "Username must be 4-32 characters long and use [a-z_0-9]");
+            return false;
+        }
+        if (!m_registrationBean.isUserNameFree(username)) {
+            request.setAttribute("usernameVal", "Username already in use");
+            return false;
+        }
+        if (!validator.validateEmail(email)) {
+            request.setAttribute("emailVal", "Email not Valid. Use the format name@example.com");
+            return false;
+        }
+        if (!validator.validateLicense(licenseNumber)) {
+            request.setAttribute("licenseVal", "License format not Valid. Must be RM1234567Y");
+            return false;
+        }
+        if (!validator.validatePayment(paymentInfo)) {
+            request.setAttribute("paymentVal", "Credit Card number is not Valid. At least 15 numbers");
+            return false;
+        }
+        return true;
+    }
 }

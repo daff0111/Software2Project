@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
     , @NamedQuery(name = "User.findByLicense", query = "SELECT u FROM User u WHERE u.license = :license")
     , @NamedQuery(name = "User.findByPaymentinfo", query = "SELECT u FROM User u WHERE u.paymentinfo = :paymentinfo")
-    , @NamedQuery(name = "User.findByLoggedin", query = "SELECT u FROM User u WHERE u.loggedin = :loggedin")})
+    , @NamedQuery(name = "User.findByLoggedin", query = "SELECT u FROM User u WHERE u.loggedin = :loggedin")
+    , @NamedQuery(name = "User.findByUsernameAndPassword", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password")})
 
 public class User implements Serializable {
 

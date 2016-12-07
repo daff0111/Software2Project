@@ -6,12 +6,16 @@
 package penjoySrc.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import penjoy.ejb.user.LogInBean;
+import penjoy.utils.PasswordHelper;
 
 /**
  *
@@ -19,6 +23,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "loginServlet", urlPatterns = {"/loginServlet"})
 public class LoginServlet extends HttpServlet {
+
+    @EJB
+    private LogInBean m_loginBean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,33 +39,24 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        String password = request.getParameter("password");  
-        
-        request.getSession().setAttribute(username,username);
-        request.getSession().setAttribute(password,password);
+        String password = request.getParameter("password");
 
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Login Servlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1> Servlet loginServlet at " + request.getContextPath() + "</h1>");
-            if(password == null || username == null || password.isEmpty() || username.isEmpty())
-            {   
-                out.println("Error! User or Password Invalid <br>");
-            }
-            else
-            {
-                out.println("Login Successfull <br>");
-                out.println("User: "+username+"<br>");
-                out.println("Password: "+password+"<br>");
-                out.println("</body>");
-                out.println("</html>");
-            }
+        String hashedPassword = PasswordHelper.hashPassword(password);
 
+        request.setAttribute("username", username);
+        request.setAttribute("password", hashedPassword);
+
+        if (m_loginBean.checkLogin(username, hashedPassword)) {
+            //Initiate Session
+            if (m_loginBean.LogIn(username)) {
+                request.setAttribute("loggedIn", "true");
+                getServletContext().getRequestDispatcher("/mainPage.html").forward(request, response);
+            } else {
+                getServletContext().getRequestDispatcher("/errorPage.html").forward(request, response);
+            }
+        } else {
+            request.setAttribute("usernameVal", "Username or Password Invalid");
+            getServletContext().getRequestDispatcher("/jsp/userLoginPage.jsp").forward(request, response);
         }
     }
 

@@ -44,6 +44,7 @@ input[type=button]:hover {
 } 
 
 /*Font Styles*/
+a{text-decoration: none;}
 yellow{
     color: #FFD11A; 
     font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; 
@@ -56,6 +57,11 @@ white{
 }
 comment{
     color: #FFFFFF; 
+    font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; 
+    font-size: 12px; font-style: italic;
+}
+validationerror{
+    color: #FFD11A; 
     font:2.4em Futura, ‘Century Gothic’, AppleGothic, sans-serif; 
     font-size: 12px; font-style: italic;
 }

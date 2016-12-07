@@ -33,12 +33,9 @@ public class RegistrationBean {
     public User registerUser(String username, String password, String email, String licenseNumber, String paymentInfo) {
         m_userFactory = Persistence.createEntityManagerFactory("User");
         EntityManager em = m_userFactory.createEntityManager();
-        /*Query q = em.createQuery("SELECT newUser FROM User newUser WHERE newUser.username = :username");
-        q.setParameter("username", username);
-        if (q.getSingleResult() != null) {
-            return null;
-        } else {*/
+        //Hash User Password
         String hashedPassword = PasswordHelper.hashPassword(password);
+        //Create new User Entity
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setPassword(hashedPassword);
@@ -47,14 +44,6 @@ public class RegistrationBean {
         newUser.setPaymentinfo(paymentInfo);
         newUser.setLoggedin(false);
         
-                    //Test write users in console
-            Query q = em.createNamedQuery("User.findAll");
-            List<User> userList = q.getResultList();
-            for (User user : userList) {
-                user.showFields();
-            }
-            System.out.println("Size: " + userList.size());
-            System.out.println(PasswordHelper.hashPassword("admin"));
         //Database Validation Check
         if (validateUser(newUser)) {
             //Register new User in the DB
@@ -67,6 +56,17 @@ public class RegistrationBean {
         return null;
     }
     
+    //Check if username is not in use
+    public boolean isUserNameFree(String username)
+    {
+        m_userFactory = Persistence.createEntityManagerFactory("User");
+        EntityManager em = m_userFactory.createEntityManager();
+        Query q = em.createNamedQuery("User.findByUsername");
+        q.setParameter("username", username);
+        return q.getResultList().isEmpty();
+    }
+    
+    //Check if the User violates any DB Constraints
     private boolean validateUser(User newUser)
     {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -80,8 +80,7 @@ public class RegistrationBean {
             }
             newUser.showFields();
             return false;
-        }
-        
+        }        
         return true;
     }
 }

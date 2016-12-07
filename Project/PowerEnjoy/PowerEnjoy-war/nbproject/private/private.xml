@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Domenico/Desktop/Software2Project/PowerEnjoy/PowerEnjoy-war/web/index_1.html</file>
-            <file>file:/C:/Users/Domenico/Desktop/Software2Project/PowerEnjoy/PowerEnjoy-war/web/registerPage.html</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/web/jsp/crmLoginPage.jsp</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/web/jsp/registerPage.jsp</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/src/java/penjoySrc/servlets/RegistrationServlet.java</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/src/java/penjoySrc/utils/StringValidator.java</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/src/java/penjoySrc/utils/WebSessionManager.java</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/src/java/penjoySrc/servlets/LoginServlet.java</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/web/styles/main.css</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/web/Registration/registerPage.html</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/web/Registration/registrationSuccess.html</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/src/java/penjoySrc/utils/EmailHelper.java</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/web/jsp/userLoginPage.jsp</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/web/index.html</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/web/errorPage.html</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-war/web/mainPage.html</file>
         </group>
     </open-files>
 </project-private>
