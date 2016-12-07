@@ -2,7 +2,9 @@
 
 %% Useful packages
 \usepackage{amsmath}
-\usepackage{graphicx}
+\usepackage{graphicx}	
+\usepackage{algpseudocode}
+\usepackage{algorithm}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=black]{hyperref}
 \usepackage[fontsize=11pt]{scrextend}
@@ -337,6 +339,152 @@ As the abstraction of our System is providing a service, the logical choice is t
 
 \newpage
 \section{Algorithm Design}
+\subsection{Making new Reservation}
+
+Although this is not a complex algorithm, it is one of the main in the car sharing system. The goal in describing this is to rule out the other possibilities of implementation, in order to set the way smaller functions, that depend on the car reservation to operate, will handle their own tasks. The model that will be shown here has already been tested in the RASD file and was proved solid. \newline
+Until the proper function is called the user will have to make a few steps:
+\begin{itemize} 
+\item From the home screen, the user will select a car near his position or near the address he/she entered.
+\item  When a car is selected the user will see relevant information of the car, to help him decide whether or not make the reservation.
+\item After the user has select the car and confirmed the reservation the algorithm that will be displayed is called.
+\end{itemize}
+\begin{figure}[h]
+\centering
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.5\textwidth]{CAR_RESERV.png}}%
+\caption {Fluxogram for making a new reservation. "Cancel" steps were omitted but are possible every time.}
+\vspace*{0.2cm}
+\end{figure}
+
+\begin{algorithm}
+\caption{Making a new Reservation}\label{MakeReserv}
+\begin{algorithmic}[1]
+\Procedure{MakeReserv}{$Car, Account, ListOfReservations, listOfAvailableCars$}
+
+\Comment{no user or car in two reservations }
+\If{$Account \vee Car \subseteq ListOfReservations$}
+	\State ShowErrorMessage
+\Else
+\State $Reservation \leftarrow CreateReserv(Car, Account)$ \Comment Sets the variables for the data structure
+\State $ListOfReservations \leftarrow ListOfReservation + Reservation$
+\State $listOfAvailableCars \leftarrow listOfAvailableCars - Car$
+\State CounterTrigger($Reservation$) \Comment Starts Counter
+\EndIf
+\State \textbf{return} 
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+The counter will work with interruptions. We have three main fases:
+\begin{itemize} 
+\item User picks up the car in time, counter is ended. 
+\item 45 minutes has passed, notification is sent to the user.
+\item 1 hour is reached and user is billed.
+\end{itemize}
+
+\begin{algorithm}[H]
+\caption{Counter Trigger}\label{Counter}
+\begin{algorithmic}[1]
+\Procedure{Counter}{$Reservation$}
+
+\Comment Different interruptions will trigger different parts of the function
+
+\If {$45Min == TRUE$} \Comment time to issue a warning
+	\State ShowWarning
+	\State Wait \Comment system sleep
+\EndIf
+
+
+\If {$TimeFinished == TRUE$} \Comment 1 hour has passed
+	\State ShowWarning
+	\State $Ride \leftarrow createRide(Reservation)$
+	\State $Ride.notPickUp \leftarrow 1$ 
+	\State FeeCalc($Ride$) \Comment bill the user for not picking up
+	\State \textbf{return}
+\EndIf
+
+\If {$PickUp == TRUE$} \Comment User nearby the car
+	\State $StartRide(Reservation)$ \Comment unlock the car, take off reservation list and put on rides list
+	\State \textbf{return}
+\EndIf
+ 
+\State Wait \Comment system is put to sleep
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Calculating the fee}
+This algorithm will be called when the car controller pass the signal that the engine is off, the car is parked in a safe area and the user is outside the car. \newline
+The amount to be paid is calculated primarily based on the time of usage of the car and then extended for the virtuous behavior rules that add or subtract a percentage of the total amount. 
+ These rules are:
+\begin{itemize} 
+\item  if the system detects the user took at least two other passengers for more than 50\% of the trip a discount of 10\% will be applied.
+\item if the car is left with no more than 50\% of the battery empty, the system applies a discount of 20\%.
+\item if the car is left more than 3km from the nearest power grid or with more than 80\% of the battery empty, the system charges 30\% more.
+\item if a car is left at special parking areas and the user takes care of plugging the car into the power grid, the system applies 30\% discount.
+\end{itemize}
+If the user parks in a special parking area, where he can plug the car into a power grid, the closing of the invoice will be delayed in five minutes, in order to give time for the user to plug the car and receive the discount. 
+
+\begin{algorithm}[H]
+\caption{Part 1: Fee calculator}\label{Calc}
+\begin{algorithmic}[1]
+\Procedure{FeeCalc}{$Ride$}
+
+\If {$Ride.notPickUp == TRUE$} 
+	\State $Ride.Total \leftarrow 1$ \Comment 1 euro fee
+	\State $Ride.Active \leftarrow FALSE$ \Comment Boolean
+	\State $MarkCarAsActive(Ride.Car)$ \Comment car will be available again
+	\State $PaymentHelper(Ride)$  \Comment Will charge the user
+	\State $EmailHelper(Ride)$ \Comment Sent the invoice by e-mail 
+\State
+\Else
+	\State $timeRide \leftarrow Ride.TimeOfDropOff - Ride.TimeOfPickUp$ \Comment Time is in minutes
+	\State $timeFee \leftarrow timeRide * pricePerMin$
+	\State
+	\If {$Ride.PassengerDisc == TRUE$}
+		\State $Disc \leftarrow Disc - 0.10$ \Comment Disc is initialized as 1
+	\EndIf
+	\State
+	\If {$Ride.BatteryDisc == TRUE$}
+		\State $Disc \leftarrow Disc - 0.20$
+	\EndIf
+	\State
+	\If{$Ride.RecharginStationDisc == TRUE$}
+		\State $Start5MinCounter()$ \Comment the user will be given 5 minutes to plug the car
+		\If{$Ride.Car.plug == TRUE$}
+			\State $Disc \leftarrow Disc - 0.30$
+		\EndIf
+	\EndIf
+\algstore{break}
+\end{algorithmic}
+\end{algorithm}
+This algorithm was divided in two parts:  In the first the "not picking up the car" condition is evaluated, the time fee is calculated and the discounts are added; In the second it is evaluated the bad usage of the car and the bills are charged.
+\begin{algorithm}[H]
+\caption{Part 2: Fee calculator}
+\begin{algorithmic}[1]
+\algrestore{break}
+\State $EvaluateHarshConditions(Ride)$ \Comment Check if the car is more than 3 km of the nearest plug or it's with less then 20\% of battery 
+	\State
+	\If{$Ride.HarshConditionsFee == 1$}  \Comment User is charged extra for the trouble of recharging onspot 
+		\State $Disc \leftarrow Disc + 0.30$ 
+		\State $SignalizeCrm(Ride)$ \Comment Send message to crm crew that the car needs special attention
+		\State $Total \leftarrow timeFee * Disc$  
+		\State $PaymentHelper(Ride)$ 
+		\State $EmailHelper(Ride)$ 
+		\State \textbf{return}
+	\EndIf
+	\State
+	\State $Ride.Total \leftarrow TimeFee * Disc$
+	\State $PaymentHelper(Ride)$ 
+	\State $EmailHelper(Ride)$
+	\State $MarkCarAsActive(Ride.Car)$
+	\State \textbf{return}
+ \EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Money-Saving}
 
 \newpage
 \section{User Interface Design}
