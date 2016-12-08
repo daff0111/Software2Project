@@ -485,6 +485,82 @@ This algorithm was divided in two parts:  In the first the "not picking up the c
 \end{algorithm}
 
 \subsection{Money-Saving}
+When the money-saving option is enabled the system will suggest a power grid for the user to go in order to receive a discount. The algorithm for choosing the best place to send the user will take into account:
+\begin{itemize} 
+\item  The destination of the user, as no station within more than 1km will be suggested. In case there are no stations inside the 1 km radius, the system will apologize and show the nearest one. 
+\item The suggestion will check if there are power plugs available in the location. In case they become unavailable after the start of the ride, the user will still receive the discount, as it is impossible to predict.
+\item The algorithm will take in consideration the uniform distribution of the cars in the city.
+\end{itemize}
+The uniform distribution can be implemented in various different ways. As in the real world problem, it is impossible to have a uniform distribution (every point of the city has the same probability of having a car). But what can be done is to calculate the standard deviation for all the possible points and choose the destination that will increase it the most, as this means that the dispersion of the cars among the city are being broadened. And thus, staying a bit closer of the uniform distribution. \newline
+As would be slow to calculate correctly the standard deviation every time, samples with a percentage of randomly chosen cars will be used instead.
+
+\begin{algorithm}[H]
+\caption{Money-Saving}\label{Money}
+\begin{algorithmic}[1]
+\Procedure{MoneySaving}{$Address, listOfAvailableCars$}
+
+\State $Candidates \leftarrow PossiblePowerGrids(Address)$ \Comment will look for power grids within 1km of distance, returns a list
+
+\If {$Candidates == EMPTY$} 
+	\State $Suggest \leftarrow SearchPowerGrid(Address)$ \Comment return nearest Available power grid
+	
+	\State \textbf{return $Suggest$}
+
+\Else 
+	\State $Suggest \leftarrow StdDeviation(Candidates, listOfAvailableCars)$ \Comment calculate and return the best
+\EndIf
+
+\State \textbf{return $Suggest$}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+For the standard deviation, the correct formula would be: \\
+\begin{math}
+\sqrt[2]{\dfrac{\sum((x - \overline{x})^2 + (y - \overline{y})^2 )} {n-1}}
+\end{math}  \\
+But, as what is important for the decision is only the difference between the values, it's possible to notice in the following algorithm that the formula was simplified.
+
+
+\begin{algorithm}[H]
+\caption{Standard Deviation}\label{Std}
+\begin{algorithmic}[1]
+\Procedure{StdDeviation}{$Candidates, listOfAvailableCars$}
+\Comment Candidates is a list of all possible locations
+\State
+\State $sampleSet \leftarrow ChooseCars(listOfAvailableCars)$ \Comment return a ramdom sample 2d-array with a fixed  number of locations.
+\State
+\For{$loc$  \textbf{in} $sampleSet$}
+	\State$mean_x \leftarrow mean_x + loc.x$
+	\State $mean_y \leftarrow mean_y + loc.y$
+\EndFor
+\State \Comment still needs to divide by the number of elements in the sampleSet
+\State $mean_x \leftarrow mean_x \div |sampleSet|$ 
+\State $mean_y \leftarrow mean_y \div |sampleSet|$
+\State
+\For{$Item$  \textbf{in} $ Candidates$}
+	\State $sampleSet \leftarrow sampleSet + Item$
+	\State
+	\For {$loc$ \textbf{in} $sampleSet$}
+		\State $deviation \leftarrow deviation + ((loc.x - mean_x)^2  + (loc.y - mean_y)^2)$ \Comment only the part that matters from the formula is used
+	\EndFor
+	\State
+	\State $sampleSet \leftarrow sampleSet - Item$
+	\State $deviation \leftarrow 0$
+	\State
+	\State \Comment savedDaviation starts with negative infinite
+	\If {$deviation > savedDeviation $} 
+		\State $ savedDeviation \leftarrow deviation$
+		\State $Suggest \leftarrow Item$
+	\EndIf		
+\EndFor
+
+\State \textbf{return $Suggest$}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
 
 \newpage
 \section{User Interface Design}
@@ -647,17 +723,17 @@ Keeping track of the Tools used during develop the DD document were:
 	\textbf {Date} & \textbf {Domenico} & \textbf {Caio} & \textbf {Matheus} \\ \hline
 	27/11/16& 1h & 1h & 1h  \\ \hline
 	28/11/16& 2h & - & - \\ \hline
-	29/11/16& 2h & - & - \\ \hline
-	30/11/16& 3h & - & - \\ \hline
-	31/11/16& 1h & - & - \\ \hline
+	29/11/16& 2h & - & 2h\\ \hline
+	30/11/16& 3h & - & 1h\\ \hline
+	31/11/16& 1h & - & 2h\\ \hline
 	01/12/16& - & 1h & - \\ \hline
 	02/12/16& 5h & 2h & - \\ \hline
 	03/12/16& 2h & 4h & - \\ \hline
 	04/12/16& 2h & 4h & - \\ \hline
 	05/12/16& 3h & - & - \\ \hline
 	06/12/16& - & - & - \\ \hline
-	07/12/16& - & - & - \\ \hline
-	08/12/16& - & - & - \\ \hline
+	07/12/16& - & - & 8h\\ \hline
+	08/12/16& - & - & 6h\\ \hline
 	09/12/16& - & - & - \\ \hline
 	10/12/16& - & - & - \\ \hline
 	11/12/16& - & - & - \\ \hline
