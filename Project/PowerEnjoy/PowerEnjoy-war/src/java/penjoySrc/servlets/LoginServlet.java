@@ -10,9 +10,9 @@ import javax.ejb.EJB;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import penjoy.ejb.user.LogInBean;
 import penjoy.utils.PasswordHelper;
@@ -22,7 +22,7 @@ import penjoy.utils.PasswordHelper;
  * @author Domenico
  */
 @WebServlet(name = "loginServlet", urlPatterns = {"/loginServlet"})
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends BaseServlet {
 
     @EJB
     private LogInBean m_loginBean;
@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processLogin(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -47,34 +47,34 @@ public class LoginServlet extends HttpServlet {
         request.setAttribute("password", hashedPassword);
 
         if (m_loginBean.checkLogin(username, hashedPassword)) {
+            Long Id = m_loginBean.getUserId(username);
             //Initiate Session
-            if (m_loginBean.LogIn(username)) {
-                request.setAttribute("loggedIn", "true");
-                getServletContext().getRequestDispatcher("/mainPage.html").forward(request, response);
+            if (m_loginBean.LogIn(Id)) {
+                request.login("User", "penjoy_userpwd");
+                createSession(Id, username, request, response); 
+                System.out.println("Loggin In ["+username+"]...");
+                response.sendRedirect("/PowerEnjoy-war/MainPage");
+                //getServletContext().getRequestDispatcher("/PowerEnjoy-war/MainPageServlet").forward(request, response);
             } else {
+                System.err.println("Could not Log In User");
                 getServletContext().getRequestDispatcher("/errorPage.html").forward(request, response);
             }
         } else {
             request.setAttribute("usernameVal", "Username or Password Invalid");
-            getServletContext().getRequestDispatcher("/jsp/userLoginPage.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/Login/userLoginPage.jsp").forward(request, response);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    private void createSession(Long Id, String username, HttpServletRequest request, HttpServletResponse response) {
+        //create Session
+        HttpSession session = request.getSession(true);
+        // store the boolean value to the session
+        session.setAttribute("authentication", true);
+        session.setAttribute("username", username);
+        session.setAttribute("id", Id);
     }
 
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -86,7 +86,14 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        if (!sessionCheck(request, response)) {
+            processLogin(request, response);
+        }
+        else
+        {
+            response.sendRedirect("/PowerEnjoy-war/MainPage");
+            //getServletContext().getRequestDispatcher("/PowerEnjoy-war/MainPageServlet").forward(request, response);
+        }
     }
 
     /**
@@ -96,7 +103,7 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "LogIn Servlet";
     }// </editor-fold>
 
 }

@@ -12,7 +12,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,7 +25,7 @@ import penjoy.utils.PasswordHelper;
  * @author Domenico
  */
 @WebServlet(name = "registrationServlet", urlPatterns = {"/registrationServlet"})
-public class RegistrationServlet extends HttpServlet {
+public class RegistrationServlet extends BaseServlet {
 
     private String m_host;
     private String m_port;
@@ -79,33 +78,21 @@ public class RegistrationServlet extends HttpServlet {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } finally {
-                    getServletContext().getRequestDispatcher("/Registration/registrationSuccess.jsp").forward(request, response);
+                    System.err.println("User ["+username+"] Registered");
+                    getServletContext().getRequestDispatcher("/Login/registrationSuccess.jsp").forward(request, response);
                 }
             } else {
                 //Error User Not Registered
+                System.err.println("Could not Register User");
                 getServletContext().getRequestDispatcher("/errorPage.html").forward(request, response);
             }
         } else {
             //Error Fields not Valid
-            getServletContext().getRequestDispatcher("/jsp/registerPage.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/Login/registerPage.jsp").forward(request, response);
         }
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //request.getSession(true);
-        //processRegistration(request, response);
-    }
 
     /**
      * Handles the HTTP <code>POST</code> method.

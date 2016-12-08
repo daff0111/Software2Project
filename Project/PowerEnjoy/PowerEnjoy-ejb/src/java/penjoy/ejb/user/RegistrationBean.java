@@ -31,7 +31,7 @@ public class RegistrationBean {
     private EntityManagerFactory m_userFactory;
 
     public User registerUser(String username, String password, String email, String licenseNumber, String paymentInfo) {
-        m_userFactory = Persistence.createEntityManagerFactory("User");
+        m_userFactory = Persistence.createEntityManagerFactory("PUnit");
         EntityManager em = m_userFactory.createEntityManager();
         //Hash User Password
         String hashedPassword = PasswordHelper.hashPassword(password);
@@ -43,32 +43,33 @@ public class RegistrationBean {
         newUser.setLicense(licenseNumber);
         newUser.setPaymentinfo(paymentInfo);
         newUser.setLoggedin(false);
-        
+
         //Database Validation Check
         if (validateUser(newUser)) {
             //Register new User in the DB
             em.getTransaction().begin();
             em.persist(newUser);
-            em.getTransaction().commit();            
+            em.getTransaction().commit();
             em.close();
             return newUser;
         }
+        em.close();
         return null;
     }
-    
+
     //Check if username is not in use
-    public boolean isUserNameFree(String username)
-    {
-        m_userFactory = Persistence.createEntityManagerFactory("User");
+    public boolean isUserNameFree(String username) {
+        m_userFactory = Persistence.createEntityManagerFactory("PUnit");
         EntityManager em = m_userFactory.createEntityManager();
         Query q = em.createNamedQuery("User.findByUsername");
         q.setParameter("username", username);
-        return q.getResultList().isEmpty();
+        boolean isFree = q.getResultList().isEmpty();
+        em.close();
+        return isFree;
     }
-    
+
     //Check if the User violates any DB Constraints
-    private boolean validateUser(User newUser)
-    {
+    private boolean validateUser(User newUser) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<User>> constraintViolations = validator.validate(newUser);
@@ -80,8 +81,7 @@ public class RegistrationBean {
             }
             newUser.showFields();
             return false;
-        }        
+        }
         return true;
     }
 }
-

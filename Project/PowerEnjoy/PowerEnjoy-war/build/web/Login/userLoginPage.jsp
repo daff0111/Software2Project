@@ -8,6 +8,9 @@
 <!DOCTYPE html>
 <%! private Object m_userValid;%>
 <%
+    if (session.getAttribute("authentication") != null && session.getAttribute("authentication").equals(true)) {
+        response.sendRedirect("/PowerEnjoy-war/MainPage");
+    }
     m_userValid = request.getAttribute("usernameVal");
 %>
 <html>
@@ -23,7 +26,7 @@
     <white>User</white><br><br>
     <!--Login Body-->
     <div class="login">
-        <form method ="post" onsubmit="return validateFields()" action="/PowerEnjoy-war/LoginServlet" name ="login">
+        <form method ="post" onsubmit="return validateFields()" action="/PowerEnjoy-war/Login" name ="login">
             <%
                 if (m_userValid != null) {
                     out.print("<validationerror>" + m_userValid.toString() + "</validationerror><br>");
@@ -32,7 +35,7 @@
             <input type="text" placeholder="username" name="username" size="20"><br><br>
             <input type="password" placeholder="password" name="password"size="20"><br><br>
             <input type="submit" value="Login">&nbsp;
-            <a href="registerPage.jsp">
+            <a href="http://localhost:8080/PowerEnjoy-war/Login/registerPage.jsp">
                 <input type="button" value="Register">
             </a>
             <script type="text/javascript">

@@ -4,8 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-ejb/src/java/penjoy/ejb/user/User.java</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-ejb/src/java/penjoy/ejb/car/CarSearchBean.java</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-ejb/src/conf/persistence.xml</file>
             <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-ejb/src/java/penjoy/ejb/user/RegistrationBean.java</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-ejb/src/java/penjoy/ejb/car/Car.java</file>
             <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-ejb/src/java/penjoy/ejb/user/LogInBean.java</file>
+            <file>file:/C:/Users/Domenico/Desktop/Software2Project/Project/PowerEnjoy/PowerEnjoy-ejb/src/java/penjoy/ejb/user/UserFacade.java</file>
         </group>
     </open-files>
 </project-private>

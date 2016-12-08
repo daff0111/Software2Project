@@ -16,6 +16,12 @@
     m_licenseValid = request.getAttribute("licenseVal");
     m_paymentValid = request.getAttribute("paymentVal");
 %>
+<%
+    if (session.getAttribute("authentication") != null && session.getAttribute("authentication").equals(true)) {
+        response.sendRedirect("/PowerEnjoy-war/MainPage");
+    }
+%>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,7 +35,7 @@
     <yellow>Welcome!</yellow> <white>To PowerEnjoy.</white><br>
     <!--Registration Body-->
     <div class="register">
-        <form method ="post" onsubmit="return validateFields()" action="/PowerEnjoy-war/RegistrationServlet" name ="registration">
+        <form method ="post" onsubmit="return validateFields()" action="/PowerEnjoy-war/Registration" name ="registration">
             <table border="0">
                 <tr>
                     <td>

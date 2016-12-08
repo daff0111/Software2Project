@@ -79,3 +79,7 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+#map {
+    height: 500px;
+    width: 100%;
+}

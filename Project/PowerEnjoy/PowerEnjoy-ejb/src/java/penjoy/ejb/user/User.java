@@ -29,12 +29,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
     , @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id")
-    , @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username")
+    , @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE CAST(u.username AS BINARY) = :username")
     , @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
     , @NamedQuery(name = "User.findByLicense", query = "SELECT u FROM User u WHERE u.license = :license")
     , @NamedQuery(name = "User.findByPaymentinfo", query = "SELECT u FROM User u WHERE u.paymentinfo = :paymentinfo")
     , @NamedQuery(name = "User.findByLoggedin", query = "SELECT u FROM User u WHERE u.loggedin = :loggedin")
-    , @NamedQuery(name = "User.findByUsernameAndPassword", query = "SELECT u FROM User u WHERE u.username = :username AND u.password = :password")})
+    , @NamedQuery(name = "User.findByUsernameAndPassword", query = "SELECT u FROM User u WHERE CAST(u.username AS BINARY) = :username AND u.password = :password")})
 
 public class User implements Serializable {
 

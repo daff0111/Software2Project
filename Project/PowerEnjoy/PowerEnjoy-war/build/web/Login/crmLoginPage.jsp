@@ -23,7 +23,7 @@
     <white>CRM</white><br><br>
     <!--Login Body-->
     <div class="login">
-        <form method ="post" onsubmit="return validateFields()" action="/PowerEnjoy-war/CRMLoginServlet" name ="login">
+        <form method ="post" onsubmit="return validateFields()" action="/PowerEnjoy-war/CRMLogin" name ="login">
             <%
                 if (m_userValid != null) {
                     out.print("<validationerror>" + m_userValid.toString() + "</validationerror><br>");
