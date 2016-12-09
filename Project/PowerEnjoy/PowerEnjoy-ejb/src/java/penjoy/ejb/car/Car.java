@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import penjoy.utils.LocationHelper;
+
 /**
  *
  * @author Domenico
@@ -133,11 +135,11 @@ public class Car implements Serializable {
     }
 
     public float getLatitude() {
-        return Float.parseFloat(location.substring(0, location.indexOf(",")));
+        return LocationHelper.getLatitude(location);
     }
 
     public float getLongitude() {
-        return Float.parseFloat(location.substring(location.indexOf(",")+1));
+        return LocationHelper.getLongitude(location);
     }
 
     public void setLocation(float lat, float lon) {

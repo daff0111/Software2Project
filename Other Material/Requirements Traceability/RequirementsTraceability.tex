@@ -21,16 +21,16 @@
 \subsection{Functional Requirements}
 \subsubsection{\textbf{User Requirements:}}
 \begin{description}
-\item [G.1)]First-Time Users must be able to register to the System creating an Account. 
+\item \sout{[G.1)]}First-Time Users must be able to register to the System creating an Account. 
 \begin{itemize}
 	\item[-]\sout{The System must allow an user that has not created an Account to register by providing valid credentials, an e-mail and payment information.}
 	\textbf{index.html, registerPage.html, registrationServlet.java}
 	\item[-]\sout{The System must sent a password to the Registered User Email that can be used to Log into the Account.}
-	\textbf{registerPage.html, registrationServlet.java, EmailUtility.java}
+	\textbf{registerPage.html, registrationServlet.java, EmailUtility.java, PasswordUtility.java}
 \end{itemize}
-\item [G.2)]Registered Users must be able to login to their Account at any time they want.
+\item \sout{[G.2)]}Registered Users must be able to login to their Account at any time they want.
 \begin{itemize}
-	\item[-]The System must allow Registered Users to log into their Account only if they provide their correct e-mail and password.
+	\item[-]\sout{The System must allow Registered Users to log into their Account only if they provide their correct e-mail and password.}
 	\textbf{index.html, loginServlet.java}
 \end{itemize}
 \item [G.3)]Users can save his/hers credentials in the System.
@@ -40,9 +40,11 @@
 \end{itemize}
 \item [G.4)]A Registered User will be able to make a Reservation of any available Car near his/her current location or from an address that she/he can specify.
 \begin{itemize}
-	\item[-]The System must be able to locate the User via GPS.
+	\item[-]\sout{The System must be able to locate the User via GPS.}
+	\textbf{mainPageServlet.java, googleMaps API}
 	\item[-]The System must allow the Users to enter a determined address, in case they don't want to use their current location to locate the cars in the area.
-	\item[-]The System must be able to locate all available Cars via GPS.
+	\item[-]\sout{The System must be able to locate all available Cars via GPS.}
+	\textbf{mainPageServlet.java, googleMaps API, Car.java, DB}
 	\item[-]The System must show the User all the available Cars near the user given location.
 	\item[-]The System must allow the Users to select one of the Cars showed to them to create a Reservation, the selected Car will be marked as reserved.
 \end{itemize}
