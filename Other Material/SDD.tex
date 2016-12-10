@@ -384,7 +384,7 @@ Until the proper function is called the user will have to make a few steps:
 \begin{itemize} 
 \item From the home screen, the user will select a car near his position or near the address he/she entered.
 \item  When a car is selected the user will see relevant information of the car, to help him decide whether or not make the reservation.
-\item After the user has select the car and confirmed the reservation the algorithm that will be displayed is called.
+\item After the user has select the car and confirmed the reservation, the algorithm that will be displayed is called.
 \end{itemize}
 \begin{figure}[h]
 \centering
@@ -529,7 +529,7 @@ When the money-saving option is enabled the system will suggest a power grid for
 \item The suggestion will check if there are power plugs available in the location. In case they become unavailable after the start of the ride, the user will still receive the discount, as it is impossible to predict.
 \item The algorithm will take in consideration the uniform distribution of the cars in the city.
 \end{itemize}
-The uniform distribution can be implemented in various different ways. As in the real world problem, it is impossible to have a uniform distribution (every point of the city has the same probability of having a car). But what can be done is to calculate the standard deviation for all the possible points and choose the destination that will increase it the most, as this means that the dispersion of the cars among the city are being broadened. And thus, staying a bit closer of the uniform distribution. \newline
+The uniform distribution can be implemented in various different ways. As in the real world problem, it is impossible to have a uniform distribution (every point of the city with the same probability of having a car). But what can be done is to calculate the standard deviation for all the possible points and choose the destination that will increase it the most, as this means that the dispersion of the cars among the city are being broadened. And thus, staying a bit closer of the uniform distribution. \newline
 As would be slow to calculate correctly the standard deviation every time, samples with a percentage of randomly chosen cars will be used instead.
 
 \begin{algorithm}[H]
