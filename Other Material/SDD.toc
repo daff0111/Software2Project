@@ -1,0 +1,61 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {subsection}{\numberline {1.1}Purpose}{2}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Scope}{2}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Glossary: Definitions, Acronyms, Abbreviations}{2}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Reference Documents}{3}{subsection.1.4}
+\contentsline {subsection}{\numberline {1.5}Document Structure}{4}{subsection.1.5}
+\contentsline {section}{\numberline {2}Architectural Design}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Overview}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}High level components and their interaction}{6}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Component View}{7}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}User Component}{7}{subsubsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.2}CRM Component}{7}{subsubsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.3}Car Component}{7}{subsubsection.2.3.3}
+\contentsline {subsubsection}{\numberline {2.3.4}Reservation Controller}{7}{subsubsection.2.3.4}
+\contentsline {subsubsection}{\numberline {2.3.5}Ride Controller}{8}{subsubsection.2.3.5}
+\contentsline {subsubsection}{\numberline {2.3.6}Payment Controller}{8}{subsubsection.2.3.6}
+\contentsline {subsubsection}{\numberline {2.3.7}User Report Controller}{8}{subsubsection.2.3.7}
+\contentsline {subsubsection}{\numberline {2.3.8}User Controller}{8}{subsubsection.2.3.8}
+\contentsline {subsubsection}{\numberline {2.3.9}CRM Controller}{8}{subsubsection.2.3.9}
+\contentsline {subsubsection}{\numberline {2.3.10}Car Controller}{9}{subsubsection.2.3.10}
+\contentsline {subsubsection}{\numberline {2.3.11}Location Helper}{9}{subsubsection.2.3.11}
+\contentsline {subsubsection}{\numberline {2.3.12}Chat Service}{9}{subsubsection.2.3.12}
+\contentsline {subsubsection}{\numberline {2.3.13}Email Helper}{9}{subsubsection.2.3.13}
+\contentsline {subsubsection}{\numberline {2.3.14}DBMS}{10}{subsubsection.2.3.14}
+\contentsline {subsection}{\numberline {2.4}Deployment View}{11}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Runtime View}{12}{subsection.2.5}
+\contentsline {subsubsection}{\numberline {2.5.1}Runtime View Diagram for User's login}{12}{subsubsection.2.5.1}
+\contentsline {subsubsection}{\numberline {2.5.2}Runtime View Diagram for User's registration}{13}{subsubsection.2.5.2}
+\contentsline {subsubsection}{\numberline {2.5.3}Runtime View Diagram for the reserve of the car}{14}{subsubsection.2.5.3}
+\contentsline {subsubsection}{\numberline {2.5.4}Runtime View Diagram for unlock the car}{15}{subsubsection.2.5.4}
+\contentsline {subsubsection}{\numberline {2.5.5}Runtime View Diagram where CRM create a Report of an User }{16}{subsubsection.2.5.5}
+\contentsline {subsection}{\numberline {2.6}Component Interfaces}{17}{subsection.2.6}
+\contentsline {subsubsection}{\numberline {2.6.1}User Component}{17}{subsubsection.2.6.1}
+\contentsline {subsubsection}{\numberline {2.6.2}Car Component}{17}{subsubsection.2.6.2}
+\contentsline {subsubsection}{\numberline {2.6.3}Reservation Controller}{17}{subsubsection.2.6.3}
+\contentsline {subsubsection}{\numberline {2.6.4}Ride Controller}{18}{subsubsection.2.6.4}
+\contentsline {subsubsection}{\numberline {2.6.5}Payment Controller}{18}{subsubsection.2.6.5}
+\contentsline {subsubsection}{\numberline {2.6.6}User Report Controller}{18}{subsubsection.2.6.6}
+\contentsline {subsubsection}{\numberline {2.6.7}User Controller}{19}{subsubsection.2.6.7}
+\contentsline {subsubsection}{\numberline {2.6.8}CRM Controller}{19}{subsubsection.2.6.8}
+\contentsline {subsubsection}{\numberline {2.6.9}Car Controller}{19}{subsubsection.2.6.9}
+\contentsline {subsubsection}{\numberline {2.6.10}Location Helper}{20}{subsubsection.2.6.10}
+\contentsline {subsubsection}{\numberline {2.6.11}Chat Service}{20}{subsubsection.2.6.11}
+\contentsline {subsubsection}{\numberline {2.6.12}Email Helper}{20}{subsubsection.2.6.12}
+\contentsline {subsection}{\numberline {2.7}Selected Architectural Styles and Patterns}{20}{subsection.2.7}
+\contentsline {subsubsection}{\numberline {2.7.1}MVC 3 Tier Architecture}{20}{subsubsection.2.7.1}
+\contentsline {subsubsection}{\numberline {2.7.2}Client-Server Architecture}{21}{subsubsection.2.7.2}
+\contentsline {subsubsection}{\numberline {2.7.3}Communication: REST, HTTPS, JDBC}{21}{subsubsection.2.7.3}
+\contentsline {subsection}{\numberline {2.8}Other Design Decisions}{21}{subsection.2.8}
+\contentsline {section}{\numberline {3}Algorithm Design}{22}{section.3}
+\contentsline {subsection}{\numberline {3.1}Making new Reservation}{22}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Calculating the fee}{24}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Money-Saving}{26}{subsection.3.3}
+\contentsline {section}{\numberline {4}User Interface Design}{29}{section.4}
+\contentsline {section}{\numberline {5}Requirements Traceability}{32}{section.5}
+\contentsline {subsubsection}{\numberline {5.0.1}\textbf {User Requirements:}}{32}{subsubsection.5.0.1}
+\contentsline {subsubsection}{\numberline {5.0.2}\textbf {CRM Requirements:}}{35}{subsubsection.5.0.2}
+\contentsline {section}{\numberline {6}References}{36}{section.6}
+\contentsline {subsection}{\numberline {6.1}Used Tools}{36}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Effort Spent}{37}{subsection.6.2}
+\contentsline {section}{\numberline {7}Changelog}{38}{section.7}
