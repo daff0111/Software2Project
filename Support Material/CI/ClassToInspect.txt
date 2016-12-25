@@ -1,0 +1,2 @@
+../apache-ofbiz-16.11.01/applications/product/src/main/java/org/apache/ofbiz/product/category/SeoConfigUtil.java
+Prof. Di Nitto	Domenico	Favaro	daff0111.df@gmail.com	Caio	Zuliani de Lima	caio.ztl@gmail.com	Matheus	Fim	matheusfim@hotmail.com

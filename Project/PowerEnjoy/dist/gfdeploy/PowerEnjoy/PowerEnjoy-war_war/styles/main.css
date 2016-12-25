@@ -16,6 +16,15 @@ and open the template in the editor.
     height:      300px; 
 }
 
+/*Car Content Box*/
+carbox {
+    width: 100px;
+    height: 100px;
+    border: 1px solid blue;
+    box-sizing: border-box;
+}
+
+
 /*Input button Styles*/
 input[type=button] {
     background-color: #F4DF42;
@@ -83,3 +92,5 @@ input[type="number"] {
     height: 500px;
     width: 100%;
 }
+nav ul{height:500px; width:80%;}
+nav ul{overflow:hidden; overflow-y:scroll;}

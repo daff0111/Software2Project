@@ -67,15 +67,45 @@ public class MainPageServlet extends BaseServlet {
         //Response Body
         response = response +"<body bgcolor=\"#006FF1\">"
                     +"<table border=\"0\"><col width=\"300px\" /><col width=\"800px\" />"
-                    +"<tr><td><comment>Car List will be here."
-                    +"<br>There are "+ availableCarList.size()+ " Cars Available</comment><br>"
-                    +"<br><comment>User Location: "+ userLocation +"</comment><br></td>";
+                    //+"<tr><td><comment>Car List will be here."
+                    //+"<br>There are "+ availableCarList.size()+ " Cars Available</comment><br>"
+                    //+"<br><comment>User Location: "+ userLocation +"</comment><br></td><\tr>\n"
+                    +"<tr><td><nav><ul> <carbox>Car 1</carbox>\n" +
+                "      <carbox>Car 2</carbox>\n" +
+                "      <br>Car 3\n" +
+                "      <br>Car 4\n" +
+                "      <br>Car 5\n" +
+                "      <br>Car 6 \n" +
+                "      <br>Car 7 \n" +
+                "      <br>Car 8\n" +
+                "      <br>Car 9\n" +
+                "      <br>Car 10\n" +
+                "      <br>Car 11\n" +
+                "      <br>Car 12\n" +
+                "      <br>Car 13\n" +
+                "      <br>Car 14\n" +
+                "      <br>Car 15\n" +
+                "      <br>Car 16\n" +
+                "      <br>Car 17\n" +
+                "      <br>Car 18\n" +
+                "      <br>Car 19\n" +
+                "      <br>Car 20\n" +
+                "      <br>Car 21\n" +
+                "      <br>Car 22\n" +
+                "      <br>Car 23\n" +
+                "      <br>Car 24\n" +
+                "      <br>Car 25\n" +
+                "      <br>Car 26\n" +
+                "      <br>Car 27\n" +
+                "      <br>Car 28\n" +
+                "      <br>Car 29\n" +
+                "      </ul></nav></td>";
                     
 
         //Map Functions
         response = response +"<td><div id=\"map\"></div><script>\n"+
         //Car Click Path Function
-                "function createWalkingPath(from, to, directionsService, directionsDisplay) {\n" +
+                "function createWalkingPath(from, to, infoWindow, directionsService, directionsDisplay) {\n" +
 "                directionsService.route({\n" +
 "                    origin: from,\n" +
 "                    destination: to,\n" +
@@ -83,8 +113,9 @@ public class MainPageServlet extends BaseServlet {
 "                }, function (response, status) {\n" +
 "                    if (status === 'OK') {\n" +
 "                        var legs = response.routes[0].legs\n"+
-"                        var duration = legs[0].duration.value\n"+
-"                        window.alert(duration+'minutes walking');\n" +
+"                        var duration = legs[0].duration.text\n"+
+"                        infoWindow.setPosition(to);\n" +
+"                        infoWindow.setContent('Distance: '+duration);\n"+
 "                        directionsDisplay.setDirections(response);\n" +                 
 "                    } else {\n" +
 "                        window.alert('Directions request failed due to ' + status);\n" +
@@ -111,12 +142,14 @@ public class MainPageServlet extends BaseServlet {
 "                        var directionsService = new google.maps.DirectionsService;\n" +
 "                        var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});\n"+
 "                        var map = new google.maps.Map(document.getElementById('map'), {\n" +
-"                            zoom: 12,\n" +
+"                            zoom: 13,\n" +
 "                            center: userPos\n" +
 "                        });\n"+
 "                        directionsDisplay.setMap(map);\n"+
+"                        var infoWindow = new google.maps.InfoWindow({map: map});\n"+
 "                        var userPos = {lat: "+userLatitude+", lng: "+userLongitude+"};\n"+
 "                        var carImage = \"http://localhost:8080/PowerEnjoy-war/resources/map_car_icon.png\";\n";
+//"                        var markers = [];\n";
         int carCount = 0;
         for(Car aCar : availableCarList)
         {
@@ -129,11 +162,13 @@ public class MainPageServlet extends BaseServlet {
 "                            map: map,\n" +
 "                            icon: carImage\n" +
 "                        });\n";
+//+"                        markers.push(marker"+carCount+");\n";
             //Add click Listener
             response = response + 
 "                    marker"+carCount+".addListener('click', function () {\n" +
-"                        createWalkingPath(userPos, car"+carCount+", directionsService, directionsDisplay);\n" +
+"                        createWalkingPath(userPos, car"+carCount+", infoWindow, directionsService, directionsDisplay);\n" +
 "                    });\n";
+            carCount++;
         }
         //Error Handling
         response = response + "} else {\n" +
@@ -171,21 +206,21 @@ public class MainPageServlet extends BaseServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //if (sessionCheck(request, response)) {
-        processCarSearch(request, response);
-        /*} else {
+        if (sessionCheck(request, response)) {
+            processCarSearch(request, response);
+        } else {
             getServletContext().getRequestDispatcher("/Login/userLoginPage.jsp").forward(request, response);
-        }*/
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //if (sessionCheck(request, response)) {
+        if (sessionCheck(request, response)) {
             processCarSearch(request, response);
-        /*} else {
+        } else {
             getServletContext().getRequestDispatcher("/Login/userLoginPage.jsp").forward(request, response);
-        }*/
+        }
     }
 
     /**
