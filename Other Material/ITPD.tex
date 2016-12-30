@@ -1,0 +1,148 @@
+\documentclass[a4paper]{article}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}	
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage[fontsize=11pt]{scrextend}
+\usepackage{titlesec}
+ \usepackage[section]{placeins}
+
+\setlength\parindent{0pt}
+\titleformat*{\section}{\Large\bfseries}
+\titleformat*{\subsection}{\Large\bfseries}
+
+\title{PowerEnjoy Service - Integration Test Plan Document}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{figure}
+\centering
+\includegraphics[width=0.2\textwidth]{polimi.jpg}
+\par
+\LARGE Politecnico di Milano
+\end{figure}
+
+
+\maketitle
+\textbf{Version 1.1}
+\newline
+
+\raggedright
+Authors:
+\begin{itemize}
+	\item Domenico FAVARO (Mat. 837995)
+        	\item Matheus FIM (Mat. 876069)
+	\item Caio ZULIANI (Mat. 877266)	
+\end{itemize}
+\raggedleft
+Prof. Elisabetta DI NITTO
+\thispagestyle{empty}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+ 
+\section{Introduction}
+\subsection{Revision History}
+This section records all revisions to the Document.
+\newline \newline
+\begin{tabular}{ | c | c | c | c | }
+\hline
+	Version & Date & Authors & Summary \\ \hline
+	1.1 & 15/01/16 & Domenico Favaro, Caio Zuliani, Matheus Fim & Initial Release  \\ \hline
+\end{tabular}
+
+\subsection{Purpose and Scope}
+The Integration Test Plan Document (ITPD) serves to present the integration sequence and testing for all subsystems and components that conform PowerEnjoy Car Sharing Service.
+
+\subsection{Definitions and Abbreviations}
+\begin{itemize}
+\item \textbf{RASD:} Reqirements And Specifications Document.
+\item \textbf{DD:} Design Document.
+\item \textbf{ITPD:} Integration Test Plan Document.
+\item \textbf{ETC..:}
+\end{itemize}
+For other concepts concerning the Service definition look in the \textbf{Glossary} section of the RASD and DD.
+
+\subsection{Reference Documents}
+\begin{itemize}
+\item Specification Document: Assignments AA 2016-2017.pdf
+\item PowerEnjoy Requirements And Specifications Document (RASD)
+\item PowerEnjoy Design Document (DD)
+\item Example Document - Integration testing example document.pdf
+\item Testing Tools Documents:
+\begin{itemize}
+\item[-] Mockito
+\item[-] JMeter
+\end{itemize}
+\end{itemize}
+
+\newpage
+\section{Integration Criteria}
+\subsection{Entry Criteria}
+Specify the criteria that must be met before integration testing of specific elements may begin (e.g., functions must have been unit tested).
+
+\subsection{Elements to be Integrated}
+Identify the components to be integrated, refer to your design document to identify such components in a way that is consistent with your design.
+
+\subsection{Integration Testing Strategy}
+Describe the integration testing approach (top-down, bottom-up, functional groupings, etc.) and the rationale for the choosing that approach.
+
+\subsection{Sequence of Component/Function Integration}
+\subsubsection{Software Integration Sequence}
+For each subsystem, identify the sequence in which the software components will be integrated within the subsystem; relate this sequence to any product features that are being build up.
+\subsubsection{Subsystem Integration Sequence}
+Identify the order in which subsystems will be integrated.
+
+\newpage
+\section{Individual Steps and Test Description}
+
+\section{Performance Analysis}
+
+\section{Required Tools and Test Equpment}
+\subsection{Tools}
+\subsection{Test Equipment}
+
+\section{Required Program Stubs and Test Data}
+\subsection{Program Stubs}
+\subsection{Test Data}
+
+\newpage
+\section{Effort Spent}
+\begin{tabular}{ | c | c | c | c | }
+\hline
+	\textbf {Date} & \textbf {Domenico} & \textbf {Caio} & \textbf {Matheus} \\ \hline
+	27/12/16& 2h & 2h & 2h  \\ \hline
+	28/12/16& - & - & - \\ \hline
+	29/12/16& 1h & - & - \\ \hline
+	30/12/16& 2h & - & - \\ \hline
+	31/12/16& - & - & - \\ \hline
+	01/01/17& - & - & - \\ \hline
+	02/01/17& - & - & - \\ \hline
+	03/01/17& - & - & - \\ \hline
+	04/01/17& - & - & - \\ \hline
+	05/01/17& - & - & - \\ \hline
+	06/01/17& - & - & - \\ \hline
+	07/01/17& - & - & - \\ \hline
+	08/01/17& - & - & - \\ \hline
+	09/01/17& - & - & - \\ \hline
+	10/01/17& - & - & - \\ \hline
+	11/01/17& - & - & - \\ \hline
+	12/01/17& - & - & - \\ \hline
+	13/01/17& - & - & - \\ \hline
+	14/01/17& - & - & - \\ \hline
+\end{tabular}
+\newpage
+
+\section{Changelog}
+As the project and design decisions may change during the development this document is also prone to change.
+We'll document every version in this part.
+\begin{itemize}
+\item \textbf {Version 1.1:} 15/01/2017
+\end{itemize}
+\end{document}
