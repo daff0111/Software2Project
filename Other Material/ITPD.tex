@@ -58,14 +58,18 @@ This section records all revisions to the Document.
 \end{tabular}
 
 \subsection{Purpose and Scope}
-The Integration Test Plan Document (ITPD) serves to present the integration sequence and testing for all subsystems and components that conform PowerEnjoy Car Sharing Service.
+The Integration Test Plan Document (ITPD) serves to present the integration sequence and testing for all Subsystems and Components that conform PowerEnjoy Car Sharing Service. This is a key part to guarantee the functioning and quality of the software. The Document will present the division of the System in Subsystems and Components that will endure individual testing as independent modules and then be subject to integration on the whole System.
 
 \subsection{Definitions and Abbreviations}
 \begin{itemize}
 \item \textbf{RASD:} Reqirements And Specifications Document.
 \item \textbf{DD:} Design Document.
 \item \textbf{ITPD:} Integration Test Plan Document.
-\item \textbf{ETC..:}
+\item \textbf{SDK:} Software Development Kit
+\item \textbf{App:} Application, refering to Web or Mobile App.
+\item \textbf{Subsystem:} Part of the system the generally encapsulates one or more features.
+\item \textbf{Component:} Self sustained part of the System that provides with functionalities and is part of one or more subsystems.
+\item \textbf{Mock:}Simulation that mimic the behavior of certain objects and fucntions in controlled ways, done to test the behavior of some other object.
 \end{itemize}
 For other concepts concerning the Service definition look in the \textbf{Glossary} section of the RASD and DD.
 
@@ -83,10 +87,16 @@ For other concepts concerning the Service definition look in the \textbf{Glossar
 \end{itemize}
 
 \newpage
-\section{Integration Criteria}
+\section{Integration Strategy}
 \subsection{Entry Criteria}
-Specify the criteria that must be met before integration testing of specific elements may begin (e.g., functions must have been unit tested).
-
+We define the criteria that must be met before integration testing of the system components. We consider Integration a part of the production development. In order for production to start all documentation must first be written and up to date, including RASD and DD, to have a clear and full scope of the system components functionalities and importance. Once in production, the integration of a singe component can be done when the following criteria is met:
+\begin{itemize}
+\item The Component feature must be 100\% complete, that is all classes and functions must have been implemented.
+\item No tickets must be opened for the Component, no bugs or cosidered missing features must be present.
+\item Individual component testing must have been performed, using JUnit to test its classes and functions.
+\item All the interfaces the Component has to communicate to have to be present or at least mocked to be able to test its coupling.
+\end{itemize}
+  
 \subsection{Elements to be Integrated}
 Identify the components to be integrated, refer to your design document to identify such components in a way that is consistent with your design.
 
@@ -104,7 +114,7 @@ Identify the order in which subsystems will be integrated.
 
 \section{Performance Analysis}
 
-\section{Required Tools and Test Equpment}
+\section{Required Tools and Test Equipment}
 \subsection{Tools}
 \subsection{Test Equipment}
 
@@ -123,7 +133,7 @@ Identify the order in which subsystems will be integrated.
 	30/12/16& 2h & - & - \\ \hline
 	31/12/16& - & - & - \\ \hline
 	01/01/17& - & - & - \\ \hline
-	02/01/17& - & - & - \\ \hline
+	02/01/17& 2h & - & - \\ \hline
 	03/01/17& - & - & - \\ \hline
 	04/01/17& - & - & - \\ \hline
 	05/01/17& - & - & - \\ \hline
