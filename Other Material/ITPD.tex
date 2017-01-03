@@ -69,6 +69,8 @@ The Integration Test Plan Document (ITPD) serves to present the integration sequ
 \item \textbf{App:} Application, refering to Web or Mobile App.
 \item \textbf{Subsystem:} Part of the system the generally encapsulates one or more features.
 \item \textbf{Component:} Self sustained part of the System that provides with functionalities and is part of one or more subsystems.
+\item \textbf{Bottom-up:} Referring to Bottom-up testing. Each component at lower hierarchy is tested individually and then the components that rely upon these components are tested.
+\item \textbf{Top-down:} Top-down integration testing is an integration testing technique used in order to mock or simulate the behaviour of the lower-level modules that are not yet integrated.
 \item \textbf{Mock:}Simulation that mimic the behavior of certain objects and fucntions in controlled ways, done to test the behavior of some other object.
 \end{itemize}
 For other concepts concerning the Service definition look in the \textbf{Glossary} section of the RASD and DD.
@@ -98,10 +100,37 @@ We define the criteria that must be met before integration testing of the system
 \end{itemize}
   
 \subsection{Elements to be Integrated}
-Identify the components to be integrated, refer to your design document to identify such components in a way that is consistent with your design.
+As stated in the Design Document, our system is composed by several High level Components presented in 3 tiers. Specifically these components are:
+\begin{itemize}
+\item Client Tier:
+\begin{itemize}
+\item[-] User Client Component
+\item[-] CRM Client Component
+\item[-] Car Component
+\end{itemize}
+\item Server Tier:
+\begin{itemize}
+\item[-] User Controller
+\item[-] CRM Controller
+\item[-] Car Controller
+\item[-] Reservation Controller
+\item[-] Ride Controller
+\item[-] Payment Controller
+\item[-] User Report Controller
+\item[-] Email Helper
+\item[-] Location Helper
+\item[-] Chat Service
+\end{itemize}
+\item EIS Tier:
+\begin{itemize}
+\item[-] Database
+\end{itemize}
+\end{itemize}
 
 \subsection{Integration Testing Strategy}
-Describe the integration testing approach (top-down, bottom-up, functional groupings, etc.) and the rationale for the choosing that approach.
+Our approach following the 3-tiered structure will follow a \textbf{Bottom-up} strategy, working on components that do not depend on others to function first. \par
+This implies following the next tier order: EIS -\(>\) Server -\(>\) Client for development and testing.\par
+Inside each Tier Bottom-up strategy will be used again to integrate independent modules first and then those that depend on others.This strategy will help in contrast to Top-down to minimize the mock-up testing to be done, testing on top of already deployed modules. The order in which the 'Bottom' modules will be picked will follow a Critical-Module-First Integration Strategy, giving priority to those that will have dependencies of other modules, this will help not only to spot any error on critical modules first but also to unblock the integration of dependant modules earlier on.
 
 \subsection{Sequence of Component/Function Integration}
 \subsubsection{Software Integration Sequence}
