@@ -193,8 +193,23 @@ As mentioned before our subsystems corresponging to the Data, Logic and Presenta
 
 \newpage
 \section{Individual Steps and Test Description}
+\newpage
 
 \section{Performance Analysis}
+
+Even tough the performance analysis is evaluated within the system as a whole, it was agreed that while testing the components, the isolated performance will be taken into account, as to correct unacceptable behavior, such as too slow response time, as soon as possible. 
+
+The aim of the performance analysis is to check the reliability of the application under normal usage conditions, providing benchmarks and identifying the response time, utilization and throughput of the application. So, for this test, the expected workload should be considered as in terms of the biggest city where the application will be implemented, taking into account an average usage for a long period with peaks of heavy traffic. 
+
+Also, For this part of the testing it is needed to consider the performance of all the different interfaces of the system. Particularly, the mobile application, the web application and the screen inside the car should all have satisfactory behavior, considering all kinds of users that can operate each interface. 
+
+Some important requirements to be evaluated:
+\begin{itemize}
+\item[-] For the mobile application it is considered that the target public of the app can have any kind of Smartphone. So, the test will be made in low-end devices. This includes low ram availability, small internal space allocation and low processing power capacity.
+\item[-] All the interfaces need to respond properly with slow network situations, and be reliable in situations of unstable network. 
+\end{itemize}
+\newpage
+
 
 \section{Required Tools and Test Equipment}
 \subsection{Tools}
@@ -221,7 +236,7 @@ As mentioned before our subsystems corresponging to the Data, Logic and Presenta
 	05/01/17& - & - & - \\ \hline
 	06/01/17& - & - & - \\ \hline
 	07/01/17& - & - & - \\ \hline
-	08/01/17& - & - & - \\ \hline
+	08/01/17& - & - & 6h \\ \hline
 	09/01/17& - & - & - \\ \hline
 	10/01/17& - & - & - \\ \hline
 	11/01/17& - & - & - \\ \hline
