@@ -201,19 +201,38 @@ Even tough the performance analysis is evaluated within the system as a whole, i
 
 The aim of the performance analysis is to check the reliability of the application under normal usage conditions, providing benchmarks and identifying the response time, utilization and throughput of the application. So, for this test, the expected workload should be considered as in terms of the biggest city where the application will be implemented, taking into account an average usage for a long period with peaks of heavy traffic. 
 
-Also, For this part of the testing it is needed to consider the performance of all the different interfaces of the system. Particularly, the mobile application, the web application and the screen inside the car should all have satisfactory behavior, considering all kinds of users that can operate each interface. 
+Both the server side and the client side can affect the performance of the application and for this reason need to be checked. Also,  it is necessary to consider the performance of all the different client interfaces. Particularly, the mobile application, the web application and the screen inside the car should all have satisfactory behavior, considering all kinds of users that can operate each interface. 
 
 Some important requirements to be evaluated:
 \begin{itemize}
 \item[-] For the mobile application it is considered that the target public of the app can have any kind of Smartphone. So, the test will be made in low-end devices. This includes low ram availability, small internal space allocation and low processing power capacity.
 \item[-] All the interfaces need to respond properly with slow network situations, and be reliable in situations of unstable network. 
+
 \end{itemize}
 \newpage
 
 
 \section{Required Tools and Test Equipment}
 \subsection{Tools}
+
+In order to guarantee the most reliable system possible, when integrating components all the individual tests will be carried out once again, to make sure the integration did not cause new bugs to occur. For this reason, all the used programs provide tests automation tools, minimizing the rework. 
+
+The tools chosen for the Java EE and the EIS tiers were specifically three and each has it’s own scope of tests.
+
+Firstly,  the JUnit Framework will take care of the individual components testing. This is basically a way to certify that results produced by the components matches the theoretical value.
+
+Secondly, the Arquillian framework helps keeping the integration testing simple. Testing the components of an application is challenging, so this framework focus on the interaction with the system, providing tools to check that the right components are being injected and the interactions with the database are occurring in a normal way. 
+
+Finally, Jmeter framework brings the application closer to the real world by performing load tests and performance tests. This tool provides emulations of loads on the server, network and objects providing solid data to analyze the overall performance of the systems under various conditions.
+
+However, it is still necessary to  test components withheld in the Client tier,  specifically the mobile applications. In this matter, it will be used tools provided with each platform (IOS and Android have their own performance analysis tool that comes along with the SDK of the plataform). And, as stated in the previous session, particularly harsh situations as low battery, bad network coverage and low available memory need to be taken into account. 
+
+These tools ensure that every aspect of the application is tested in the proper way and provide all the necessary features to accomplish the proposed points of this document.
+\newpage
+
 \subsection{Test Equipment}
+
+
 
 \section{Required Program Stubs and Test Data}
 \subsection{Program Stubs}
