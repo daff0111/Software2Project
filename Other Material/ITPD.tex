@@ -201,11 +201,11 @@ Even tough the performance analysis is evaluated within the system as a whole, i
 
 The aim of the performance analysis is to check the reliability of the application under normal usage conditions, providing benchmarks and identifying the response time, utilization and throughput of the application. So, for this test, the expected workload should be considered as in terms of the biggest city where the application will be implemented, taking into account an average usage for a long period with peaks of heavy traffic. 
 
-Both the server side and the client side can affect the performance of the application and for this reason need to be checked. Also,  it is necessary to consider the performance of all the different client interfaces. Particularly, the mobile application, the web application and the screen inside the car should all have satisfactory behavior, considering all kinds of users that can operate each interface. 
+Both the server side and the client side can affect the performance of the application. For the client side,  it is necessary to consider the performance of all the different interfaces. Particularly, the mobile application, the web application and the screen inside the car should all have satisfactory behavior, considering all kinds of users that can operate each of them. 
 
 Some important requirements to be evaluated:
 \begin{itemize}
-\item[-] For the mobile application it is considered that the target public of the app can have any kind of Smartphone. So, the test will be made in low-end devices. This includes low ram availability, small internal space allocation and low processing power capacity.
+\item[-] For the mobile application it is considered that the target public of the app can have any kind of Smartphone. So, the test will be made in low-range devices. This includes low ram availability, small internal space allocation and low processing power capacity.
 \item[-] All the interfaces need to respond properly with slow network situations, and be reliable in situations of unstable network. 
 
 \end{itemize}
@@ -228,9 +228,25 @@ Finally, Jmeter framework brings the application closer to the real world by per
 However, it is still necessary to  test components withheld in the Client tier,  specifically the mobile applications. In this matter, it will be used tools provided with each platform (IOS and Android have their own performance analysis tool that comes along with the SDK of the plataform). And, as stated in the previous session, particularly harsh situations as low battery, bad network coverage and low available memory need to be taken into account. 
 
 These tools ensure that every aspect of the application is tested in the proper way and provide all the necessary features to accomplish the proposed points of this document.
-\newpage
 
 \subsection{Test Equipment}
+
+In some previous sections, characteristics of the devices in which the application needs to operate successfully have been discussed. They were always pessimistic, assuming that low-range smarphones, with limited functionalities were being used. However, this is only part of the testing devices, most users own better smarphones than the ones described. And even tough the older devices should be supported, the application must be better optimized for the majority of the public.
+
+Therefore, for the Android application, for each available screen size in the market (including smarphones and tablets), it will be necessary to execute the tests for a low-range and a mid-range device.  
+
+When using a low-range device, the characteristics to keep in mind are a single core with slow processor clock (preferably less then 1 ghz), and less then 1gb of ram. As for mid-range, it can be a dual core with up to 2ghz of clock, and 2gb of ram.  
+
+In the IOS the specifications of the devices only vary within the different models, so at least one smarpthone and tablet of the IOS family need to be available for testing.
+
+For the devices above described it will be carried out tests with the native mobile application and the mobile version of the web application. This is to ensure a broader number of devices and ways of accessing the application is covered.
+
+Changing the scope from the mobile applications to the web browser client, a small number of notebooks and computers are also to be used, here the specifications of the devices are not important, but different browsers need to be installed in each of them. 
+
+The last category of devices that will be used are in respect to the screen inside the car.  The tests will be carried out in android based devices, with different processing power and RAM availability. The results will be used to choose which model is to be deployed to all cars as to minimize the costs while keeping the necessary quality.
+
+Finally, a identical server structure of the one used for the final deployment needs to be available. Although this is not yet completely defined, the test should recreate a realistic environment, using the same cloud infrastructure, Operating System, Java Enterprise Application server, and DBMS. 
+\newpage
 
 
 
@@ -255,8 +271,8 @@ These tools ensure that every aspect of the application is tested in the proper 
 	05/01/17& - & - & - \\ \hline
 	06/01/17& - & - & - \\ \hline
 	07/01/17& - & - & - \\ \hline
-	08/01/17& - & - & 6h \\ \hline
-	09/01/17& - & - & - \\ \hline
+	08/01/17& - & - & 5h \\ \hline
+	09/01/17& - & - & 4h \\ \hline
 	10/01/17& - & - & - \\ \hline
 	11/01/17& - & - & - \\ \hline
 	12/01/17& - & - & - \\ \hline
