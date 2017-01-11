@@ -9,7 +9,9 @@
 \usepackage[colorlinks=true, allcolors=black]{hyperref}
 \usepackage[fontsize=11pt]{scrextend}
 \usepackage{titlesec}
- \usepackage[section]{placeins}
+\usepackage[section]{placeins}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 \setlength\parindent{0pt}
 \titleformat*{\section}{\Large\bfseries}
@@ -71,7 +73,7 @@ The Integration Test Plan Document (ITPD) serves to present the integration sequ
 \item \textbf{Component:} Self sustained part of the System that provides with functionalities and is part of one or more subsystems.
 \item \textbf{Bottom-up:} Referring to Bottom-up testing. Each component at lower hierarchy is tested individually and then the components that rely upon these components are tested.
 \item \textbf{Top-down:} Top-down integration testing is an integration testing technique used in order to mock or simulate the behaviour of the lower-level modules that are not yet integrated.
-\item \textbf{Mock:}Simulation that mimic the behavior of certain objects and fucntions in controlled ways, done to test the behavior of some other object.
+\item \textbf{Mock:} Simulation that mimic the behavior of certain objects and fucntions in controlled ways, done to test the behavior of some other object.
 \end{itemize}
 For other concepts concerning the Service definition look in the \textbf{Glossary} section of the RASD and DD.
 
@@ -130,14 +132,14 @@ As stated in the Design Document, our system is composed by several High level C
 \subsection{Integration Testing Strategy}
 Our approach following the 3-tiered structure will follow a \textbf{Bottom-up} strategy, working on components that do not depend on others to function first. \par
 This implies following the next tier order: EIS -\(>\) Server -\(>\) Client for development and testing.\par
-Inside each Tier Bottom-up strategy will be used again to integrate independent modules first and then those that depend on others.This strategy will help in contrast to Top-down to minimize the mock-up testing to be done, testing on top of already deployed modules. The order in which the 'Bottom' modules will be picked will follow a Critical-Module-First Integration Strategy, giving priority to those that will have dependencies of other modules, this will help not only to spot any error on critical modules first but also to unblock the integration of dependant modules earlier on.
+Inside each Tier, Bottom-up strategy will be used again to integrate independent modules first and then those that depend on others.This strategy will help in contrast to Top-down to minimize the mock-up testing to be done, testing will be done on top of already deployed modules. The order in which the 'Bottom' modules will be picked will follow a Critical-Module-First Integration Strategy, giving priority to those that will have dependencies of other modules, this will help not only to spot any error on critical modules first but also to unblock the integration of dependant modules earlier on.
 
 \subsection{Sequence of Component/Function Integration}
 Following the Bottom-up strategy we'll integrate the components that have no dependencies on other modules. First we'll present the component integration within each subsystem and then the subsystems integration order.
 \subsubsection{Software Integration Sequence}
 For each subsystem, we'll identify the sequence in which the software components will be integrated within the subsystem.
 \paragraph{EIS Tier - DBMS:}
-As shown in the DD our DBMS is not dependent on any module and even if it's a System already present for some structures (Cars, CRM) we have to add the entities that we'll serve the purpose of our System, that is Users, Reservations, Rides, Payments, User Reports. These will be entities that will be added by our System, specifically be the Controllers so this module has to be integrated first to answer the queries for the rest of the subsystems.
+As shown in the DD our DBMS is not dependent on any module and even if it's a System already present for some structures (Cars, CRM) we have to add the entities that we'll serve the purpose of our System, that is Users, Reservations, Rides, Payments, User Reports. These will be entities that will be added by our System, specifically by the Controllers so this module has to be integrated first to answer the queries for the rest of the subsystems.
 \paragraph{Server Tier:}
 In the DD we present the High level Component structure. Based on the dependencies shown in this structure we'll select the order to test and deploy these components.
 \begin{figure}[h]
@@ -193,8 +195,147 @@ As mentioned before our subsystems corresponging to the Data, Logic and Presenta
 
 \newpage
 \section{Individual Steps and Test Description}
+This section will include a detailed description on the sequence and tests to be performed on each component to be integrated. For each component we'll present individual function testing to secure the correctness and robustness of the function with respect to unexpected or invalid input. For integration testing we'll test if each of the component involved works as expected or if not, where does the error occur to determine critical points in the integration. The EIS Tier is considered to be implemented for the individual function testing. To get an overall picture of the Component functions and interfaces look at the Section 2 of the \textbf{DD}.
+\par \textit{Note:} Null Input tests are considered for all applicable functions and these are considered to respond with a NullArgumentException unless expressed otherwise.
+\subsection{Location Helper}
+It uses Google Maps API which locations use 2 float parameters, as many functions use the class Location we remind that, as explained in the DD, the Class consist in two floats, lat (latitude) and lon (longitude). All functions that accept Location as parameter will also be implemented to accept 2 floats as parameters. 
+\newline
+\newline
+\textbf{Function:} isSafeParkingArea(Location) : bool
+\begin{center}
+\begin{tabular}{ | L{7cm} | L{5cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Location & false \\ \hline
+	Location valid inside the Valid parking area. Check with DB. & true \\ \hline
+\end{tabular}
+\end{center}
+
+\textbf{Function:} getCloseRechargingStations(Location) : List\(<Location>\)
+\begin{center}
+\begin{tabular}{ | L{7cm} | L{5cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Location & Empty List \\ \hline
+	Location valid inside the Valid parking area. & Returns the list of available Recharging Stations closeby \\ \hline
+\end{tabular}
+\end{center}
+
+\textbf{Function:} getBestRechargingStation(Location) : Location  \par
+\textit{//Uses getCloseRechargingStations}
+\begin{center}
+\begin{tabular}{ | L{7cm} | L{5cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Location & Null Location \\ \hline
+	Location valid inside the Valid parking area. & Returns the best available Recharging station found by the Standard Deviation Algorithm  \\ \hline
+\end{tabular}
+\end{center}
+
+\textbf{Function:} calculatePath(Location, Location) : List\(<Location>\)
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Location & Empty List \\ \hline
+	Locations valid inside the Valid parking area. & Returns faster path found by the Google Maps API, if path not found returns Empty List \\ \hline
+\end{tabular}
+\end{center}
+
+\subsection{Email Helper}
+\textbf{Function:} sendRegistrationEmail(Email, Password) : void
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid Email & Password Delivery failed Exception \\ \hline
+	Valid Email and Password & Registration Mail sent \\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} sendPaymentEmail(Email, Payment) : void
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid Email & Payment Delivery failed Exception \\ \hline
+	Valid Email and Payment & Payment Mail sent \\ \hline
+\end{tabular}
+\end{center}
+
+\subsection{Chat Service}
+\textbf{Function:} requestCRMContact() : Id
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	None & Returns a vaild CRM Id that is available for contact, else returns Null \\ \hline
+\end{tabular}
+\end{center}
 \newpage
 
+\subsection{Car Controller}
+Our system will not handle adding or deleting Cars in the DB so these operations will not be integrated.
+\textbf{Function:} reserveCar(CarId) : bool
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or CarID not present & false - DB unchanged\\ \hline
+	CarID already reserved & false - DB unchanged\\ \hline
+	Valid CarID & true - Car marked as reserved in the DB\\ \hline
+\end{tabular}
+\end{center}
+
+\textbf{Function:} enableCar(CarId) : bool
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or CarID not present & false - DB unchanged\\ \hline
+	Valid CarID & true - Car changed to enabled in the DB\\ \hline
+\end{tabular}
+\end{center}
+
+\textbf{Function:} disableCar(CarId) : bool
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or CarID not present & false - DB unchanged\\ \hline
+	Valid CarID & true - Car changed to disabled in the DB\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} getCloseCars(Location) : List\(<CarId>\) \par
+\textit{Components:} LocationHelper
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Location & Empty List \\ \hline
+	Locations valid & Returns List of Cars close in walking range to a given Location \\ \hline
+\end{tabular}
+\end{center}
+\newpage
+
+\subsection{Payment Controller}
+
+\subsection{Ride Controller}
+
+\subsection{Reservation Controller}
+
+\subsection{User Report Controller}
+
+\subsection{User Controller}
+
+\subsection{CRM Controller}
+
+\subsection{User Component}
+
+\subsection{CRM Component}
+
+\subsection{Car Component}
+
+\newpage
 \section{Performance Analysis}
 
 Even tough the performance analysis is evaluated within the system as a whole, it was agreed that while testing the components, the isolated performance will be taken into account, as to correct unacceptable behavior, such as too slow response time, as soon as possible. 
@@ -219,13 +360,14 @@ In order to guarantee the most reliable system possible, when integrating compon
 
 The tools chosen for the Java EE and the EIS tiers were specifically three and each has it’s own scope of tests.
 
-Firstly,  the JUnit Framework will take care of the individual components testing. This is basically a way to certify that results produced by the components matches the theoretical value.
+\begin{itemize}
+\item First, the \textbf{JUnit Framework} will take care of the individual components testing. This is basically a way to certify that results produced by the components matches the theoretical value.
 
-Secondly, the Arquillian framework helps keeping the integration testing simple. Testing the components of an application is challenging, so this framework focus on the interaction with the system, providing tools to check that the right components are being injected and the interactions with the database are occurring in a normal way. 
+\item Secondly, the \textbf{Arquillian Framework} helps keeping the integration testing simple. Testing the components of an application is challenging, so this framework focus on the interaction with the system, providing tools to check that the right components are being injected and the interactions with the database are occurring in a normal way. 
 
-Finally, Jmeter framework brings the application closer to the real world by performing load tests and performance tests. This tool provides emulations of loads on the server, network and objects providing solid data to analyze the overall performance of the systems under various conditions.
-
-However, it is still necessary to  test components withheld in the Client tier,  specifically the mobile applications. In this matter, it will be used tools provided with each platform (IOS and Android have their own performance analysis tool that comes along with the SDK of the plataform). And, as stated in the previous session, particularly harsh situations as low battery, bad network coverage and low available memory need to be taken into account. 
+\item Finally,\textbf{Jmeter Framework} brings the application closer to the real world by performing load tests and performance tests. This tool provides emulations of loads on the server, network and objects providing solid data to analyze the overall performance of the systems under various conditions.
+\end{itemize}
+However, it is still necessary to  test components withheld in the Client tier,  specifically the mobile applications. In this matter, it will be used tools provided with each platform (IOS and Android have their own performance analysis tool that comes along with the SDK of the plataform). Also as stated in the previous session, particularly harsh situations as low battery, bad network coverage and low available memory need to be taken into account. 
 
 These tools ensure that every aspect of the application is tested in the proper way and provide all the necessary features to accomplish the proposed points of this document.
 
@@ -273,7 +415,7 @@ Finally, a identical server structure of the one used for the final deployment n
 	07/01/17& - & - & - \\ \hline
 	08/01/17& - & - & 5h \\ \hline
 	09/01/17& - & - & 4h \\ \hline
-	10/01/17& - & - & - \\ \hline
+	10/01/17& 2h & - & - \\ \hline
 	11/01/17& - & - & - \\ \hline
 	12/01/17& - & - & - \\ \hline
 	13/01/17& - & - & - \\ \hline
