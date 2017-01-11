@@ -198,7 +198,7 @@ As mentioned before our subsystems corresponging to the Data, Logic and Presenta
 This section will include a detailed description on the sequence and tests to be performed on each component to be integrated. For each component we'll present individual function testing to secure the correctness and robustness of the function with respect to unexpected or invalid input. For integration testing we'll test if each of the component involved works as expected or if not, where does the error occur to determine critical points in the integration. The EIS Tier is considered to be implemented for the individual function testing. To get an overall picture of the Component functions and interfaces look at the Section 2 of the \textbf{DD}.
 \par \textit{Note:} Null Input tests are considered for all applicable functions and these are considered to respond with a NullArgumentException unless expressed otherwise.
 \subsection{Location Helper}
-It uses Google Maps API which locations use 2 float parameters, as many functions use the class Location we remind that, as explained in the DD, the Class consist in two floats, lat (latitude) and lon (longitude). All functions that accept Location as parameter will also be implemented to accept 2 floats as parameters. 
+This component uses Google Maps API which locations use 2 float parameters, as many functions use the class Location we remind that, as explained in the DD, the Class consist in two floats, lat (latitude) and lon (longitude). All functions that accept Location as parameter will also be implemented to accept 2 floats as parameters. 
 \newline
 \newline
 \textbf{Function:} isSafeParkingArea(Location) : bool
@@ -220,6 +220,7 @@ It uses Google Maps API which locations use 2 float parameters, as many function
 	Location valid inside the Valid parking area. & Returns the list of available Recharging Stations closeby \\ \hline
 \end{tabular}
 \end{center}
+\newpage 
 
 \textbf{Function:} getBestRechargingStation(Location) : Location  \par
 \textit{//Uses getCloseRechargingStations}
@@ -274,7 +275,7 @@ It uses Google Maps API which locations use 2 float parameters, as many function
 \newpage
 
 \subsection{Car Controller}
-Our system will not handle adding or deleting Cars in the DB so these operations will not be integrated.
+Our system will not handle adding or deleting Cars in the DB so these operations will not be integrated. Just operations that search or change the state of the Car.
 \textbf{Function:} reserveCar(CarId) : bool
 \begin{center}
 \begin{tabular}{ | L{6cm} | L{6cm} | }
@@ -318,23 +319,498 @@ Our system will not handle adding or deleting Cars in the DB so these operations
 \newpage
 
 \subsection{Payment Controller}
+\textbf{Function:} createPayment(Ammount, ExtraFees) : Payment \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Ammount & Null \\ \hline
+	Valid Ammount & Creates Payment in the DB and returns the created Entity \\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} executeTransaction(Payment) : bool \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Payment & false, Payment not executed \\ \hline
+	Valid Payment & true if Payment successfull \\ \hline
+\end{tabular}
+\end{center}
 
 \subsection{Ride Controller}
+\textbf{Function:} createRide(User, Car) : Ride \par
+\textit{Components:} CarController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & Null, Ride not created \\ \hline
+	Valid Parameters & Creates Ride and marks Car as Ready in the DB, returns the created Entity\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} startRide(RideId) : bool \par
+\textit{Components:} CarController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Ride & false, Ride not started \\ \hline
+	Already started RideID & false \\ \hline
+	Valid not started Ride & true, marks the Ride as started and the Car in Use\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} stopRide(RideId) : bool \par
+\textit{Components:} CarController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Ride & false, Ride not stopped \\ \hline
+	Already stopped RideID & false \\ \hline
+	Valid started Ride & true, marks the Ride as stopped and the Car Ready\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} CalculateFee(RideId) : Payment \par
+\textit{Components:} PaymentController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Ride & Null, Fee not calculated\\ \hline
+	Not stopped RideID & Null, Fee has to be calculated on a stopped Ride \\ \hline
+	Valid stopped Ride & Calculates all the Extra Fees appliable in the Ride and creates Payment with the Payment Controller.\\ \hline
+\end{tabular}
+\end{center}
 
 \subsection{Reservation Controller}
+\textbf{Function:} createReservation(UserID, CarID) : Reservation \par
+\textit{Components:} CarController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & Null, Reservation not created \\ \hline
+	Valid Parameters & Creates Reservation and marks Car as Reserved in the DB, returns the created Entity\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} cancelReservation(ReservationID) : bool \par
+\textit{Components:} CarController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null ReservationID & false, Reservation not canceled \\ \hline
+	Already canceled or confirmed Reservation RideID & false, Reservation has to be pending to be canceled \\ \hline
+	Valid Reservation & true, marks the Reservation as canceled and the Car as Available\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} confirmReservation(ReservationID) : bool \par
+\textit{Components:} RideController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null ReservationID & false, Ride not stopped \\ \hline
+	Already canceled or confirmed ReservationID & false, Reservation has to be pending to be confirmed\\ \hline
+	Valid started Reservation & true, Creates the corresponding Ride for the Reservation, marks the Reservation as confirmed\\ \hline
+\end{tabular}
+\end{center}
 
 \subsection{User Report Controller}
+\textbf{Function:} createUserReport(CRMID, UserID, CarID) : UserReport \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & Null, UserReport not created \\ \hline
+	Valid Parameters & Creates UserReport, returns the created Entity\\ \hline
+\end{tabular}
+\end{center}
 
 \subsection{User Controller}
+Functions of the User (and CRM) Controller integrate with functions of other Controllers since they change the status of the User and then relegate the changes of the other Entities to the respective Controllers. For the functions that were presented on the previous Controllers we will reduce repetitiveness by reducing the details of already explained output for functions. Look at the DD for detailed information of the interaction between components. \par
+\textbf{Function:} registerUser(User Parameters) : User \par
+\textit{Components:} EmailHelper
+\textit{//Look up the RASD for the User Parameters}
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & Null, User not created \\ \hline
+	Valid Parameters & Creates User in the DB, sends Password mail and returns the created Entity\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} logIn(UserID, Password) : bool \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false, Invalid User Exception\\ \hline
+	Already logged in User & false, User already logged in Exception\\ \hline
+	Valid Parameters on DB & true, Logs in User into the System \\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} logOut(UserID) : bool \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false, Invalid User Exception\\ \hline
+	Already logged out User & false, User already logged out Exception\\ \hline
+	Valid Parameters on DB & true, Logs out User from the System \\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} reserveCar(UserID, CarID) : ReservationID \par
+\textit{Components:} ReservationController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & Null, Reservation not created and status not changed\\ \hline
+	Already Reserved Car or User & false, Car and User cannot have more than one Reservation at a time\\ \hline
+	Valid Parameters & true, Creates Reservation binds ReservationID to the User \\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} confirmReservation(UserID, ReservationID) : RideID \par
+\textit{Components:} ReservationController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & Null, Ride not created\\ \hline
+	Already confirmed Reservation & false, Ride not created\\ \hline
+	User with already active Ride & false, Ride not created\\ \hline
+	Valid User and Reservation& true, Creates Ride and binds RideID to the User \\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} cancelReservation(UserID, ReservationID) : bool \par
+\textit{Components:} ReservationController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false, Invalid Parameters Exception\\ \hline
+	User not binded to Reservation & false, Invalid Reservation Exception\\ \hline
+	Valid User and Reservation& true, unbinds Reservation form User\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} endRide(UserID, RideID) : bool \par
+\textit{Components:} RideController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false, Invalid Parameters Exception\\ \hline
+	User not binded to Ride & false, Invalid Ride Exception\\ \hline
+	Valid User and Ride& true, stops the ride and calculates and executes the Payment\\ \hline
+\end{tabular}
+\end{center}
+\newpage
 
 \subsection{CRM Controller}
-
+\textbf{Function:} logIn(CRMID, Password) : bool \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false, Invalid CRM Exception\\ \hline
+	Already logged in CRM & false, CRM already logged in Exception\\ \hline
+	Valid Parameters on DB & true, Logs in CRM into the System \\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} logOut(CRMID) : bool \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false, Invalid CRMID Exception\\ \hline
+	Already logged out CRMID & false, CRMID already logged out Exception\\ \hline
+	Valid Parameters on DB & true, Logs out CRMID from the System \\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} createUserReport(CRMID, UserID, CarID, CarStatus) : UserReport \par
+\textit{Components:} UserReportController, CarController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & Null, UserReport not created\\ \hline
+	Valid Parameters & true, Creates UserReport and changes the CarStatus if necessary\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} cancelReservation(UserID, ReservationID) : bool \par
+\textit{Components:} ReservationController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false, Invalid Parameters Exception\\ \hline
+	Valid User and Reservation& true, cancels Reservation\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} createReservation(UserID, CarID) : bool \par
+\textit{Components:} ReservationController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false, Invalid Parameters Exception\\ \hline
+	Valid User and Reservation& true, creates new Reservation for User\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} endRide(UserID, RideID) : bool \par
+\textit{Components:} RideController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false, Invalid Parameters Exception\\ \hline
+	Valid User and Reservation& true, cancels Ride\\ \hline
+\end{tabular}
+\end{center}
 \subsection{User Component}
+\textbf{Function:} logInUser(UserName, Password) : bool \par
+\textit{Components:} UserController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false\\ \hline
+	Valid Parameters & true if UserController logs in the User\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} logOutUser(UserName) : bool \par
+\textit{Components:} UserController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false\\ \hline
+	Valid Parameters & true if UserController logs out the User\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} registerUser(UserParameters) : bool \par
+\textit{Components:} UserController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false\\ \hline
+	Valid Parameters & true if UserController registers the User\\ \hline
+\end{tabular}
+\end{center}
+
+\textbf{Function:} searchNearbyCars(Location) : List\(<Car>\) \par
+\textit{Components:} CarController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Location & Shows all Cars in the MainPage Map\\ \hline
+	Valid Parameters & Shows the nearby Cars in the MainPage Map\\ \hline
+\end{tabular}
+\end{center}
+\newpage
+
+\textbf{Function:} reserveCar(UserID, CarID) : bool \par
+\textit{Components:} UserController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false\\ \hline
+	Valid Parameters & true if UserController was able to reserve the Car\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} cancelReservation(UserID, ReservationID) : bool \par
+\textit{Components:} UserController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false\\ \hline
+	Valid Parameters & true if UserController was able to cancel Reservation\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} confirmlReservation(UserID, ReservationID) : bool \par
+\textit{Components:} UserController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false\\ \hline
+	Valid Parameters & true if UserController was able to confirm Reservation\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} endRide(UserID, RideID) : bool \par
+\textit{Components:} UserController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false\\ \hline
+	Valid Parameters & true if UserController was able to end the Ride\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} findLocation(Location) : List\(<Location>\) \par
+\textit{Components:} LocationHelper
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid Location & Empty Path\\ \hline
+	Valid Parameters & shows the desired path in the Ride Map\\ \hline
+\end{tabular}
+\end{center}
+\newpage
+
+\textbf{Function:} activateMoneySavingOption(Location) : Location \par
+\textit{Components:} LocationHelper
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid Location & Null Location\\ \hline
+	Valid Parameters & shows the best Re-Charging Station in the Ride Map\\ \hline
+\end{tabular}
+\end{center}
 
 \subsection{CRM Component}
+\textbf{Function:} logInCRM(CRMID, Password) : bool \par
+\textit{Components:} CRMController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false\\ \hline
+	Valid Parameters & true if CRMController logs in the CRM\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} logOutCRM(CRMName) : bool \par
+\textit{Components:} CRMController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid or Null Parameters & false\\ \hline
+	Valid Parameters & true if CRMController logs out the User\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} findCars(Location, CarStatus) : List\(<Car>\) \par
+\textit{Components:} CarController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid Parameters & Empty List\\ \hline
+	Valid Parameters & shows the List of desired Cars\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} findUsers(UserStatus) : List\(<User>\) \par
+\textit{Components:} UserController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid Parameters & Empty List\\ \hline
+	Valid Parameters & shows the List of desired Users\\ \hline
+\end{tabular}
+\end{center}
+\newpage
+
+\textbf{Function:} findReservations(UserID, CarID, ReservationStatus) : \par List\(<Reservation>\) \par
+\textit{Components:} ReservationController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid Parameters & Empty List\\ \hline
+	Valid Parameters & shows the List of desired Reservations\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} findRides(UserID, CarID, RideStatus) : List\(<Ride>\) \par
+\textit{Components:} RideController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid Parameters & Empty List\\ \hline
+	Valid Parameters & shows the List of desired Rides\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} findPayments(UserID, CarID) : List\(<Payments>\) \par
+\textit{Components:} PaymentController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid Parameters & Empty List\\ \hline
+	Valid Parameters & shows the List of desired Payments\\ \hline
+\end{tabular}
+\end{center}
+
+\textbf{Function:} findUserReports(UserID, CarID, CRMID) : List\(<UserReports>\) \par
+\textit{Components:} UserReportController
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	Invalid Parameters & Empty List\\ \hline
+	Valid Parameters & shows the List of desired UserReports\\ \hline
+\end{tabular}
+\end{center}
+
 
 \subsection{Car Component}
-
+\textbf{Function:} getLocation() : Location \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	None & returns Car Location\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} getNumberOfPassengers() : int \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	None & returns the current Number of Passengers in the Car\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} getBatteryStatus() : float \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	None & returns the current Battery Status in percentage (0-100)\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} isPluggedIn() : bool \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	None & returns true if the Car is plugged in a Re-Charging Station, false otherwise\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} lockCar() : bool \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	None & returns true if Car was Locked\\ \hline
+\end{tabular}
+\end{center}
+\textbf{Function:} unlockCar() : bool \par
+\begin{center}
+\begin{tabular}{ | L{6cm} | L{6cm} | }
+\hline
+	\textit{Input}& \textit{Response}\\ \hline
+	None & returns true if Car was Unlocked\\ \hline
+\end{tabular}
+\end{center}
 \newpage
 \section{Performance Analysis}
 
@@ -370,6 +846,7 @@ The tools chosen for the Java EE and the EIS tiers were specifically three and e
 However, it is still necessary to  test components withheld in the Client tier,  specifically the mobile applications. In this matter, it will be used tools provided with each platform (IOS and Android have their own performance analysis tool that comes along with the SDK of the plataform). Also as stated in the previous session, particularly harsh situations as low battery, bad network coverage and low available memory need to be taken into account. 
 
 These tools ensure that every aspect of the application is tested in the proper way and provide all the necessary features to accomplish the proposed points of this document.
+\newpage
 
 \subsection{Test Equipment}
 
@@ -416,7 +893,7 @@ Finally, a identical server structure of the one used for the final deployment n
 	08/01/17& - & - & 5h \\ \hline
 	09/01/17& - & - & 4h \\ \hline
 	10/01/17& 2h & - & - \\ \hline
-	11/01/17& - & - & - \\ \hline
+	11/01/17& 2h & - & - \\ \hline
 	12/01/17& - & - & - \\ \hline
 	13/01/17& - & - & - \\ \hline
 	14/01/17& - & - & - \\ \hline
