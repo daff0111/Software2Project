@@ -873,22 +873,32 @@ Finally, a identical server structure of the one used for the final deployment n
 \section{Required Program Stubs and Test Data}
 
 \subsection{Program Stubs and Drivers}
-It was choseen as integration testing strategy the the Bottom-up type. Due that it will be necessary the employment of Drivers to act as callers of the methods that need to be tested. The drivers that are listed will compose the integration testing.
-
+It was chosen as integration testing strategy the the Bottom-up type. Due that it will be necessary the employment of Drivers to act as callers of the methods that need to be tested. The drivers that are listed below will compose the integration testing.
 \begin{itemize}
-\item \textbf{Location Helper Driver: }
-\item \textbf{Email Helper Driver: }
-\item \textbf{Chat Service Driver: }
-\item \textbf{Car Controller Driver: } 
-\item \textbf{Payment Controller Driver: }
-\item \textbf{Ride Controller Driver: } 
-\item \textbf{Reservation Controller Driver: } 
-\item \textbf{User Report Controller: }
-\item \textbf{User Controller: }
-\item \textbf{CRM Controller Driver: } 
-\item \textbf{User Component Driver: }
-\item \textbf{CRM Component Driver: }
-\item \textbf{Car Component: }	
+\item \textbf{DBMS Driver:} Being the first in need to be integrated, the DBMS Driver will call the methods of the DBMS to test the interaction of the DBMS with the subsystems.
+
+\item \textbf{Location Helper Driver:} Although this driver has the main function to test the interaction among Location Helper and the Car Controller it will test also functions such as of the Standard Deviation Algorithm used in the function ‘getBestRechargingStation’ and the interaction of the functions with the Google Maps API.
+
+\item \textbf{Email Helper Driver:} This driver will test the interaction of the Email Helper with Payment Controller and will test the functionality by calling the components of the Helper.
+
+\item \textbf{Chat Service Driver:}This driver will test the interaction of the component of the Chat Service with the CRM Controller by calling the method of the Chat Service.
+
+\item \textbf{Car Controller Driver:} This driver will test the interaction of the  Car Controller with the Location Helper and with the Ride Controller by calling the methods of the Car Controller. In this case one method of the car controller will call as stipulated the Location Helper.  
+
+\item \textbf{Payment Controller Driver:} This driver will test the interaction of the Payment Controller with the Email Helper and with the Ride Controller by calling the methods of the Payment Controller. In this case one method of the car controller will call as stipulated the Email Helper.  
+
+\item \textbf{Ride Controller Driver:} This driver will test the interaction of the Ride Controller with the Car Controller and with the Payment Controller by calling the methods of the Ride Controller. 
+
+
+\item \textbf{Reservation Controller Driver:} This driver will test the interaction of the Reservation Controller with the Ride Controller, User Controller and with the CRM Controller by calling the methods of the Reservation Controller. 
+
+
+\item \textbf{User Report Controller Driver:}  This driver will test the interaction of the User Report Controller with the CRM Controller by calling the methods of the User Report Controller. 
+
+\item \textbf{User Controller Driver:} This driver will test the interaction of the User Controller with the Reservation Controller by calling the methods of the User Controller. 
+
+
+\item \textbf{CRM Controller Driver: } This driver will test the interaction of the CRM Controller with the User Report Controller and the Chat Service by calling the methods of the User Controller. 
 \end{itemize}  
 
 \subsection{Test Data}
@@ -914,7 +924,7 @@ It was choseen as integration testing strategy the the Bottom-up type. Due that 
 	09/01/17& - & - & 4h \\ \hline
 	10/01/17& 2h & 2h & - \\ \hline
 	11/01/17& 2h & 5h & - \\ \hline
-	12/01/17& - & - & - \\ \hline
+	12/01/17& - & 5h & - \\ \hline
 	13/01/17& - & - & - \\ \hline
 	14/01/17& - & - & - \\ \hline
 \end{tabular}
