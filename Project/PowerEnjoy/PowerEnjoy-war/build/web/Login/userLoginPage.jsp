@@ -19,7 +19,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Welcome Page</title>
     <center id="logo"><a href="/PowerEnjoy-war"><img src="http://localhost:8080/PowerEnjoy-war/resources/powerEnjoyLogo.png" alt="logo" style="width:700px;height:240px;"/></a></center>
-    <link rel="stylesheet" href="http://localhost:8080/PowerEnjoy-war/styles/main.css" media="screen">
+    <link rel="stylesheet" href="http://localhost:8080/PowerEnjoy-war/styles/main.css" media="screen">                         
 </head>
 <body bgcolor="#006FF1">
 <center>
@@ -35,7 +35,7 @@
             <input type="text" placeholder="username" name="username" size="20"><br><br>
             <input type="password" placeholder="password" name="password"size="20"><br><br>
             <input type="submit" value="Login">&nbsp;
-            <a href="http://localhost:8080/PowerEnjoy-war/Login/registerPage.jsp">
+            <a href="http://localhost:8080/PowerEnjoy-war/web/Login/registerPage.jsp">
                 <input type="button" value="Register">
             </a>
             <script type="text/javascript">

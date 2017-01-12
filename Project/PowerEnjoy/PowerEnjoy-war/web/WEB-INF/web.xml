@@ -58,6 +58,11 @@
         <servlet-name>MainPageServlet</servlet-name>
         <servlet-class>penjoySrc.servlets.user.MainPageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>Reservation Servlet</display-name>
+        <servlet-name>ReservationServlet</servlet-name>
+        <servlet-class>penjoySrc.servlets.user.ReservationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainPageServlet</servlet-name>
         <url-pattern>/MainPage</url-pattern>
