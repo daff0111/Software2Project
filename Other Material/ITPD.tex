@@ -873,24 +873,24 @@ Finally, a identical server structure of the one used for the final deployment n
 \section{Required Program Stubs and Test Data}
 
 \subsection{Program Stubs and Drivers}
-It was chosen as integration testing strategy the Bottom-up type. Due that it will be necessary the employment of Drivers to act as callers of the methods/components that need to be tested. The drivers that are listed below will compose the integration testing.
+It was chosen as integration testing strategy the Bottom-up type. Due that it will be necessary the employment of Drivers to act as callers of the methods/components that going to be tested. Moreover it'is not excluded the possibility of implementing some stubs as the testing phase is in process. The drivers that are listed below will compose the integration testing.
 \begin{itemize}
 \item \textbf{DBMS Driver:} Being the first in need to be integrated, the DBMS Driver will call the methods of the DBMS to test the interaction of the DBMS with the subsystems.
 
-\item \textbf{Location Helper Driver:} Although this driver has the main function to test the interaction among Location Helper and the Car Controller it will test also functions such as of the Standard Deviation Algorithm used in the function ‘getBestRechargingStation’ and the interaction of the functions with the Google Maps API.
+\item \textbf{Location Helper Driver:} Although the main function of this driver is to test the interaction among Location Helper and the Car Controller it will test also functions such as of the Standard Deviation Algorithm used in the function 'getBestRechargingStation' and the interaction of the functions with the Google Maps API.
 
-\item \textbf{Email Helper Driver:} This driver will test the interaction of the Email Helper with Payment Controller and will test the functionality by calling the components of the Helper as sending the password by e-mail for the user.
+\item \textbf{Email Helper Driver:} This driver will test the interaction of the Email Helper with Payment Controller and will test also the functionality of it by calling the components of the it as example the method that sends the password in the  user's e-mail.
 
-\item \textbf{Chat Service Driver:}This driver will test the interaction of the component of the Chat Service with the CRM Controller by calling the method of the Chat Service.
+\item \textbf{Chat Service Driver:} This driver will test the interaction of the component of the Chat Service with the CRM Controller by calling the method of the Chat Service.
 
-\item \textbf{Car Controller Driver:} This driver will test the interaction of the  Car Controller with the Location Helper and with the Ride Controller by calling the methods of the Car Controller. In this case one method of the car controller will call as stipulated the Location Helper.  
+\item \textbf{Car Controller Driver:} This driver will test the interaction of the  Car Controller with the Location Helper and with the Ride Controller by calling the methods of the Car Controller. In this set one method of the Car Controller will call one previous component the Location Helper.  
+\item \textbf{Payment Controller Driver:} This driver will test the interaction of the Payment Controller with the Email Helper and with the Ride Controller by calling the methods of the Payment Controller.In this set one method of the Payment Controller will call one previous component the Email Helper.  
 
-\item \textbf{Payment Controller Driver:} This driver will test the interaction of the Payment Controller with the Email Helper and with the Ride Controller by calling the methods of the Payment Controller. In this case one method of the car controller will call as stipulated the Email Helper.  
-\item \textbf{Ride Controller Driver:} This driver will directly test the interaction of the Ride Controller with the Car Controller, Payment Controller and with the Reservation Controler.Upon the calling of the methods of the Ride Controller the connection of it with the Reservation Controlleras well as their relation with the past components(Car Controller, Payment Controller) will be tested.
-\item \textbf{Reservation Controller Driver:} This driver will test the interaction of the Reservation Controller with the Ride Controller, User Controller and with the CRM Controller by calling the methods of the Reservation Controller. 
+\item \textbf{Ride Controller Driver:} This driver will test the interaction of the Ride Controller with the Car Controller and with the previous components connected with them upon the request of the methods. It will be tested by calling the methods of the Ride Controller.
 
+\item \textbf{Reservation Controller Driver:} This driver will test the interaction of the Reservation Controller with the  User Controller, CRM Controller and with the previous components connected with them upon the request of the methods. It will be tested by calling the methods of the  Reservation Controller.
 
-\item \textbf{User Report Controller Driver:}  This driver will test the interaction of the User Report Controller with the CRM Controller by calling the methods of the User Report Controller. 
+\item \textbf{User Report Controller Driver:} This driver will test the interaction of the User Report Controller with the CRM Controller by calling the methods of the User Report Controller. 
 
 \item \textbf{User Controller Driver:} This driver will test the interaction of the User Controller with the Reservation Controller by calling the methods of the User Controller. 
 
@@ -901,7 +901,7 @@ It was chosen as integration testing strategy the Bottom-up type. Due that it wi
 \subsection{Test Data}
 It will be necessary some set of data for the testing phase and they will be:
 \begin{itemize}
-\item A list with valid and invalid  locations. Also the list must test the following aspects of the system:
+\item A list with valid and invalid  locations for the Location Helper. Also the list must test the following aspects of the system:
 \begin{itemize}
      \item Null objects
      \item Null fields
@@ -921,27 +921,25 @@ It will be necessary some set of data for the testing phase and they will be:
      \item Available status of the CRM operator
      \item Unavailable status of the CRM operator   
      \end{itemize}
-\item A list with valid and invalid Reservations for the CRM Component. Also the list must test the following aspects of the system:
-\begin{itemize}
-     \item Null objects
-     \item Null fields
-     \item Available status of the CRM operator
-     \item Unavailable status of the CRM operator   
-     \end{itemize}
-
-\item A list with valid and invalid User Report's for the User Report Controller. Also the list must test the following aspects of the system:
+     
+\item A list with valid and invalid Reservations for the Reservation Controller. Also the list must test the following aspects of the system:
 \begin{itemize}
      \item Null objects
      \item Null fields
      \end{itemize}
 
-
-\item A list with valid and invalid Rides for the User Report Controller. Also the list must test the following aspects of the system:
+\item A list with valid and invalid Ride's for the Ride Controller. Also the list must test the following aspects of the system:
 \begin{itemize}
      \item Null objects
      \item Null fields
      \end{itemize}
      
+\item A list with valid and invalid User Report's for the User Report Controller. Also the list must test the following aspects of the system:
+\begin{itemize}
+     \item Null objects
+     \item Null fields
+     \end{itemize}
+  
 
 \end{itemize}  
 \newpage
@@ -966,7 +964,7 @@ It will be necessary some set of data for the testing phase and they will be:
 	10/01/17& 2h & 2h & - \\ \hline
 	11/01/17& 2h & 5h & - \\ \hline
 	12/01/17& - & 5h & - \\ \hline
-	13/01/17& - & - & - \\ \hline
+	13/01/17& - & 3h & - \\ \hline
 	14/01/17& - & - & - \\ \hline
 \end{tabular}
 \newpage
