@@ -33,6 +33,49 @@ public class CarSearchBean {
         return q.getResultList();
     }
 
+    public Car getCarByID(Long id) {
+        m_carManagerFactory = Persistence.createEntityManagerFactory("PUnit");
+        EntityManager em = m_carManagerFactory.createEntityManager();
+        TypedQuery<Car> q = em.createNamedQuery("Car.findById", Car.class);
+        q.setParameter("id", id);
+        if(q.getResultList().size() > 0)
+        {
+            return q.getResultList().get(0);
+        }
+        return null;
+    }
+    
+    public boolean reserveCarByID(Long id) {
+        Car car = getCarByID(id);
+        if(car != null)
+        {
+            return reserveCar(car);
+        }
+        return false;
+    }
+    
+    public boolean reserveCar(Car car) {
+        return setCarStatus(car, Car.CarStatus.Reserved);
+    }
+    
+    public boolean setCarStatus(Car car, Car.CarStatus status) {
+        if(car.getCarStatus() != status)
+        {
+            m_carManagerFactory = Persistence.createEntityManagerFactory("PUnit");
+            EntityManager em = m_carManagerFactory.createEntityManager();
+        
+            car.setCarStatus(status);
+
+            //Commint car to DB
+            em.getTransaction().begin();
+            em.persist(car);
+            em.getTransaction().commit();
+            em.close();
+            return true;
+        }
+        return false;
+    }
+          
     //Test Function, create a Set of Cars in the DB
     public void createCars() {
         m_carManagerFactory = Persistence.createEntityManagerFactory("PUnit");

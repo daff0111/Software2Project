@@ -15,7 +15,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import penjoy.ejb.car.Car;
+import penjoy.ejb.car.CarSearchBean;
 import penjoy.ejb.reservation.Reservation;
 
 import penjoy.ejb.reservation.ReservationBean;
@@ -30,6 +32,7 @@ public class ReservationServlet extends BaseServlet {
 
     @EJB
     private ReservationBean m_reservationBean;
+    private CarSearchBean m_carSearchBean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,68 +45,49 @@ public class ReservationServlet extends BaseServlet {
      */
     protected void processReservation(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(!request.getParameter("carID").isEmpty())
+        {
+            Long carID = Long.parseLong(request.getParameter("carID"));
+                    
+            //Get User ID
+            HttpSession session = request.getSession(true);
+            Long userID = Long.parseLong(session.getAttribute("id").toString());
+            //Reservation activeReservation = m_reservationBean.getAvailableCars();
 
-        //Reservation activeReservation = m_reservationBean.getAvailableCars();
-        /*
-        request.setAttribute("carsNum", availableCarList.size());
-        String userLocation = "45.462,9.177";//request.getAttribute("userLocation").toString();
-        //Send the list of Cars to the Main Page
-        ServletOutputStream out = response.getOutputStream();
-        out.println(getMainPageBody(availableCarList, userLocation));*/
-        //getServletContext().getRequestDispatcher("/UserPages/mainPage.jsp").forward(request, response);
+            Car reservedCar = m_carSearchBean.getCarByID(carID);
+            if(reservedCar != null)
+            {
+                if(m_carSearchBean.reserveCar(reservedCar))
+                {
+                    Reservation newReservation = m_reservationBean.createReservation(userID, carID);
+                    String userLocation = "45.462,9.177";//request.getAttribute("userLocation").toString();
+                    ServletOutputStream out = response.getOutputStream();
+                    out.println(getReservationPageBody(reservedCar, userLocation));
+                }
+                //getServletContext().getRequestDispatcher("/UserPages/reservationPage.jsp").forward(request, response);
+            } 
+        }
+        else
+        {
+            getServletContext().getRequestDispatcher("/MainPage").forward(request, response);
+        }
     }
     
 // <editor-fold defaultstate="collapsed" desc="Test Function: getMainPageBody">
-   private String getMainPageBody(List<Car> availableCarList, String userLocation) {
+   private String getReservationPageBody(Car reservedCar, String userLocation) {
         String response = "";
         float userLatitude = LocationHelper.getLatitude(userLocation);
         float userLongitude = LocationHelper.getLongitude(userLocation);
         //Response Head
         response = response + "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
                     +"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
-                    +"<title>Main Page</title>"
+                    +"<title>Reservation Page</title>"
                     +"<center id=\"logo\"><a href=\"/PowerEnjoy-war\"><img src=\"http://localhost:8080/PowerEnjoy-war/resources/powerEnjoyLogo.png\" alt=\"logo\" style=\"width:350px;height:120px;\"/></a></center>\n" 
                     +"<link rel=\"stylesheet\" href=\"http://localhost:8080/PowerEnjoy-war/styles/main.css\" media=\"screen\"></head>";                        
         //Response Body
         response = response +"<body bgcolor=\"#006FF1\">";
-        /*            +"<table border=\"0\"><col width=\"300px\" /><col width=\"800px\" />"
-                    //+"<tr><td><comment>Car List will be here."
-                    //+"<br>There are "+ availableCarList.size()+ " Cars Available</comment><br>"
-                    //+"<br><comment>User Location: "+ userLocation +"</comment><br></td><\tr>\n"
-                    +"<tr><td><nav><ul> <carbox>Car 1</carbox>\n" +
-                "      <carbox>Car 2</carbox>\n" +
-                "      <br>Car 3\n" +
-                "      <br>Car 4\n" +
-                "      <br>Car 5\n" +
-                "      <br>Car 6 \n" +
-                "      <br>Car 7 \n" +
-                "      <br>Car 8\n" +
-                "      <br>Car 9\n" +
-                "      <br>Car 10\n" +
-                "      <br>Car 11\n" +
-                "      <br>Car 12\n" +
-                "      <br>Car 13\n" +
-                "      <br>Car 14\n" +
-                "      <br>Car 15\n" +
-                "      <br>Car 16\n" +
-                "      <br>Car 17\n" +
-                "      <br>Car 18\n" +
-                "      <br>Car 19\n" +
-                "      <br>Car 20\n" +
-                "      <br>Car 21\n" +
-                "      <br>Car 22\n" +
-                "      <br>Car 23\n" +
-                "      <br>Car 24\n" +
-                "      <br>Car 25\n" +
-                "      <br>Car 26\n" +
-                "      <br>Car 27\n" +
-                "      <br>Car 28\n" +
-                "      <br>Car 29\n" +
-                "      </ul></nav></td>";
-        */         
-
         //Map Functions
-        response = response +/*"<td>"+*/"<div id=\"map\"></div><script>\n"+
+        response = response +"<div id=\"map\"></div><script>\n"+
         //Car Click Path Function
                 "function createWalkingPath(from, to, infoWindow, directionsService, directionsDisplay) {\n" +
 "                directionsService.route({\n" +
@@ -151,10 +135,8 @@ public class ReservationServlet extends BaseServlet {
 "                        var carImage = \"http://localhost:8080/PowerEnjoy-war/resources/map_car_icon.png\";\n";
 //"                        var markers = [];\n";
         int carCount = 0;
-        for(Car aCar : availableCarList)
-        {
-            float lat = aCar.getLatitude();
-            float lng = aCar.getLongitude();
+        float lat = reservedCar.getLatitude();
+        float lng = reservedCar.getLongitude();
             //Add Car Marker
             response = response + "var car"+carCount+" = {lat: "+lat+", lng: "+lng+"};\n"+
 "                       var marker"+carCount+" = new google.maps.Marker({\n" +
@@ -169,7 +151,6 @@ public class ReservationServlet extends BaseServlet {
 "                        createWalkingPath(userPos, car"+carCount+", infoWindow, directionsService, directionsDisplay);\n" +
 "                    });\n";
             carCount++;
-        }
         //Error Handling
         response = response + "} else {\n" +
 "                        // Browser doesn't support Geolocation\n" +
@@ -209,7 +190,7 @@ public class ReservationServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (sessionCheck(request, response)) {
-            processCarSearch(request, response);
+            processReservation(request, response);
         } else {
             getServletContext().getRequestDispatcher("/Login/userLoginPage.jsp").forward(request, response);
         }
@@ -219,7 +200,7 @@ public class ReservationServlet extends BaseServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (sessionCheck(request, response)) {
-            processCarSearch(request, response);
+            processReservation(request, response);
         } else {
             getServletContext().getRequestDispatcher("/Login/userLoginPage.jsp").forward(request, response);
         }
@@ -232,7 +213,7 @@ public class ReservationServlet extends BaseServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Main Page Servlet";
+        return "Reservation Servlet";
     }// </editor-fold>
 
 }

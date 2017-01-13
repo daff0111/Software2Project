@@ -56,7 +56,7 @@ public class ReservationBean {
     }
 
     //Test Function, create a Set of Reservations in the DB
-    public void createReservation(Long userID, Long carID) {
+    public Reservation createReservation(Long userID, Long carID) {
         m_ReservationManagerFactory = Persistence.createEntityManagerFactory("PUnit");
         EntityManager em = m_ReservationManagerFactory.createEntityManager();
         
@@ -80,5 +80,7 @@ public class ReservationBean {
         em.getTransaction().commit();
         
         em.close();
+        
+        return newReservation;
     }
 }

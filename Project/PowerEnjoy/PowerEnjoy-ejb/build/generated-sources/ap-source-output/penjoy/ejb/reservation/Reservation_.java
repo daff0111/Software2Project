@@ -5,7 +5,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import penjoy.ejb.reservation.Reservation.ReservationStatus;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-01-12T20:24:54")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-01-13T11:44:29")
 @StaticMetamodel(Reservation.class)
 public class Reservation_ { 
 

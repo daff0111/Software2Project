@@ -52,16 +52,21 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
+    <!--Reservation Servlet-->
+    <servlet>
+        <display-name>Reservation Servlet</display-name>
+        <servlet-name>ReservationServlet</servlet-name>
+        <servlet-class>penjoySrc.servlets.user.ReservationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReservationServlet</servlet-name>
+        <url-pattern>/Reservation</url-pattern>
+    </servlet-mapping>
     <!--Main Page Servlet-->
     <servlet>
         <display-name>Main Page Servlet</display-name>
         <servlet-name>MainPageServlet</servlet-name>
         <servlet-class>penjoySrc.servlets.user.MainPageServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <display-name>Reservation Servlet</display-name>
-        <servlet-name>ReservationServlet</servlet-name>
-        <servlet-class>penjoySrc.servlets.user.ReservationServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MainPageServlet</servlet-name>

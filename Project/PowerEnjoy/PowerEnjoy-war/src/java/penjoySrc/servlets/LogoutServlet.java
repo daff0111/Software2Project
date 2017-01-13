@@ -68,7 +68,13 @@ public class LogoutServlet extends BaseServlet {
             throws ServletException, IOException {
         processLogout(request, response);
     }
-
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processLogout(request, response);
+    }
+    
     /**
      * Returns a short description of the servlet.
      *

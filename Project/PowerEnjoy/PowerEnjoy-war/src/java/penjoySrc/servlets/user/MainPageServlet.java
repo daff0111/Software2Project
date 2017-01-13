@@ -42,12 +42,10 @@ public class MainPageServlet extends BaseServlet {
     protected void processCarSearch(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //Test Cars inDB
-        //m_carSearchBean.createCars();
-        
         List<Car> availableCarList = m_carSearchBean.getAvailableCars();
         request.setAttribute("carsNum", availableCarList.size());
-        String userLocation = "45.462,9.177";//request.getAttribute("userLocation").toString();
-        //Send the list of Cars to the Main Page
+        String userLocation = "45.462,9.177";
+        
         ServletOutputStream out = response.getOutputStream();
         out.println(getMainPageBody(availableCarList, userLocation));
         //getServletContext().getRequestDispatcher("/UserPages/mainPage.jsp").forward(request, response);
@@ -105,7 +103,7 @@ public class MainPageServlet extends BaseServlet {
         //Map Functions
         response = response +/*"<td>"+*/"<div id=\"map\"></div><script>\n"+
         //Car Click Path Function
-                "function createWalkingPath(from, to, infoWindow, directionsService, directionsDisplay) {\n" +
+                "function createWalkingPath(id, from, to, infoWindow, directionsService, directionsDisplay) {\n" +
 "                directionsService.route({\n" +
 "                    origin: from,\n" +
 "                    destination: to,\n" +
@@ -115,7 +113,7 @@ public class MainPageServlet extends BaseServlet {
 "                        var legs = response.routes[0].legs\n"+
 "                        var duration = legs[0].duration.text\n"+
 "                        infoWindow.setPosition(to);\n" +
-"                        infoWindow.setContent('Distance: '+duration);\n"+
+"                        infoWindow.setContent('CarID: '+id+' - Distance: '+duration);\n"+
 "                        directionsDisplay.setDirections(response);\n" +                 
 "                    } else {\n" +
 "                        window.alert('Directions request failed due to ' + status);\n" +
@@ -155,6 +153,7 @@ public class MainPageServlet extends BaseServlet {
         {
             float lat = aCar.getLatitude();
             float lng = aCar.getLongitude();
+            Long carid = aCar.getId();
             //Add Car Marker
             response = response + "var car"+carCount+" = {lat: "+lat+", lng: "+lng+"};\n"+
 "                       var marker"+carCount+" = new google.maps.Marker({\n" +
@@ -166,7 +165,7 @@ public class MainPageServlet extends BaseServlet {
             //Add click Listener
             response = response + 
 "                    marker"+carCount+".addListener('click', function () {\n" +
-"                        createWalkingPath(userPos, car"+carCount+", infoWindow, directionsService, directionsDisplay);\n" +
+"                        createWalkingPath("+carid+", userPos, car"+carCount+", infoWindow, directionsService, directionsDisplay);\n" +
 "                    });\n";
             carCount++;
         }
@@ -187,11 +186,13 @@ public class MainPageServlet extends BaseServlet {
         //Google Maps Connection
         response = response + "<script async defer\n"
                     +"src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyCmFrKyeDan2sXnWj7Uh9NYEwNvYsxtRFg&callback=initMap\">\n"
-                    +"</script>"/*+"</td></tr></table>"*/
-                    +"<center><form action=\"/PowerEnjoy-war/Logout\" method=\"post\">"
-                    +"<input type=\"submit\" value=\"Log Out\"></form></body></html>"
-                    +"<center><form action=\"/PowerEnjoy-war/Reserve\" method=\"post\">"
-                    +"<input type=\"submit\" value=\"Reserve\"></form></body></html>";
+                    +"</script>"
+                    +"<center><form action=\"/PowerEnjoy-war/Reservation\" method=\"post\">"
+                    +"<input type=\"number\" placeholder=\"carID\" name=\"carID\" size=\"20\"><br>"
+                    +"<input type=\"submit\" value=\"Reservation\"></form><br>"
+                    +"<center><a href=\"http://localhost:8080/PowerEnjoy-war/Logout\">\n"
+                    +"<input type=\"button\" value=\"Logout\">\n"
+                    +"</a></body></html>";
         return response;
     }
 // </editor-fold>
