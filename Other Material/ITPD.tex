@@ -873,23 +873,20 @@ Finally, a identical server structure of the one used for the final deployment n
 \section{Required Program Stubs and Test Data}
 
 \subsection{Program Stubs and Drivers}
-It was chosen as integration testing strategy the the Bottom-up type. Due that it will be necessary the employment of Drivers to act as callers of the methods that need to be tested. The drivers that are listed below will compose the integration testing.
+It was chosen as integration testing strategy the Bottom-up type. Due that it will be necessary the employment of Drivers to act as callers of the methods/components that need to be tested. The drivers that are listed below will compose the integration testing.
 \begin{itemize}
 \item \textbf{DBMS Driver:} Being the first in need to be integrated, the DBMS Driver will call the methods of the DBMS to test the interaction of the DBMS with the subsystems.
 
 \item \textbf{Location Helper Driver:} Although this driver has the main function to test the interaction among Location Helper and the Car Controller it will test also functions such as of the Standard Deviation Algorithm used in the function ‘getBestRechargingStation’ and the interaction of the functions with the Google Maps API.
 
-\item \textbf{Email Helper Driver:} This driver will test the interaction of the Email Helper with Payment Controller and will test the functionality by calling the components of the Helper.
+\item \textbf{Email Helper Driver:} This driver will test the interaction of the Email Helper with Payment Controller and will test the functionality by calling the components of the Helper as sending the password by e-mail for the user.
 
 \item \textbf{Chat Service Driver:}This driver will test the interaction of the component of the Chat Service with the CRM Controller by calling the method of the Chat Service.
 
 \item \textbf{Car Controller Driver:} This driver will test the interaction of the  Car Controller with the Location Helper and with the Ride Controller by calling the methods of the Car Controller. In this case one method of the car controller will call as stipulated the Location Helper.  
 
 \item \textbf{Payment Controller Driver:} This driver will test the interaction of the Payment Controller with the Email Helper and with the Ride Controller by calling the methods of the Payment Controller. In this case one method of the car controller will call as stipulated the Email Helper.  
-
-\item \textbf{Ride Controller Driver:} This driver will test the interaction of the Ride Controller with the Car Controller and with the Payment Controller by calling the methods of the Ride Controller. 
-
-
+\item \textbf{Ride Controller Driver:} This driver will directly test the interaction of the Ride Controller with the Car Controller, Payment Controller and with the Reservation Controler.Upon the calling of the methods of the Ride Controller the connection of it with the Reservation Controlleras well as their relation with the past components(Car Controller, Payment Controller) will be tested.
 \item \textbf{Reservation Controller Driver:} This driver will test the interaction of the Reservation Controller with the Ride Controller, User Controller and with the CRM Controller by calling the methods of the Reservation Controller. 
 
 
@@ -902,7 +899,30 @@ It was chosen as integration testing strategy the the Bottom-up type. Due that i
 \end{itemize}  
 
 \subsection{Test Data}
+It will be necessary some set of data for the testing phase and they will be:
+\begin{itemize}
+\item A list with valid and invalid  locations. Also the list must test the following aspects of the system:
+\begin{itemize}
+     \item Null objects
+     \item Null fields
+     \item Location not in the required format
+   \end{itemize}
+\item A list with valid and invalid Users for the User Component. Also the list must test the following aspects of the system:
+\begin{itemize}
+     \item Null objects
+     \item Null fields
+     \item User already registered
+     \item Invalid E-mail address
+     \item Format of the driving license is not suitable   \end{itemize}
+\item A list with valid and invalid CRM operators for the CRM component. Furthermore the list must contain:
+\begin{itemize}
+     \item Null objects
+     \item Null fields
+     \item Available status of the CRM operator
+     \item Unavailable status of the CRM operator   
+     \end{itemize}
 
+\end{itemize}  
 \newpage
 \section{Effort Spent}
 \begin{tabular}{ | c | c | c | c | }
