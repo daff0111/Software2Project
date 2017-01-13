@@ -117,11 +117,11 @@ public class Reservation implements Serializable {
     }
     
     public String getPickUpTime() {
-        return reservationTime;
+        return pickUpTime;
     }
 
-    public void setPickUpTime(String reservationTime) {
-        this.reservationTime = reservationTime;
+    public void setPickUpTime(String pickUpTime) {
+        this.pickUpTime = pickUpTime;
     }
 // </editor-fold>
 

@@ -26,6 +26,7 @@ public class CarSearchBean {
     private EntityManagerFactory m_carManagerFactory;
 
     public List<Car> getAvailableCars() {
+        createCars();
         m_carManagerFactory = Persistence.createEntityManagerFactory("PUnit");
         EntityManager em = m_carManagerFactory.createEntityManager();
         TypedQuery<Car> q = em.createNamedQuery("Car.findByStatus", Car.class);
@@ -63,15 +64,16 @@ public class CarSearchBean {
         {
             m_carManagerFactory = Persistence.createEntityManagerFactory("PUnit");
             EntityManager em = m_carManagerFactory.createEntityManager();
-        
-            car.setCarStatus(status);
-
-            //Commint car to DB
-            em.getTransaction().begin();
-            em.persist(car);
-            em.getTransaction().commit();
-            em.close();
-            return true;
+            Car changedCar = em.find(Car.class, car.getId());
+            if (changedCar != null)
+            {
+                //Set newCar Status
+                em.getTransaction().begin();
+                changedCar.setCarStatus(status);
+                em.getTransaction().commit();
+                em.close();
+                return true;
+            }
         }
         return false;
     }

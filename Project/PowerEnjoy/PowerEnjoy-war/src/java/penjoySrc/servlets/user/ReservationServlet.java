@@ -32,6 +32,7 @@ public class ReservationServlet extends BaseServlet {
 
     @EJB
     private ReservationBean m_reservationBean;
+    @EJB
     private CarSearchBean m_carSearchBean;
 
     /**
@@ -53,7 +54,7 @@ public class ReservationServlet extends BaseServlet {
             HttpSession session = request.getSession(true);
             Long userID = Long.parseLong(session.getAttribute("id").toString());
             //Reservation activeReservation = m_reservationBean.getAvailableCars();
-
+            System.out.println("CarID: "+carID);
             Car reservedCar = m_carSearchBean.getCarByID(carID);
             if(reservedCar != null)
             {
@@ -169,10 +170,12 @@ public class ReservationServlet extends BaseServlet {
         response = response + "<script async defer\n"
                     +"src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyCmFrKyeDan2sXnWj7Uh9NYEwNvYsxtRFg&callback=initMap\">\n"
                     +"</script>"/*+"</td></tr></table>"*/
-                    +"<center><form action=\"/PowerEnjoy-war/Logout\" method=\"post\">"
-                    +"<input type=\"submit\" value=\"Log Out\"></form></body></html>"
-                    +"<center><form action=\"/PowerEnjoy-war/Reserve\" method=\"post\">"
-                    +"<input type=\"submit\" value=\"Reserve\"></form></body></html>";
+                    +"<center><a href=\"http://localhost:8080/PowerEnjoy-war/PickUp\">\n"
+                    +"<input type=\"button\" value=\"PickUp\">\n"
+                    +"</a>"
+                    +"<center><a href=\"http://localhost:8080/PowerEnjoy-war/Logout\">\n"
+                    +"<input type=\"button\" value=\"Logout\">\n"
+                    +"</a></body></html>";
         return response;
     }
 // </editor-fold>

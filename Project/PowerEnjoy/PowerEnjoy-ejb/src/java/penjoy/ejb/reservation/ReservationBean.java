@@ -66,10 +66,10 @@ public class ReservationBean {
         newReservation.setUserId(userID);
         newReservation.setReservationStatus(Reservation.ReservationStatus.Active);
         
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date reservationTime = new Date();
         Date pickupTime = new Date();
-        pickupTime.setTime(pickupTime.getTime()+60*60000); //Set Max Pickup time to 1hr after Reservation
+        pickupTime.setTime(pickupTime.getTime()+(60*60000)); //Set Max Pickup time to 1hr after Reservation
         newReservation.setReservationTime(dateFormat.format(reservationTime));
         newReservation.setPickUpTime(dateFormat.format(pickupTime));
 
