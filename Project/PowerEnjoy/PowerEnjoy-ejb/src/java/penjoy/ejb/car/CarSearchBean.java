@@ -26,14 +26,12 @@ public class CarSearchBean {
     private EntityManagerFactory m_carManagerFactory;
 
     public List<Car> getAvailableCars() {
-        createCars();
         m_carManagerFactory = Persistence.createEntityManagerFactory("PUnit");
         EntityManager em = m_carManagerFactory.createEntityManager();
         TypedQuery<Car> q = em.createNamedQuery("Car.findByStatus", Car.class);
         q.setParameter("carStatus", Car.CarStatus.Available);
         return q.getResultList();
     }
-
     public Car getCarByID(Long id) {
         m_carManagerFactory = Persistence.createEntityManagerFactory("PUnit");
         EntityManager em = m_carManagerFactory.createEntityManager();
