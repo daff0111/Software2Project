@@ -42,7 +42,7 @@ public class CarSearchBean {
         float milanLon = 9.077f;
         Random rnd = new Random();
         for (int i = 0; i < 10; i++) {
-            //Create new User Entity
+            //Create new Car Entity
             float lat = milanLat + (0.15f * rnd.nextFloat());
             float lon = milanLon + (0.20f * rnd.nextFloat());
             Car newCar = new Car();

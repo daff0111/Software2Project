@@ -16,19 +16,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import penjoy.ejb.car.Car;
+import penjoy.ejb.reservation.Reservation;
 
-import penjoy.ejb.car.CarSearchBean;
+import penjoy.ejb.reservation.ReservationBean;
 import penjoy.utils.LocationHelper;
 
 /**
  *
  * @author Domenico
  */
-@WebServlet(name = "MainPageServlet", urlPatterns = {"/MainPageServlet"})
-public class MainPageServlet extends BaseServlet {
+@WebServlet(name = "ReservationServlet", urlPatterns = {"/ReservationServlet"})
+public class ReservationServlet extends BaseServlet {
 
     @EJB
-    private CarSearchBean m_carSearchBean;
+    private ReservationBean m_reservationBean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,17 +40,16 @@ public class MainPageServlet extends BaseServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processCarSearch(HttpServletRequest request, HttpServletResponse response)
+    protected void processReservation(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Test Cars inDB
-        //m_carSearchBean.createCars();
-        
-        List<Car> availableCarList = m_carSearchBean.getAvailableCars();
+
+        //Reservation activeReservation = m_reservationBean.getAvailableCars();
+        /*
         request.setAttribute("carsNum", availableCarList.size());
         String userLocation = "45.462,9.177";//request.getAttribute("userLocation").toString();
         //Send the list of Cars to the Main Page
         ServletOutputStream out = response.getOutputStream();
-        out.println(getMainPageBody(availableCarList, userLocation));
+        out.println(getMainPageBody(availableCarList, userLocation));*/
         //getServletContext().getRequestDispatcher("/UserPages/mainPage.jsp").forward(request, response);
     }
     

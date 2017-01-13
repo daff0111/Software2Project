@@ -6,7 +6,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import penjoy.ejb.car.Car.CarStatus;
 import penjoy.ejb.car.Car.CarType;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2016-12-09T16:23:53")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-01-12T20:24:54")
 @StaticMetamodel(Car.class)
 public class Car_ { 
 
