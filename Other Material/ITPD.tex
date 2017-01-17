@@ -31,7 +31,7 @@
 
 
 \maketitle
-\textbf{Version 1.1}
+\textbf{Version 1.2}
 \newline
 
 \raggedright
@@ -58,6 +58,7 @@ This section records all revisions to the Document.
 \hline
 	Version & Date & Authors & Summary \\ \hline
 	1.1 & 15/01/16 & Domenico Favaro, Caio Zuliani, Matheus Fim & Initial Release  \\ \hline
+	1.2 & 17/01/16 & Domenico Favaro, Caio Zuliani, Matheus Fim & Second Release  \\ \hline
 \end{tabular}
 
 \subsection{Purpose and Scope}
@@ -86,11 +87,12 @@ For other concepts concerning the Service definition look in the \textbf{Glossar
 \item Example Document - Integration testing example document.pdf
 \item Testing Tools Documentation:
 \begin{itemize}
-\item[-] JUnit User Guide - \(http://junit.org/junit5/docs/current/user-guide/\)
-\item[-] Arquilian Guides - \(http://arquillian.org/guides/\)
-\item[-] JMeter User Manual - \(http://jmeter.apache.org/usermanual/\) 
+\item[-] JUnit User Guide - \url{http://junit.org/junit5/docs/current/user-guide/}
+\item[-] Arquilian Guides - \url{http://arquillian.org/guides/}
+\item[-] JMeter User Manual - \url{http://jmeter.apache.org/usermanual/}
 \end{itemize}
 \end{itemize}
+
 
 \newpage
 \section{Integration Strategy}
@@ -277,7 +279,7 @@ This component uses Google Maps API which locations use 2 float parameters, as m
 \newpage
 
 \subsection{Car Controller}
-Our system will not handle adding or deleting Cars in the DB so these operations will not be integrated. Just operations that search or change the state of the Car.
+Our system will not handle adding or deleting Cars in the DB so these operations will not be integrated. Just operations that search or change the state of the Car.\par
 \textbf{Function:} reserveCar(CarId) : bool
 \begin{center}
 \begin{tabular}{ | L{6cm} | L{6cm} | }
@@ -622,6 +624,8 @@ Functions of the User (and CRM) Controller integrate with functions of other Con
 \hline
 	\textit{Input}& \textit{Response}\\ \hline
 	Invalid or Null Parameters & false\\ \hline
+	User has an Active Reservation & false, User can have only one reservation at a time\\ \hline
+	Car Already Reserved & false, User should not be able to ask for a reserved Car\\ \hline
 	Valid Parameters & true if UserController was able to reserve the Car\\ \hline
 \end{tabular}
 \end{center}
@@ -632,6 +636,7 @@ Functions of the User (and CRM) Controller integrate with functions of other Con
 \hline
 	\textit{Input}& \textit{Response}\\ \hline
 	Invalid or Null Parameters & false\\ \hline
+	Reservation not Active & false, User can only cancel an active reservation\\ \hline
 	Valid Parameters & true if UserController was able to cancel Reservation\\ \hline
 \end{tabular}
 \end{center}
@@ -642,6 +647,7 @@ Functions of the User (and CRM) Controller integrate with functions of other Con
 \hline
 	\textit{Input}& \textit{Response}\\ \hline
 	Invalid or Null Parameters & false\\ \hline
+	Reservation not Active & false, User can only confirm an active reservation\\ \hline
 	Valid Parameters & true if UserController was able to confirm Reservation\\ \hline
 \end{tabular}
 \end{center}
@@ -652,9 +658,11 @@ Functions of the User (and CRM) Controller integrate with functions of other Con
 \hline
 	\textit{Input}& \textit{Response}\\ \hline
 	Invalid or Null Parameters & false\\ \hline
+	Ride not Active & false, User can only end an active Ride\\ \hline
 	Valid Parameters & true if UserController was able to end the Ride\\ \hline
 \end{tabular}
 \end{center}
+\newpage
 \textbf{Function:} findLocation(Location) : List\(<Location>\) \par
 \textit{Components:} LocationHelper
 \begin{center}
@@ -665,7 +673,6 @@ Functions of the User (and CRM) Controller integrate with functions of other Con
 	Valid Parameters & shows the desired path in the Ride Map\\ \hline
 \end{tabular}
 \end{center}
-\newpage
 
 \textbf{Function:} activateMoneySavingOption(Location) : Location \par
 \textit{Components:} LocationHelper
@@ -709,6 +716,7 @@ Functions of the User (and CRM) Controller integrate with functions of other Con
 	Valid Parameters & shows the List of desired Cars\\ \hline
 \end{tabular}
 \end{center}
+\newpage
 \textbf{Function:} findUsers(UserStatus) : List\(<User>\) \par
 \textit{Components:} UserController
 \begin{center}
@@ -719,8 +727,6 @@ Functions of the User (and CRM) Controller integrate with functions of other Con
 	Valid Parameters & shows the List of desired Users\\ \hline
 \end{tabular}
 \end{center}
-\newpage
-
 \textbf{Function:} findReservations(UserID, CarID, ReservationStatus) : \par List\(<Reservation>\) \par
 \textit{Components:} ReservationController
 \begin{center}
@@ -843,7 +849,7 @@ The tools chosen for the Java EE and the EIS tiers were specifically three and e
 
 \item Secondly, the \textbf{Arquillian Framework} helps keeping the integration testing simple. Testing the components of an application is challenging, so this framework focus on the interaction with the system, providing tools to check that the right components are being injected and the interactions with the database are occurring in a normal way. 
 
-\item Finally,\textbf{Jmeter Framework} brings the application closer to the real world by performing load tests and performance tests. This tool provides emulations of loads on the server, network and objects providing solid data to analyze the overall performance of the systems under various conditions.
+\item Finally, \textbf{Jmeter Framework} brings the application closer to the real world by performing load tests and performance tests. This tool provides emulations of loads on the server, network and objects providing solid data to analyze the overall performance of the systems under various conditions.
 \end{itemize}
 However, it is still necessary to  test components withheld in the Client tier,  specifically the mobile applications. In this matter, it will be used tools provided with each platform (IOS and Android have their own performance analysis tool that comes along with the SDK of the plataform). Also as stated in the previous session, particularly harsh situations as low battery, bad network coverage and low available memory need to be taken into account. 
 
@@ -885,6 +891,7 @@ It was chosen as integration testing strategy the Bottom-up type. Due that it wi
 \item \textbf{Chat Service Driver:} This driver will test the interaction of the component of the Chat Service with the CRM Controller by calling the method of the Chat Service.
 
 \item \textbf{Car Controller Driver:} This driver will test the interaction of the  Car Controller with the Location Helper and with the Ride Controller by calling the methods of the Car Controller. In this set one method of the Car Controller will call one previous component the Location Helper.  
+
 \item \textbf{Payment Controller Driver:} This driver will test the interaction of the Payment Controller with the Email Helper and with the Ride Controller by calling the methods of the Payment Controller.In this set one method of the Payment Controller will call one previous component the Email Helper.  
 
 \item \textbf{Ride Controller Driver:} This driver will test the interaction of the Ride Controller with the Car Controller and with the previous components connected with them upon the request of the methods. It will be tested by calling the methods of the Ride Controller.
@@ -978,5 +985,6 @@ As the project and design decisions may change during the development this docum
 We'll document every version in this part.
 \begin{itemize}
 \item \textbf {Version 1.1:} 15/01/2017
+\item \textbf {Version 1.2:} 17/01/2017 - Minor Fixes on Controller Functions.
 \end{itemize}
 \end{document}

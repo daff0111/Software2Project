@@ -60,6 +60,9 @@ This section records all revisions to the Document.
 \end{tabular}
 
 \subsection{Purpose and Scope}
+The Project Plan Document (PPD) is fundamental to organize the production of the System. The main purpose of the Document is to study the complexity of the System, analize the difficulties that can be present in any stage of its development and deployment and give an overall estimation of the effort and cost that can be needed up to the final release of the product. The analysis will be done in terms of size, time and budget needed. This is fundamental to present our stakeholders a  preview before the start of production in case they need to do any project changing decision before hand.\par 
+The second part of the Document helps the organization of our production by giving time estimations for each step and managing the workload of our resources accordingly. This serves our production team to make any project management decision but also our development team to know how they can organize themselves to follow the schedule and if by any reason the schedule can't be followed, they can notify the production. This is fundamental to keep track of the project developing at every stage of production.\par
+Finally we present possible risks that can arise during the development and for each risk we have identified a contingency plan to avoid or minimize the possibility of harming the production.
 
 \subsection{Definitions and Abbreviations}
 \begin{itemize}
@@ -68,6 +71,17 @@ This section records all revisions to the Document.
 \item \textbf{ITPD:} Integration Test Plan Document.
 \item \textbf{PPD:} Project Plan Document
 \item \textbf{App:} Application, refering to Web or Mobile App.
+\item \textbf{LOC:} Lines of Code, is a software metric used to measure the size of a computer program by counting the number of lines in the text of the program's source code.
+\item \textbf{FSM:} Functional Size Measurement, technique for measuring software in terms of the functionality it delivers.
+\item \textbf{FP:} Function Points. Unit of measurement used to express the amount of functionality for an information system. We'll be using them to compute a FSM of software. 
+\item \textbf{VAF:} Value Adjustment Factor, used to adjust the Function Points estimation to the context of the project.
+\item \textbf{UFP:} Unadjusted Function Points, raw measurement of the total FP before the VAF is applied.
+\item \textbf{ILF:} Internal Logic Files, FP Function Type.
+\item \textbf{EIF:} External Interface Files, FP Function Type.
+\item \textbf{EI:} External Input, FP Function Type.
+\item \textbf{EO:} External Output, FP Function Type.
+\item \textbf{EQ:} External Inquiries, FP Function Type.
+\item \textbf{COCOMO:} Constructive Cost Model is a procedural software cost estimation model that we'll be using for this document.
 \end{itemize}
 For other concepts concerning the Service definition look in the \textbf{Glossary} section of the RASD, DD and ITPD.
 
@@ -80,19 +94,125 @@ For other concepts concerning the Service definition look in the \textbf{Glossar
 \item Example Document - Project planning example document.pdf
 \item Project Planning Tools Documentation:
 \begin{itemize}
-\item[-] Jira/Trello
-\item[-] COCOMO II
+\item[-] Function Points Table
+\begin{itemize}
+	\item[-]\url{http://www.qsm.com/resources/function-point-languages-table}
+\end{itemize}
+\item[-] COCOMO II - Manual
+\begin{itemize}
+	\item[-]\href{http://csse.usc.edu/csse/research/COCOMOII/cocomo2000.0/CII_modelman2000.0.pdf}{COCOMO Model Definition Manual}
+\end{itemize}
+\item[-] Project Management Software: Jira/Trello
+\begin{itemize}
+	\item[-]\url{https://www.atlassian.com/software/jira}
+	\item[-]\url{https://trello.com/}
+\end{itemize}
 \end{itemize}
 \end{itemize}
 
 \newpage
 \section{Project Size, Cost and Effort Estimation}
+This section deals with the estimation of the expected size, cost and effort needed to develop the PowerEnjoy Service.
+For the size estimation we'll use the Function Points approach, once calculated we'll have an approximated size in LOC, and this measurement will be used later with COCOMO to predict the cost and amount of effort that will be required to develop the program.
 \subsection{Size Estimation: Function Points}
+The Function Mode approach is based in giving to each function needed in the code of the program a Category and a Complexity, once this is done, using Function Point Tables, a number of UFP is given to them. The VAF is then applied to the total of UFP. After the Total FP are calculated, it can then be translated into LOC.
+The Categories for FP are 5, and each has its own rating table for complexity according to the number of Data Elements present:
+\begin{itemize}
+\item Internal Logic Files (ILF): \par
+Translate to the sets of data used and managed by the application. 
+\item External Interface Files (EIF): \par
+Similar to ILF set of data used by the application but generated and maintained by other applications.\par
+Their complexity table is the same as ILF.
+\begin{center}
+\begin{tabular}{ | c | c | c | c | }
+\hline
+	\textbf{Record Types} & \textbf{1-5} & \textbf{6-19} & \textbf{\(>\) 19}  \\ \hline\hline
+	0-1 & Low & Low & Avg  \\ \hline
+	2-3 & Low & Avg & High  \\ \hline
+	\(>\) 3 & Avg & High & High  \\ \hline
+\end{tabular}
+\end{center}
+\item External Inputs (EI): \par
+Defined as operations to receive and manage data coming from the external environment.
+\begin{center}
+\begin{tabular}{ | c | c | c | c | }
+\hline
+	\textbf{File Types} & \textbf{1-4} & \textbf{5-15} & \textbf{\(>\)15} \\ \hline\hline
+	0-1 & Low & Low & Avg  \\ \hline
+	2 & Low & Avg & High  \\ \hline
+	\(>\) 2 & Avg & High & High  \\ \hline
+\end{tabular}
+\end{center}
+\newpage
+\item External Outputs (EO): \par
+They are elementary operations that generates data for the external environment. It usually includes managing data from logic files
+\item External Inquiries (EQ): \par
+Operation that involves both input and output, managing the data themselves without significant intervation from logic files.\par
+Their complexity table is the same as EO.
+\begin{center}
+\begin{tabular}{ | c | c | c | c | }
+\hline
+	\textbf{File Types} & \textbf{1-5} & \textbf{6-19} & \textbf{\(>\)19} \\ \hline\hline
+	0-1 & Low & Low & Avg  \\ \hline
+	2-3 & Low & Avg & High  \\ \hline
+	\(>\) 3 & Avg & High & High  \\ \hline
+\end{tabular}
+\end{center}
+\end{itemize}
+To measure the complexity in FP, weights are given to each Function Type using the following table:
+\begin{center}
+\begin{tabular}{ | c | c | c | c | }
+\hline
+	\textbf{Function Type} & \textbf{Low} & \textbf{Avg} & \textbf{High} \\ \hline\hline
+	ILF & 7 & 10 & 15  \\ \hline
+	EIF & 5 & 7 & 10  \\ \hline
+	EI & 3 & 4 & 6  \\ \hline
+	EO & 4 & 5 & 7  \\ \hline
+	EQ & 3 & 4 & 6  \\ \hline
+\end{tabular}
+\end{center}
+
 \subsubsection{Internal Logic Files (ILF)}
-\subsubsection{External Logic Files (ELF)}
+The PowerEnjoy System is organized to store a number of information to provide its functionalities. This information corresponds to the Entities that compose the System and will be manage by the Entity Beans in the Controllers \textit{(see DD)}. The ILF will then correspond to managing the information of these entities, which are:
+\begin{itemize}
+\item Cars: Cars will be stored in the system DB and replicated by persistent entities in the JEE2 environment for managing their status. Their information include CarID, Location, Status, BatteryStatus, if it's PluggedIn and Number of Passengers. \par Car element count is 6 Fields.
+\item Users: Users tuples will be added by the System in the DB as well for the Registration feature, their attributes include UserID, if it's LoggedIn, UserName, Password, Email, DriverLicense, PaymentInfo and Location. 
+\par User count is 8 Fields.
+\item CRM: Although not directly added by the System, the loggedIn status of the CRMs is important for the Chat feature. It stores their CRMID, Password, Name, Email and if it's LoggedIn. 
+\par CRM count is 5 Fields.
+\item Reservations: Will link Users with Cars and will have a status to know wether the reservation is active or not. Their attributes are ReservationID, UserID, CarID, Status, ReservationTime, PickUpTime.
+\par Reservation elements count is 6 and references 2 Record Types.
+\item Rides: Once the Reservation has been confirmed a Ride is created, it refers to the Reservation and it tracks the use of the Car. It has RideID, ReservationID, CarID, Status, StartTime, EndTime, LocationPath.
+\par Ride count is 7 and references 2 Record Types.
+\item Payments: When the Ride is finished it generates the Payment for the User to pay, it tracks the input made by the Car, Rides and Users and include also eventual Discounts and Extra Fees. It has PaymentID, RideID, TotalFee, PassengerDiscount, BatteryDiscount, PluggedInDiscount, LowBatteryFee, NoPlugNearFee.
+\par Payment has 8 fields, references 1 Record Type.
+\item User Reports: Tracks any fault in the Service by Users or Cars and are handled by CRMs. They have the following fields: UserReportID, UserID, CRMID, CarID, Description.
+\par User Report has 5 fields, references 3 Record Types.
+\item Locations: Although not managed by the System, the record of safe parking and plug in areas has to be kept and accessed by the LocationHelper. They have basic Info like LocationID, Latitude, Longitude, Type.
+\par Locations have 4 fields.
+\end{itemize}
+\newpage
+Using the Complexity Table for the ILF we obtain the following.
+\begin{center}
+\begin{tabular}{ | c | c | c | }
+\hline
+	\textbf{ILF} & \textbf{Complexity} & \textbf{FP} \\ \hline\hline
+	Car Data & Low & 7 \\ \hline
+	User Data & Low & 7  \\ \hline
+	CRM Data & Low & 7  \\ \hline
+	Reservations & Avg & 10  \\ \hline
+	Rides & Avg & 10 \\ \hline
+	Payments & Low & 7  \\ \hline
+	User Reports & Low &  7  \\ \hline
+	Locations & Low & 7  \\ \hline
+\end{tabular}
+\end{center}
+The Total UFP for ILF is \textbf{62}.
+
+\subsubsection{External Interface Files (EIF)}
 \subsubsection{External Inputs (EI)}
-\subsubsection{External Inquiries (EQ)}
 \subsubsection{External Outputs (EO)}
+\subsubsection{External Inquiries (EQ)}
 \subsubsection{Overall Estimation}
   
 \subsection{Cost and Effort Estimation: COCOMO II}
@@ -112,7 +232,7 @@ For other concepts concerning the Service definition look in the \textbf{Glossar
 	\textbf {Date} & \textbf {Domenico} & \textbf {Caio} & \textbf {Matheus} \\ \hline
 	15/01/17& 2h & 2h & 2h  \\ \hline
 	16/01/17& - & - & - \\ \hline
-	17/01/17& - & - & - \\ \hline
+	17/01/17& 4h & - & - \\ \hline
 	18/01/17& - & - & - \\ \hline
 	19/01/17& - & - & - \\ \hline
 	20/01/17& - & - & - \\ \hline
