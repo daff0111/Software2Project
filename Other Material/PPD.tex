@@ -194,7 +194,7 @@ The PowerEnjoy System is organized to store a number of information to provide i
 \newpage
 Using the Complexity Table for the ILF we obtain the following.
 \begin{center}
-\begin{tabular}{ | c | c | c | }
+\begin{tabular}{ | l | c | c | }
 \hline
 	\textbf{ILF} & \textbf{Complexity} & \textbf{FP} \\ \hline\hline
 	Car Data & Low & 7 \\ \hline
@@ -210,17 +210,134 @@ Using the Complexity Table for the ILF we obtain the following.
 The Total UFP for ILF is \textbf{62}.
 
 \subsubsection{External Interface Files (EIF)}
+Our only external data source comes from Google Maps API, that offers the map service. It's used by the Location Helper and by the User and CRM Interface Components. It'll be accessed to retrieve the map interface find directions and show the location of the User and the Cars, as well as to retrieve walking and driving distances. The response is given in JSON and it provides numerous fields, however it doesn't reference any record types so we count only the number of parameters the response gives us.
+\begin{center}
+\begin{tabular}{ | l | c | c | }
+\hline
+	\textbf{EIF} & \textbf{Complexity} & \textbf{FP} \\ \hline\hline
+	API Map Retrieval & Avg & 10 \\ \hline
+	Direction Retrieval & Low & 7 \\ \hline
+\end{tabular}
+\end{center}
+This gives us that the UFP for EIF are\textbf{17}.
+
 \subsubsection{External Inputs (EI)}
+The Sytem relies on many interactions provided for the User to allow them the functionalities of the service, others involve or are shared by the CRM, we'll present all of them and give a complexity estimation for each one. They consist on a function activated by the User Input.\newline
+\par
+Shared:
+\begin{itemize}
+\item Login: Controls that the parameters are correct and logs in the User. Low Complexity.
+\item Logout: Signs out the connected User. Low Complexity.
+\item Reserve Car: Creates a new Reservation. It involves User, Car and Reservation. Complexity Average.
+\item Cancel Reservation: Cancels already created Reservation, interacts just with User and Reservation. Complexity Low.
+\end{itemize}
+Users:
+\begin{itemize}
+\item Register: Creates a new User and inserts his/her data in the system, has many fields but concers only the User. Complexity is Low.
+\item Confirm Reservation: Unlocks the Car and starts a new Ride. Average Complexity.
+\item End Ride: Finishes current Ride and creates a new Payment. Complexity is Average.
+\end{itemize}
+CRM:
+\begin{itemize}
+\item Create User Report: Links User, CRM and Car in case of any issue. Average Complexity.
+\item Lock Car: Signals the Car to Lock. Low Complexity.
+\item Unlock Car: Low Complexity.
+\end{itemize}
+\begin{center}
+\begin{tabular}{ | l | c | c | }
+\hline
+	\textbf{EI} & \textbf{Complexity} & \textbf{FP} \\ \hline\hline
+	Login & Low & 3 x2 \\ \hline
+	Logout & Low & 3 x2 \\ \hline
+	Register & Low & 3  \\ \hline
+	Reserve Car & Avg & 4 x2  \\ \hline
+	Cancel Reservation & Low & 3 x2 \\ \hline
+	Confirm Reservation & Avg & 4 \\ \hline
+	End Ride & Avg & 4 \\ \hline
+	Create User Report & Avg &  4  \\ \hline
+	Lock Car & Low & 3  \\ \hline
+	Unlock Car & Low & 3  \\ \hline
+\end{tabular}
+\end{center}
+This gives us a Total UFP for the EI of \textbf{47}.
+
 \subsubsection{External Outputs (EO)}
+PowerEnjoy External Outputs are limited to sending Emails in case of User Registration to send the password, End of Ride to send the Payment and Time Limit over the Reservation to notify the User.
+\begin{itemize}
+\item Email Password: Involves just the User, Low Complexity.
+\item Email Payment: Sends Payment to User, Low Complexity.
+\item Send Late Reservation Notification: Notifies status of Reservation to User, Low Complexity.
+\end{itemize}
+\begin{center}
+\begin{tabular}{ | l | c | c | }
+\hline
+	\textbf{EO} & \textbf{Complexity} & \textbf{FP} \\ \hline\hline
+	Notify Password & Low & 4 \\ \hline
+	Notify Payment & Low & 4  \\ \hline
+	Notify Reservation & Low & 4  \\ \hline
+\end{tabular}
+\end{center}
+The Total UFP for the EO is \textbf{12}.
+
 \subsubsection{External Inquiries (EQ)}
+Similar to EI but sends a data response instead for the User. Basically a query of our system. PowerEnjoy EQ are:
+\begin{itemize}
+\item Search Nearby Cars: Gives a List of close by avaliable Cars from the User Location. Has Low Complexity.
+\item Money Saving Option: Calculates the best Re-Charging station according to a standard Deviation Algorithm (\textit{see DD}) and returns it to the User so a discount for the ride can be applied. Is of Average Complexity.
+\item Find Location: Gives a Path to arrive to the given Location.
+\item Find Cars: Returns all desired Cars for the CRM.
+\item Find Users: Returns all Users for the CRM.
+\item Find Reservations: Returns desired Reservations for the CRM.
+\item Find Rides: Returns all Rides for the CRM.
+\item Find Payments: Returns given Payments for the CRM.
+\item Find User Reports: Returns the User Reports for the CRM.
+\end{itemize}
+All the Finding Functions are considered to have Low Complexity.
+\begin{center}
+\begin{tabular}{ | l | c | c | }
+\hline
+	\textbf{EQ} & \textbf{Complexity} & \textbf{FP} \\ \hline\hline
+	Search Nearby Cars & Low & 3 \\ \hline
+	Money Saving Option & Avg & 4  \\ \hline
+	Find Location & Low & 3  \\ \hline
+	Find Cars & Low & 3  \\ \hline
+	Find Users & Low & 3  \\ \hline
+	Find Reservations & Low & 3  \\ \hline
+	Find Rides & Low & 3 \\ \hline
+	Find Payments & Low & 3 \\ \hline
+	Find User Reports & Low &  3  \\ \hline
+\end{tabular}
+\end{center}
+This gives us a Total UFP for the EQ of \textbf{28}.
+\newpage
+
 \subsubsection{Overall Estimation}
-  
+ The following table shows the estimation results for each Function Type:
+\begin{center}
+\begin{tabular}{ | c | c | }
+\hline
+	\textbf{Function Type} & \textbf{Value}\\ \hline\hline
+	ILF & 62 \\ \hline
+	EIF & 17 \\ \hline
+	EI & 47 \\ \hline
+	EO & 12 \\ \hline
+	EQ & 28 \\ \hline
+\end{tabular}
+\end{center}
+The added Total of UFP is 166.\newline
+\par
+To have an idea of the size of our project in the code we translate the total of UFP to LOC using the Function Points Languages Table. Since we'll develop in the J2EE platform the measures are \(Median = 49, High = 67\).
+\[Low Bound LOC = 166 * 49 = \textbf{8134}\]
+\[High Bound LOC = 166 * 67 = \textbf{11122}\]
+We can expect a software ranging from the size of 8200 to 11150 LOC.
+
 \subsection{Cost and Effort Estimation: COCOMO II}
 \subsubsection{Scale Drivers}
 \subsubsection{Cost Drivers}
 \subsubsection{Effor Equation}
 \subsubsection{Schedule Estimation}
 
+\newpage
 \section{Project Plan Schedule}
 \section{Resource Allocation}
 \section{Risk Management}
@@ -233,7 +350,7 @@ The Total UFP for ILF is \textbf{62}.
 	15/01/17& 2h & 2h & 2h  \\ \hline
 	16/01/17& - & - & - \\ \hline
 	17/01/17& 4h & - & - \\ \hline
-	18/01/17& - & - & - \\ \hline
+	18/01/17& 4h & - & - \\ \hline
 	19/01/17& - & - & - \\ \hline
 	20/01/17& - & - & - \\ \hline
 	21/01/17& - & - & - \\ \hline
