@@ -6,7 +6,7 @@
 #include <limits.h>
 #include <stdlib.h>
 
-// after the garge is added to the tree, it checks if any node got closer to the tree, respecting the maximumthe walking distance.
+// after the node is added to the tree, it checks if any node got closer to the tree, respecting the maximum walking distance.
 void updateDistances(int target, int *partial, int n, int **weight, int *d, int alpha, int *whoTo) {
 
 	int i;
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 
 	int i, j;
 	int n; // number of nodes in graph
-	int alpha; // max walk factor 
+	float alpha; // max walk factor 
 	int *partial; // distance from the school to this point USING the bus line
 	int **weight; // weight[i][j] is the distance between node i and node j;
 	int *d; // distance from node i to the current spanning tree; its an optimization factor
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
   	}
   	// END OF DYNAMIC ALLOCATION 
 
-	fscanf(f, "%d", &alpha);
+	fscanf(f, "%f", &alpha);
 
 	// weight won't be given ready, needs to be calculate by given points!
 	for (i = 0; i < n; ++i)
