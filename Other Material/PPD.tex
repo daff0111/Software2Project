@@ -351,12 +351,13 @@ In the evaluation of the Scale Drivers it was used the following table provided 
 Analysing each point that compose the Scale Drivers:
 \begin{itemize}
 \item Precedentedness: It's about if the team/organization has a previous experience with this type of project. As the team don't have a large professional experience the item will be evaluate as low.
-\item Development flexibility: It's about the degree of flexibility in the development process. In this project there were several specifications for the system when becomes of functionalities being so the item will be evaluate as low.
+\item Development flexibility: It's about the degree of flexibility in the development process. In this project there were several specifications for the system when becomes of functionalities thus the item will be evaluate as low.
 \item Risk resolution: It's about the risk analysis made. It was carried out several risk evaluations during the differents parts of the project so the item will be evaluated as high.
 \item Team cohesion: It's the evaluation of how well the development team knows each other and work together. As the team has achieved a excellent level of work since the division of the workload until the respect to the deadlines the item will be evaluated as very high.
 \item Process maturity: It's about the process maturity of the organization/team that is know as CMM. Considering that it's the team first project of this kind especially involving Java EE the item will be evaluated as Level 2. Moreover it's important to emphasize the proactive of the group even if it's not characteristic of the evaluation of Level 2 of CMM. 
 \end{itemize}
-Being so the evaluation is:
+	
+Thus the evaluation is:
 
 \begin{center}
 
@@ -371,9 +372,29 @@ Being so the evaluation is:
 \end{tabular}
 \end{center}
 
-\subsubsection{Scale Drivers}
 \subsubsection{Cost Drivers}
-\subsubsection{Effor Equation}
+\begin{itemize}
+\item Required Software Reliability (RELY): Being the measure of the ''extent to which the software must perform its intended function over a period of time'' the RELY will be set as high because as the main business is renting the cars through the app  and the interruption of the service means directly financial losses. Moreover customer will expected a reliable service and any interruption can cause unnecessary instabilities.
+\item Database size (DATA): It’s possible to estimate the database size according to the COCOMO II  with the D/P ratio(DB bytes/LOC). In an estimation made considering the tables, fields and their respective growing a 4 GB database size is estimated. As the LOC is the range of 8200-11150  so it is obtained that DP of the range of 386 to 524. Thus the DATA is evaluated as high.
+\item Product complexity (CPLX): In accordance with the COCOMO II standards for the evaluation of the CPLX whose is divided in five areas for the evaluation it is set that the project has a rating level of very high. It was concluded that mostly because in the area of the Computational Operations the system has more complexes numerical analyses such as the partial differential equations used in the Standard Deviation Algorithm of the Money-Saving option.
+\item Required reusability (RUSE): The main requirements of the project don’t established the reuse of the code as a goal so the evaluation of this cost driver will be as nominal.
+\item Documentation match to life-cycle needs  (DOCU): The DOCU evaluate how adapted the project's documentation is in relation with its life-cycle needs. As in the project the documentation was up to date with the life-cycle needs  the evaluation will be set as nominal.
+\item Execution time constraint (TIME): Being the measure of the use of the CPU processing power, regarding the total capacity available it was estimated that as very high due the fact that the software has multiple functions such as keeping track of the rides, cars and users requests. Furthermore the system need to be available in a full regime because of it's real time nature.
+\item Storage constraint (STOR): The STOR evaluates the main storage constraint that is imposed in one software. As this constraint is considered bypass nowadays this cost driver was set as nominal
+\item Platform Volatility (PVOL): The PVOL  measure the volatility in terms of updates in the system per time. As the system is structured in 3 tiers that are Client Tier(Web App, Mobile App, Car),  Server Tier (Java EE Web and Application Server), EIS  Tier (DataBase Server) the PVOL will be evaluated as nominal because it’s not expected major changes when becomes the Server and EIS tier. But it is expected that the Client Tier will required changes due the volatility in the smartphone market where there are new several occurrences such as system updates and launching of new devices in a short period of time. 
+\item Analyst Capability (ACAP) : The ACAP measure the level of analyses that the team/organization had done. It will be evaluated as high due the fact that the team has developed during the project an extensive analyses of how to bring into the software the functions that were required by the stakeholder.
+\item Programmer Capability (PCAP): The  PCAP is based on the measure of the capacity of the programmers as a team estimating their ability, cooperation and communication. As the project was not implemented we estimated this evaluation having as a parameter the work developed until now and with the personal abilities of the components of the team. Therefore the PCAP will be set as high.
+\item Personnel Continuity (PCON):
+\item Application Experience (APEX) :The APEX evalueted the experience of the team with the with the application as it is the first application of the king that all membersof the team develop it will be evaluated as low .
+\item Platform Experience (PLEX) : Being the rating of the experience of the team with the platform, in the case Java EE, the PLEX will be evaluated as low because even if the team has had a previous experience with Java especially the SE, databases.
+\item Language and Tool Experience (LTEX): 
+\item Use of Software Tools (TOOL):
+\item Multisite development (SITE):
+\item Required development schedule (SCED):
+
+\end{itemize}
+
+\subsubsection{Effort Equation}
 \subsubsection{Schedule Estimation}
 
 \newpage
