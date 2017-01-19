@@ -332,6 +332,45 @@ To have an idea of the size of our project in the code we translate the total of
 We can expect a software ranging from the size of 8200 to 11150 LOC.
 
 \subsection{Cost and Effort Estimation: COCOMO II}
+In the estimation of the cost and effort needed in the development of the PoweEnjoy Service it will be employed the COCOMO II.
+\subsubsection{Scale Drivers}
+In the evaluation of the Scale Drivers it was used the following table provided by the COCOMO II approach.
+
+\begin{tabular}{ | L{1.5cm} | L{3cm} | L{3cm} | L{3cm} | L{3cm} | L{3cm} | L{3cm} |}
+
+\hline
+	\textbf {Scale Factors} & \textbf {Very Low} & \textbf {Low} & \textbf {Nominal} & \textbf {High} & \textbf {Very High} & \textbf {Extra High} \\ \hline
+	PREC  SFj  & thoroughly unprecedented 6.20 & largely unprecedented 4.96 & somewhat unprecedented 3.72 & generally familiar 2.48 & largely familiar 1.42& thoroughly familiar 0.00  \\ \hline
+	FLEX SFj  &rigorous 5.07 &occasional relaxation 4.05 &some relaxation 3.04 &general conformity 2.03 & some conformity 1.01& general goals 0.00  \\ \hline
+	RESL SFj  &little (20\%) 7.07&some (40\%) 7.07 & often (60\%) 4.24& generally (75\%) 2.83&mostly
+(90\%) 1.41&full (100\%) 0.00\\ \hline
+	TEAM SFj  &very difficult interactions 5.48 &some difficult interactions 4.38 &basically cooperative interactions 3.29 & largely cooperative 2.19 & highly cooperative 1.10& seamless interactions 0.00  \\ \hline
+	PMAT SFj  &SW-CMM Level 1 Lower 7.80&SW-CMM Level 1 Upper 6.24&SW-CMM Level 2 4.86&SW-CMM Level 3 3.12&SW-CMM Level 3  1.56&SW-CMM Level 5  0.00\\ \hline
+\end{tabular}
+\newpage
+Analysing each point that compose the Scale Drivers:
+\begin{itemize}
+\item Precedentedness: It's about if the team/organization has a previous experience with this type of project. As the team don't have a large professional experience the item will be evaluate as low.
+\item Development flexibility: It's about the degree of flexibility in the development process. In this project there were several specifications for the system when becomes of functionalities being so the item will be evaluate as low.
+\item Risk resolution: It's about the risk analysis made. It was carried out several risk evaluations during the differents parts of the project so the item will be evaluated as high.
+\item Team cohesion: It's the evaluation of how well the development team knows each other and work together. As the team has achieved a excellent level of work since the division of the workload until the respect to the deadlines the item will be evaluated as very high.
+\item Process maturity: It's about the process maturity of the organization/team that is know as CMM. Considering that it's the team first project of this kind especially involving Java EE the item will be evaluated as Level 2. Moreover it's important to emphasize the proactive of the group even if it's not characteristic of the evaluation of Level 2 of CMM. 
+\end{itemize}
+Being so the evaluation is:
+
+\begin{center}
+
+\begin{tabular}{| ll | l |}
+\hline
+\multicolumn{1}{|l|}{}Scale Driver & Factor &  Value \\ \hline
+\multicolumn{1}{|l|}{}Precedentedness (PREC)& Low & 4.96\\
+\multicolumn{1}{|l|}{}Risk resolution (RESL)& High & 2.83\\ 
+\multicolumn{1}{|l|}{}Team cohesion (TEAM) & Very high &  1.10\\ 
+\multicolumn{1}{|l|}{}Process maturity (PMAT) & Level 2 & 4.68\\ \hline
+                     Total &  & 13.57 \\ \hline
+\end{tabular}
+\end{center}
+
 \subsubsection{Scale Drivers}
 \subsubsection{Cost Drivers}
 \subsubsection{Effor Equation}
@@ -385,7 +424,7 @@ Due to the size of the Schedule Graph we separated in 4 different sections, RASD
 	16/01/17& - & - & - \\ \hline
 	17/01/17& 4h & - & - \\ \hline
 	18/01/17& 4h & - & - \\ \hline
-	19/01/17& - & - & - \\ \hline
+	19/01/17& - & 6h & - \\ \hline
 	20/01/17& - & - & - \\ \hline
 	21/01/17& - & - & - \\ \hline
 	22/01/17& - & - & - \\ \hline
