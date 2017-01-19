@@ -3,11 +3,12 @@
 // when there are multiple options, we will always choose the one with the least risk. 
 
 #include <stdio.h> 
-#include <limits.h>
+#include <float.h>
 #include <stdlib.h>
+#include <math.h>
 
 // after the node is added to the tree, it checks if any node got closer to the tree, respecting the maximum walking distance.
-void updateDistances(int target, int *partial, int n, int **weight, int *d, int alpha, int *whoTo) {
+void updateDistances(int target, float *partial, int n, float **weight, float *d, int alpha, int *whoTo) {
 
 	int i;
 
@@ -24,51 +25,77 @@ void updateDistances(int target, int *partial, int n, int **weight, int *d, int 
 		}
 }
 
+// fill weight array with the relative distances 
+void calc_weight(int *x_axis,int *y_axis,float **weight,int n){
+	int i, j;
+
+	// EXPENSIVE FUNCTION, NEEDS TO BE OPTIMIZED 
+	for(i=0; i < n; i++)
+		for(j=0; j < n; j++)
+			weight[i][j] = sqrtf((float)((x_axis[i]-x_axis[j])*(x_axis[i]-x_axis[j])+(y_axis[i]-y_axis[j])*(y_axis[i]-y_axis[j])));
+}
+
 int main(int argc, char *argv[]) {
 
-	int i, j;
+	int i;
 	int n; // number of nodes in graph
 	float alpha; // max walk factor 
-	int *partial; // distance from the school to this point USING the bus line
-	int **weight; // weight[i][j] is the distance between node i and node j;
-	int *d; // distance from node i to the current spanning tree; its an optimization factor
+
+	int *x_axis;
+	int *y_axis; 
+
+	float *partial; // distance from the school to this point USING the bus line
+	float **weight; // weight[i][j] is the distance between node i and node j;
+	float *d; // distance from node i to the current spanning tree; its an optimization factor
 	int *inTree; // inTree[i] is 1 if node i is in the tree, 0 otherwhise
 	int *whoTo; // whoTo[i] saves the element to link node i to get the minimum distance to the tree 
 
+//	FILE *f = fopen(argv[1], "r");
 
-	FILE *f = fopen(argv[1], "r");
+	FILE *f = fopen("teste2.dat", "r");
 
-//	FILE *f = fopen("teste.dat", "r");
-
-	fscanf(f, "%d", &n);
+	// ignore format strings 
+	fscanf(f, "%*s %*s %*s %*s %d %*s", &n);
+	
+	n += 1; // the school plus n points
 
 	// DYNAMIC ALLOCATION OF VARS
-	partial = (int *) malloc(n* sizeof(int)); 
+
+	partial = (float *) malloc(n* sizeof(float)); 
 	partial[0] = 0;
   	
-  	d = (int *) malloc(n* sizeof(int)); 
+  	d = (float *) malloc(n* sizeof(float)); 
   	inTree = (int *) malloc(n* sizeof(int));
   	whoTo = (int *) malloc(n* sizeof(int));
 
-  	weight = (int **) malloc (n*sizeof(int*));
+  	x_axis = (int *) malloc(n* sizeof(int));
+  	y_axis = (int *) malloc(n* sizeof(int));
+
+  	weight = (float **) malloc (n*sizeof(float*));
   	for(i = 0; i < n; i++){
-  		weight[i] = (int *) malloc (n* sizeof (int));
+  		weight[i] = (float *) malloc (n* sizeof (float));
   	}
   	// END OF DYNAMIC ALLOCATION 
 
-	fscanf(f, "%f", &alpha);
+  	fscanf(f, "%*s %*s %*s %f %*s", &alpha);
 
-	// weight won't be given ready, needs to be calculate by given points!
+	fscanf(f, "%*s %*s %*s %*s");
 	for (i = 0; i < n; ++i)
-		for (j = 0; j < n; ++j)
+		fscanf(f, "%*s %d", &x_axis[i]);
 
-			fscanf(f, "%d", &weight[i][j]);
+	fscanf(f, "%*s %*s %*s %*s %*s");
+	for (i = 0; i < n; ++i)
+		fscanf(f, "%*s %d", &y_axis[i]);
+	fscanf(f, "%*s");
 
 	fclose(f);
 
+	// calculate the distance between the given points and fill the weight vector 
+	calc_weight(x_axis, y_axis, weight,n);
+
 	/* Initialise d with infinity */
 	for (i = 0; i < n; ++i)
-		d[i] = INT_MAX;
+		d[i] = FLT_MAX;
 
 	/* Mark all nodes as NOT beeing in the minimum spanning tree */
 	for (i = 0; i < n; ++i)
@@ -102,7 +129,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		//check for the alpha constraint 
-		if (partial[last] + weight[last][min] > alpha * weight[0][min]){
+		if (((float) partial[last] + weight[last][min]) > alpha * weight[0][min]){
 			
 //			printf("PARTIAL: %d WEIGHT: %d\n", partial[last]+weight[last][min], alpha*weight[0][min] );
 			
@@ -144,3 +171,11 @@ int main(int argc, char *argv[]) {
 	return 0;
 
 }
+
+/*  still missing:
+	read input in the specified format
+	save graph as a hash
+	calculate distance between points in the cartesian axis and use this distance as weight
+	when in face of two equal distance, choose the safest -> this can be tricky (choose the next only or do compute multiple options?)
+	
+*/
