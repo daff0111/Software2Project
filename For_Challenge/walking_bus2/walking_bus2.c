@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include <math.h>
+#include <time.h>
 
 struct coordinate{
 	int x;
@@ -18,6 +19,7 @@ struct arc{
 //Order arcs into heap
 int lessThan(const struct arc *a1, const struct arc *a2)
 {
+	//Check that it doesnt generate a new branch first
 	if(a1->branch > a2->branch)
 	{
 		return 1;
@@ -26,6 +28,7 @@ int lessThan(const struct arc *a1, const struct arc *a2)
 	{
 		return 0;
 	}	
+	//Check distance as second measure
 	if(a1->dist < a2->dist)
 	{
 		return 1;
@@ -33,8 +36,8 @@ int lessThan(const struct arc *a1, const struct arc *a2)
 	else if(a1->dist > a2->dist)
 	{
 		return 0;
-	}
-	
+	}	
+	//Lastly check dangerousness
 	if(a1->danger < a2->danger)
 	{
 		return 1;
@@ -90,9 +93,12 @@ void quickSort( struct arc **queue, int l, int r)
    }	
 }
 
-int main(int argc, char *arginTree[])
+int main(int argc, char *argv[])
 {
-	char* input_file_name = arginTree[1];
+	//Clock time the execution
+	clock_t begin = clock();
+
+	char* input_file_name = argv[1];
 	int input_file_name_size = strlen(input_file_name) - 1; 
 	//Overwrite .sol file
 	char* output_file_name = (char *) malloc(input_file_name_size);
@@ -102,9 +108,9 @@ int main(int argc, char *arginTree[])
 	//Parameters
 	int n = 0; //Number of Nodes
 	float alpha = 0.0; //Percentage Limit of shortest path
-	struct coordinate coord[300]; //Coordinates of the nodes
+	struct coordinate coord[301]; //Coordinates of the nodes
 	float* d; //Dangerousness of paths
-	float* distM; //Distances between the nodes
+	double* distM; //Distances between the nodes
 	
 	
 	//Read the Input file
@@ -123,6 +129,7 @@ int main(int argc, char *arginTree[])
 	fscanf (input_file, "%d", &n); //read n
 	n++; //Count the School;
 	printf("n = %d \n",n);
+	
 	//; param alpha :=
 	fscanf (input_file, "%s", &stream);
 	while(strcmp(stream, ":=") != 0)
@@ -132,8 +139,7 @@ int main(int argc, char *arginTree[])
 	fscanf (input_file, "%f", &alpha); //read alpha
 	printf("alpha = %f \n",alpha);
 	
-	//Allocate the coordinate matrix
-	//coord = (struct coordinate*) malloc(n+10, sizeof(struct coordinate));
+	
 	//; param coordX [*] :=
 	fscanf (input_file, "%s", &stream);
 	while(strcmp(stream, ":=") != 0)
@@ -157,7 +163,6 @@ int main(int argc, char *arginTree[])
 		int index;
 		fscanf (input_file, "%d", &index);
 		fscanf (input_file, "%d", &coord[index].y);
-		//printf("%d \n",coord[index].y);
 	}
 	
 	//Allocate the danger matrix
@@ -184,18 +189,21 @@ int main(int argc, char *arginTree[])
 	fclose (input_file);
 	
 	//Calculate Distances
-	distM = (float*) calloc(n*n, sizeof(float));
+	distM = (double*) calloc(n*n, sizeof(double));
 	for(int i = 0; i < n; i++)
 	{
 		for(int j = i + 1; j < n; j++)
 		{
 			int distx = abs(coord[i].x - coord[j].x);
 			int disty = abs(coord[i].y - coord[j].y);
-			float d2 = sqrt(distx*distx + disty*disty); 
+			double d2x = distx;
+			d2x = d2x*d2x;
+			double d2y = disty;
+			d2y = d2y*d2y;
+			double d = sqrt(d2x + d2y);
 			//set the distance Matrix equal on both nodes
-			distM[i*n+j] = d2;
-			distM[j*n+i] = d2;
-			//printf("%d ",dist2[i*n+j]);
+			distM[i*n+j] = d;
+			distM[j*n+i] = d;		
 		}
 	}
 	
@@ -208,14 +216,16 @@ int main(int argc, char *arginTree[])
 	//know if a node has branched
 	int* branched = (int*) calloc(n, sizeof(int));
 	//min Distances of nodes
-	float* mindist = (float*) calloc(n, sizeof(float));
+	float* minDist = (float*) calloc(n, sizeof(float));
 	
 	//All arcs to check
-	struct arc *queuedArcs[300*300];
+	struct arc *queuedArcs[301*301];
 	int queuedArcsCount = 0;
 	//Actually selected Arcs
-	struct arc *mspArcs[300*300];
+	struct arc *mspArcs[301];
 	int mspArcsCount = 0;
+	//Check if heap needs ordering
+	int order = 0;
 	
 	//Start path from school
 	inTree[0]=1;
@@ -225,14 +235,20 @@ int main(int argc, char *arginTree[])
 	{
 		if(queuedArcsCount > 0)
 		{
+			if(order == 1)
+			{
+				quickSort(queuedArcs,0,queuedArcsCount - 1);
+				order = 0;
+			}
 			struct arc* poppedArc = queuedArcs[queuedArcsCount-1];
 			queuedArcsCount--;
 			int visitedNode = poppedArc->b;
+			//if the poppedArc does not branch an already branched node
 			if(inTree[visitedNode] == 0 && !(branched[poppedArc->a] == 1 && poppedArc->branch == 1))
 			{
 				//Visit node
 				inTree[visitedNode] = 1;
-				visited++;				
+				visited++;
 				printf("\b\b\b%d", visited);
 				//Visit arc 
 				mspArcs[mspArcsCount] = poppedArc;
@@ -243,14 +259,14 @@ int main(int argc, char *arginTree[])
 				if(poppedArc->branch == 0)
 				{
 					branches++;
-					printf("\n Branches : %d \n", branches);
+					printf("\nLeafs : %d \n", branches);
 				}
 				else
 				{
 					branched[poppedArc->a] = 1;
 				}
 				
-				mindist[visitedNode] = poppedArc->dist;
+				minDist[visitedNode] = poppedArc->dist;
 				//printf("Visited Node %d Dist : %f ",visitedNode, poppedArc->dist);
 				//printf("Max Node Dist : %f \n", distM[visitedNode]*alpha);
 				
@@ -263,7 +279,7 @@ int main(int argc, char *arginTree[])
 						struct arc *newArc = (struct arc*) malloc(sizeof(struct arc));
 						newArc->a = visitedNode;
 						newArc->b = i;
-						float nodeDistance = mindist[visitedNode]+ distM[visitedNode*n+i];
+						float nodeDistance = minDist[visitedNode]+ distM[visitedNode*n+i];
 						//Do not exceed the max distance with the same branch
 						if(nodeDistance > distM[i]*alpha)
 						{
@@ -276,8 +292,9 @@ int main(int argc, char *arginTree[])
 						newArc->dist = nodeDistance;
 						newArc->danger = d[visitedNode*n+i];
 						queuedArcs[queuedArcsCount] = newArc;
-						quickSort(queuedArcs,0,queuedArcsCount);
-						queuedArcsCount++;					
+						//quickSort(queuedArcs,0,queuedArcsCount);
+						queuedArcsCount++;	
+						order = 1;
 					}
 				}
 			}
@@ -298,12 +315,13 @@ int main(int argc, char *arginTree[])
 							newArc->b = j;
 							//All branches are new
 							newArc->branch = 0;
-							float nodeDistance = mindist[i]+distM[i*n+j];
+							float nodeDistance = minDist[i]+distM[i*n+j];
 							newArc->dist = nodeDistance;
 							newArc->danger = d[i*n+j];
 							queuedArcs[queuedArcsCount] = newArc;
-							quickSort(queuedArcs,0,queuedArcsCount);
+							//quickSort(queuedArcs,0,queuedArcsCount);
 							queuedArcsCount++;
+							order = 1;
 						}						
 					}
 				}
@@ -311,16 +329,24 @@ int main(int argc, char *arginTree[])
 		}
 	}
 	
-	
 	//Write Solution
 	FILE *output_file = fopen(output_file_name, "w+");
-	printf("\n Solution file: %s", output_file_name);
+	printf("\nSolution file: %s", output_file_name);
 	for(int i = 0; i < mspArcsCount; i++)
 	{
 		fprintf(output_file, "%d %d \n", mspArcs[i]->b, mspArcs[i]->a);
 	}
-	
 	fclose(output_file);
+	
+	//Calculate time
+	clock_t end = clock();
+	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+	int hr = time_spent/3600;
+	float t = time_spent - hr*3600;
+	int min = t/60;
+	float sec = t - min*60;
+	printf("\nExec Time: %d hrs %d mins %f seconds", hr, min, sec);
+	
 	//Deallocate memory
 	free(output_file_name);
 	//free(coord); 
