@@ -8,7 +8,7 @@
 #include <math.h>
 
 // after the node is added to the tree, it checks if any node got closer to the tree, respecting the maximum walking distance.
-void updateDistances(int target, float *partial, int n, float **weight, float *d, int alpha, int *whoTo) {
+void updateDistances(int target, float *partial, int n, float **weight, float *d, float alpha, int *whoTo) {
 
 	int i;
 
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
 		inTree[i] = 0;
 
 	/* Add the school as starting point */
-	printf("Adding node %c\n", 0 + 'A');
+	printf("Adding node 0\n");
 	inTree[0] = 1;
 
 	updateDistances(0, partial, n, weight, d, alpha, whoTo);
@@ -141,11 +141,11 @@ int main(int argc, char *argv[]) {
 							min = i; 
 		
 			partial[min] = partial[whoTo[min]] + d[min];
-			printf("Adding edge %c-%c\n", whoTo[min] + 'A', min + 'A');
+			printf("Adding edge %d-%d\n", whoTo[min], min);
 		
 		} else{
 			partial[min] = partial[last] + weight[last][min];	
-			printf("Adding edge %c-%c\n", last + 'A', min + 'A');	
+			printf("Adding edge %d-%d\n", whoTo[min], min);
 		}
 	
 		/* And add it */
