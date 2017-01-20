@@ -2,10 +2,12 @@
 
 %% Useful packages
 \usepackage{amsmath}
+\usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage[T1]{fontenc}	
 \usepackage{algpseudocode}
+
 \usepackage{algorithm}
 \usepackage{lmodern}
 \usepackage[colorinlistoftodos]{todonotes}
@@ -350,6 +352,7 @@ In the evaluation of the Scale Drivers it was used the following table provided 
 	TEAM SFj  &very difficult interactions 5.48 &some difficult interactions 4.38 &basically cooperative interactions 3.29 & largely cooperative 2.19 & highly cooperative 1.10& seamless interactions 0.00  \\ \hline
 	PMAT SFj  &SW-CMM Level 1 Lower 7.80&SW-CMM Level 1 Upper 6.24&SW-CMM Level 2 4.86&SW-CMM Level 3 3.12&SW-CMM Level 3  1.56&SW-CMM Level 5  0.00\\ \hline
 \end{tabular}
+
 \newpage
 Analysing each point that compose the Scale Drivers:
 \begin{itemize}
@@ -574,9 +577,58 @@ Therefore the results of the previous analyzes are expressed in the following ta
 	\multicolumn{1}{|l}{Total}&&1.4366\\ \hline
 	
 \end{tabular}
-
+\newpage
 \subsubsection{Effort Equation}
+In order to obtain the effort estimation with units Person-Months(PM) it will be need the following formulas:
+
+\begin{figure}[h]
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.4\textwidth]{equationFM.png}}%
+\vspace*{0cm}
+\end{figure}
+\begin{figure}[h]
+\vspace*{\fill}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.35\textwidth]{E.png}}%
+\vspace*{0cm}
+\end{figure}
+
+where the parameters are:\\
+\begin{tabular}{ | l| }
+\hline
+A=2.94\\
+B=0.91\\
+EAF = Product of all cost drivers = 1.4336\\
+E = Exponent derived from the scale drivers=0.91+0.01*13.57=1.0457\\
+LowBoundKSLOC=8.134\\
+HighBoundKSLOC=11.122\\
+\hline
+\end{tabular}\\\\
+ Thus for the lower bound of the KSLOC was obtained:
+ \begin{figure}[h]
+\noindent\makebox[\textwidth]{\includegraphics[width=0.7\textwidth]{ef1.png}}%
+\end{figure}
+and for the high bound of the KSLOC:
+\begin{figure}[!h]
+\noindent\makebox[\textwidth]{\includegraphics[width=0.7\textwidth]{ef2.png}}%
+\end{figure}
+
 \subsubsection{Schedule Estimation}
+In terms of the schedule the following formulas will be need:
+\begin{figure}[!h]
+\noindent\makebox[\textwidth]{\includegraphics[width=0.4\textwidth]{schedule.png}}%
+\end{figure}
+
+\begin{figure}[!h]
+\noindent\makebox[\textwidth]{\includegraphics[width=0.95\textwidth]{F.png}}%
+\end{figure}
+The schedule considering the lower boud is:\\
+\begin{figure}[!h]
+\noindent\makebox[\textwidth]{\includegraphics[width=0.75\textwidth]{durationLow.png}}%
+\end{figure}\\
+and the schedule considering the higher bound is:
+\begin{figure}[!h]
+\noindent\makebox[\textwidth]{\includegraphics[width=0.75\textwidth]{durationHigh.png}}%
+\end{figure}
 
 \newpage
 \section{Project Plan Schedule}
