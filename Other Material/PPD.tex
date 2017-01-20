@@ -436,6 +436,25 @@ Due to the size of the Schedule Graph we separated in 4 different sections, RASD
 \section{Resource Allocation}
 \section{Risk Management}
 
+This section aims at defining at an early stage what are the risks regarding this project, and by doing so, define what are the indicators of a risk materializing itself and the actions that should be taken. The risk management is a continuous process. Therefore, the following are guidelines that should be upgraded as the project progresses. 
+
+A common risks computer softwares face are that the delivered product is not in total accordance with the vision the client had, and thus does not fully attend the functionalities proposed. Or it may happen that the users and CRM staff are not pleased with the final version, resulting in some resistance to use the product and bad public acceptance. This type of risks are managed by involving both the client and the users into early stages of development. The client should participate in the requirement analysis, design, and be presented with constant reports and demonstrations of new functionalities, while the users need to be brought to test functionalities and interfaces every time it is possible, especially before they are final versions. The same is the case for the CRM team, apart from bringing them closer to the development, it is important to also provide training on how to use the final system, to ensure a low resistance to the software and increase the quality of the deployed service.  
+
+A predictable risk is a turnover in the client situation, demanding the decrease of resources or the project to be completed in less time. Such scenario may arise for different reason, as example, a competitor company announces that will release a similar service before PowerEnjoy or a financial crisis is causing the client to invest less money than expected. Those are completely different problems, but the overall guidelines are the same: promote a negotiation with the client, explaining the consequences of this action. If, however, it is really necessary to do such change, establish a plan of incremental deployments, being the first one on the date set or using the money provided with limited functionalities, and make incremental deliveries as time or money become available.   
+
+There are risks that represent greater problems as they cannot have clear contingency plans beforehand, such are the cases of legislation changes regarding the car sharing service in Italy.  New laws concerning the parking spots and other traffic rules can cause significantly changes in the product. And, although this scenario is hard to predict, such changes don’t come unnoticed, and by maintaining a good relationship with the city hall is possible to be aware with enough antecedence to adapt the service. 
+
+The deployed system, inevitably will depend on external solutions, as the cloud infrastructure and the mapping service. For the first, it is necessary to do a complete market research before choosing the company that will provide the service, some key points are: a clear contract, defining what are the changes that can happen in the cloud infrastructure and binding them to send a notice before doing so; the structure used should be as generic as possible, predicting that in case of having to migrate, the damage is minimized; the line between price and quality here should be pending to the quality side. As for the second, the used solution is well-known and widely accepted, Google maps. For this reason, instability or changes in the service are not a high concern, nonetheless, in case it does not meet the company needs anymore, a replacement should already be kept in background, with some preliminary tests on migration. 
+
+Also the database, payment and e-mail are factor of risks, they have a serious effects but low probability and are easily fixed due to the fact they are relatively standardized. Backup routines should be established and followed rigorously, with redundant copies in different medias. Still regarding data loss,  the source code needs to be included in the backups and the developers should be constantly reminded to keep the quality of the GIT repository, following the specifications for the commits.  
+
+Some internal problems may be summarized as the unavailability of a staff member. To ensure that no functionality is left undone, no member is single handed responsible for a specific part, or in other words, the work distributions overlaps themselves.  But, as this is a small team, it may result in overload of work for the remaining members. This may be a difficult point to solve, as the period of absence in unsure, one of the management technique adopted that helps this and almost most issues in the development phase is to include extra time in the ending of major tasks.      
+
+A final predicted risk, is the failure of the screen inside the car, as it is a hardware piece it is subjected multiple malfunctions. As for the quality of the product, extensive testing with different hardwares was predicted in the testing phase, so, in case of the hardware proves to be insufficient to the needs of the system, there are other tested options. And for punctual failures, the company is advised to keep spare screens in stock for a fast change. Of course, the later a problem is detected here, the more expensive is to fix it. As an example, if on development it is discovered that the first option for the screen breaks easily after little use, there are only a few to be replaced, but if the system was already deployed, this may result in huge losses for the company. 
+
+The above consideration (the later a risk presents itself the more expensive it is to fix it) tends to be true for most cases, hence it is why is crucial to keep reviewing the contingency plans and monitoring the signals that a risk, predicted or non predicted, may arise. 
+
+
 \newpage
 \section{Effort Spent}
 \begin{tabular}{ | c | c | c | c | }
@@ -446,8 +465,8 @@ Due to the size of the Schedule Graph we separated in 4 different sections, RASD
 	17/01/17& 4h & - & - \\ \hline
 	18/01/17& 4h & - & - \\ \hline
 	19/01/17& - & 6h & - \\ \hline
-	20/01/17& - & - & - \\ \hline
-	21/01/17& - & - & - \\ \hline
+	20/01/17& - & - & 1h \\ \hline
+	21/01/17& - & - & 6h \\ \hline
 	22/01/17& - & - & - \\ \hline
 \end{tabular}
 \newpage
