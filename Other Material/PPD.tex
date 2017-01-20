@@ -2,9 +2,12 @@
 
 %% Useful packages
 \usepackage{amsmath}
-\usepackage{graphicx}	
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}	
 \usepackage{algpseudocode}
 \usepackage{algorithm}
+\usepackage{lmodern}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=black]{hyperref}
 \usepackage[fontsize=11pt]{scrextend}
@@ -358,40 +361,193 @@ Analysing each point that compose the Scale Drivers:
 \end{itemize}
 	
 Thus the evaluation is:
-
 \begin{center}
-
-\begin{tabular}{| ll | l |}
+\begin{tabular}{ | l | c | c | }
 \hline
-\multicolumn{1}{|l|}{}Scale Driver & Factor &  Value \\ \hline
-\multicolumn{1}{|l|}{}Precedentedness (PREC)& Low & 4.96\\
-\multicolumn{1}{|l|}{}Risk resolution (RESL)& High & 2.83\\ 
-\multicolumn{1}{|l|}{}Team cohesion (TEAM) & Very high &  1.10\\ 
-\multicolumn{1}{|l|}{}Process maturity (PMAT) & Level 2 & 4.68\\ \hline
-                     Total &  & 13.57 \\ \hline
+	\textbf{Scale Driver} & \textbf{Factor} & \textbf{Value}  \\ \hline\hline
+	Precedentedness (PREC)& Low &  4.96 \\ \hline
+	Risk resolution (RESL) & High & 2.83  \\ \hline
+	Team cohesion (TEAM)  & Very high &  1.10  \\ \hline
+	Process maturity (PMAT) &  Level 2 & 4.68 \\ \hline
+         \multicolumn{1}{|l}{}Total &  & 13.57 \\ \hline
 \end{tabular}
 \end{center}
 
 \subsubsection{Cost Drivers}
 \begin{itemize}
-\item Required Software Reliability (RELY): Being the measure of the ''extent to which the software must perform its intended function over a period of time'' the RELY will be set as high because as the main business is renting the cars through the app  and the interruption of the service means directly financial losses. Moreover customer will expected a reliable service and any interruption can cause unnecessary instabilities.
-\item Database size (DATA): It’s possible to estimate the database size according to the COCOMO II  with the D/P ratio(DB bytes/LOC). In an estimation made considering the tables, fields and their respective growing a 4 GB database size is estimated. As the LOC is the range of 8200-11150  so it is obtained that DP of the range of 386 to 524. Thus the DATA is evaluated as high.
-\item Product complexity (CPLX): In accordance with the COCOMO II standards for the evaluation of the CPLX whose is divided in five areas for the evaluation it is set that the project has a rating level of very high. It was concluded that mostly because in the area of the Computational Operations the system has more complexes numerical analyses such as the partial differential equations used in the Standard Deviation Algorithm of the Money-Saving option.
-\item Required reusability (RUSE): The main requirements of the project don’t established the reuse of the code as a goal so the evaluation of this cost driver will be as nominal.
-\item Documentation match to life-cycle needs  (DOCU): The DOCU evaluate how adapted the project's documentation is in relation with its life-cycle needs. As in the project the documentation was up to date with the life-cycle needs  the evaluation will be set as nominal.
-\item Execution time constraint (TIME): Being the measure of the use of the CPU processing power, regarding the total capacity available it was estimated that as very high due the fact that the software has multiple functions such as keeping track of the rides, cars and users requests. Furthermore the system need to be available in a full regime because of it's real time nature.
-\item Storage constraint (STOR): The STOR evaluates the main storage constraint that is imposed in one software. As this constraint is considered bypass nowadays this cost driver was set as nominal
-\item Platform Volatility (PVOL): The PVOL  measure the volatility in terms of updates in the system per time. As the system is structured in 3 tiers that are Client Tier(Web App, Mobile App, Car),  Server Tier (Java EE Web and Application Server), EIS  Tier (DataBase Server) the PVOL will be evaluated as nominal because it’s not expected major changes when becomes the Server and EIS tier. But it is expected that the Client Tier will required changes due the volatility in the smartphone market where there are new several occurrences such as system updates and launching of new devices in a short period of time. 
-\item Analyst Capability (ACAP) : The ACAP measure the level of analyses that the team/organization had done. It will be evaluated as high due the fact that the team has developed during the project an extensive analyses of how to bring into the software the functions that were required by the stakeholder.
-\item Programmer Capability (PCAP): The  PCAP is based on the measure of the capacity of the programmers as a team estimating their ability, cooperation and communication. As the project was not implemented we estimated this evaluation having as a parameter the work developed until now and with the personal abilities of the components of the team. Therefore the PCAP will be set as high.
-\item Personnel Continuity (PCON):
-\item Application Experience (APEX) :The APEX evalueted the experience of the team with the with the application as it is the first application of the king that all membersof the team develop it will be evaluated as low .
-\item Platform Experience (PLEX) : Being the rating of the experience of the team with the platform, in the case Java EE, the PLEX will be evaluated as low because even if the team has had a previous experience with Java especially the SE, databases.
-\item Language and Tool Experience (LTEX): 
-\item Use of Software Tools (TOOL):
-\item Multisite development (SITE):
-\item Required development schedule (SCED):
+\item Required Software Reliability (RELY): Being the measure of the ''extent to which the software must perform its intended function over a period of time'' the RELY will be set as high because as the main business is renting the cars through the app, an interruption of the service means directly financial losses. Moreover customers will expected a reliable service and any interruption can cause unnecessary instabilities.
 
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Required Software Reliability (RELY)} \\ \hline  \hline
+	\textbf{RELY Descriptors} & Slight Inconvenience & Low, easily recoverable losses & Moderate, easily recoverable losses & High financial loss & Risk to human life& \\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 0.82 & 0.92 & 1.00 & 1.10 & 1.26 &  n/a \\ \hline
+\end{tabular}
+
+\item Database size (DATA): It's possible to estimate the database size according to the COCOMO II  with the D/P ratio(DB bytes/LOC). Considering such variables as the tables, fields and their respective growing it was estimated a 4 GB database. As the LOC is the range of 8200-11150  it is obtained a DP of the range of 386 to 524. Thus the DATA is evaluated as high.
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Database size (DATA)} \\ \hline  \hline
+	\textbf{DATA Descriptors} & & D/P<10&100 < D/P <1000 & D/P >1000 & & \\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & n/a & 0.90 & 1.00 & 1.14 & 1.28 &  n/a \\ \hline
+\end{tabular}
+
+\item Product complexity (CPLX): In accordance with the COCOMO II standards for the evaluation the CPLX, whose is composed by five parameters, the rating level our system was evalueted as very high. It was concluded that mostly because of the Computational Operations component due the fact that of our system has more complexes numerical analyses such as the partial differential equations used in the Standard Deviation Algorithm of the Money-Saving option.
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Product complexity (CPLX)} \\ \hline  \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 0.73 & 0.87 & 1.00 & 1.17 & 1.34 &  1.74 \\ \hline
+\end{tabular}
+
+\item Required reusability (RUSE): The main requirements of the project don't established the reuse of the code as a goal so the evaluation of this cost driver will be as nominal.
+
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Required reusability (RUSE)} \\ \hline  \hline
+         	\textbf{RUSE Descriptons} & & None & Across project & Across program& Across product line &Across multiple product lines \\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & n/a & 0.95 & 1.00 & 1.07 & 1.15 &  1.24 \\ \hline
+\end{tabular}
+
+\item Documentation match to life-cycle needs  (DOCU): The DOCU evaluate how adapted the project's documentation is in relation with its life-cycle needs. As the project the documentation was up to date with the life-cycle needs  the evaluation will be set as nominal.
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Documentation match to life-cycle needs  (DOCU)} \\ \hline  \hline
+         	\textbf{DOCU Descriptons} &Many life-cycle needs uncovered & Some life-cycle needs uncovered & Rightsized to life-cycle needs &  Excessive for lifecycle needs & Very excessive for life-cycle needs &\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 0.81 & 0.91 & 1.00 & 1.11 & 1.23 &  n/a \\ \hline
+\end{tabular}
+\item Execution time constraint (TIME): Being the measure of the use of the CPU processing power, regarding the total capacity available it was estimated that as very high due the fact that the software has multiple functions such as keeping track of the rides, cars and users requests. Furthermore the system need to be available in a full regime because of it's real time nature.
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Execution time constraint (TIME)} \\ \hline  \hline
+         	\textbf{TIME Descriptons} & & & <= 50\% use of available execution time& 70\% use of available execution time& 85\% use of available execution time &95\% use of available execution time\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & n/a & n/a & 1.00 & 1.11 & 1.29 & 1.63 \\ \hline
+\end{tabular}
+
+\item Storage constraint (STOR): The STOR evaluates the main storage constraint that is imposed in one software. As this constraint is considered bypass nowadays this cost driver was set as nominal
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Storage constraint (STOR)} \\ \hline  \hline
+         	\textbf{STOR Descriptons} & & & <= 50\% use of available execution time& 70\% use of available execution time& 85\% use of available execution time &95\% use of available execution time\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & n/a & n/a & 1.00 & 1.05 & 1.17 & 1.46 \\ \hline
+\end{tabular}
+
+\item Platform Volatility (PVOL): The PVOL  measure the volatility in terms of updates in the system per time. As the system is structured in 3 tiers that are Client Tier(Web App, Mobile App, Car),  Server Tier (Java EE Web and Application Server), EIS  Tier (DataBase Server) the PVOL will be evaluated as nominal because it’s not expected major changes when becomes the Server and EIS tier. But it is expected that the Client Tier will required changes due the volatility in the smartphone market where there are several new occurrences such as system updates and launching of new devices in a short period of time. 
+
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Platform Volatility (PVOL)} \\ \hline  \hline
+         	\textbf{PVOL Descriptons} & & Major change every 12 month, minor change every 1 month.&Major change every 6 month, minor change every 2 weeks.&Major change every 2 month, minor change every 1 week.& Major change every 2 weeks, minor change every 2 days. & \\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & n/a & 0.87 & 1.00 & 1.15 & 1.30 & n/a \\ \hline
+\end{tabular}
+
+\item Analyst Capability (ACAP) : The ACAP measure the level of ability, efficiency and communication skills of an Analyst. It will be evaluated as high due the fact that the team has developed an extensive work of analyses of how to bring into the software the functions that were required by the stakeholder.
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Analyst Capability (ACAP)} \\ \hline  \hline
+         	\textbf{ACAP Descriptons} & 15th percentile &35th percentile& 55th percentile& 75th percentile & 95th percentile&\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 1.42 & 1.19 & 1.00 & 0.85 & 0.71 & n/a \\ \hline
+\end{tabular}
+
+\item Programmer Capability (PCAP): The  PCAP is based on the measure of the capacity of the programmers as a team estimating their ability, cooperation and communication. As the project was not implemented we estimated this evaluation having as a parameter the work developed until now and with the personal abilities of the components of the team. Therefore the PCAP will be set as high.
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Programmer Capability (PCAP)} \\ \hline  \hline
+         	\textbf{PCAP Descriptons} & 15th percentile &35th percentile& 55th percentile& 75th percentile & 90th percentile&\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 1.34 & 1.15& 1.00 & 0.88 & 0.76 & n/a \\ \hline
+\end{tabular}
+
+\item Personnel Continuity (PCON): The personnel continuity factor (PCON) measures the annual personnel turnover. As in the stipulated time of the project the group did  no have turnovers the PCON will be evaluated as very high.
+
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Personnel Continuity (PCON)} \\ \hline  \hline
+         	\textbf{PCON Descriptons} & 48\% per year&24\% per year&12\% per year&6\% per year&3\% per year&\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 1.29 & 1.12& 1.00 & 0.90 & 0.81 & n/a \\ \hline
+\end{tabular}
+
+\item Application Experience (APEX) :The APEX evalueted the experience of the team with the with the application as it is the first application of the king that all membersof the team develop it will be evaluated as low .
+
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Application Experience (APEX)} \\ \hline  \hline
+         	\textbf{APEX Descriptons} & <= 2 months & 6 months&1 year & 3 year& 6 year&\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 1.22 & 1.10 & 1.00 & 0.88 & 0.81 & n/a \\ \hline
+\end{tabular}
+
+\item Platform Experience (PLEX) : Being the rating of the experience of the team with the platform, in the case Java EE, the PLEX will be evaluated as low because even if the team has had a previous experience with Java especially the SE, databases.
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Platform Experience (PLEX)} \\ \hline  \hline
+         	\textbf{PLEX Descriptons} & <= 2 months & 6 months &1 year & 3 year& 6 year&\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 1.19 & 1.09 & 1.00 & 0.91 & 0.85 & n/a \\ \hline
+\end{tabular}
+
+\item Language and Tool Experience (LTEX): The LTEX measure the experience of the team with the language and tools used for the development of the project. Being the first time of the group working with Java EE the evaluation will be low. Although the members of the group have some previous experience with java and databases.
+
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{ Language and Tool Experience (LTEX)} \\ \hline  \hline
+         	\textbf{LTEX Descriptons} & <= 2 months & 6 months &1 year & 3 year& 6 year&\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 1.20 & 1.09 & 1.00 & 0.91 & 0.84 & n/a \\ \hline
+\end{tabular}
+\item Use of Software Tools (TOOL):The TOOL try to scale the use of software tools during the developing of  software. Due the availability a strong platform for the development of the project the TOOL will be evalueted as high
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Use of Software Tools (TOOL)} \\ \hline  \hline
+         	\textbf{TOOL Descriptons} &Edit, code, debug &Simple, frontend, backend CASE, little integration & Basic lifecycle tools, moderately integrated.& Strong, mature lifecycle tools, moderately integrated & Strong, mature, proactive lifecycle tools, well integrated with processes, methods, reuse.&\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 1.17 & 1.09 & 1.00 & 0.90 & 0.78 & n/a \\ \hline
+\end{tabular}
+
+\item Multisite development (SITE):  The SITE try to evaluete the effects of the multisite development in a project. The two main factor of this cost driver are site collocation and communication support. The team is located in the same city and depends upon the communication via social media. Thus the SITE evaluation will be high.
+
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Multisite development (SITE)} \\ \hline  \hline
+         	\textbf{SITE Collocation} &International&Multi-city and multicompany& Multi-city or multicompany& Same city or metro area&Same building or complex&Fully collocated\\ \hline
+         	\textbf{SITE Communications} &Some phone, mail.&Individual phone, FAX.& Narrowband email.& Wideband electronic communication.&Wideband electronic communication.& Interactive multimedia.\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 1.22 & 1.09 & 1.00 & 0.93 & 0.80 & n/a \\ \hline
+\end{tabular}	
+
+\item Required development schedule (SCED): Being the rate of schedule stretch-out or acceleration regarding a nominal amount of effort in the development of a project the SCED will be evaluated as nominal due the fact that the efforts in the development of the project were well distributed among the members of the group given the corresponding allocated time.
+
+\begin{tabular}{ | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | L{1.5cm} | }
+\hline
+         \multicolumn{7}{|c|}{Required development schedule (SCED)} \\ \hline  \hline
+         	\textbf{SCED Descriptons} &75\% of nominal &85\% of nominal &100\% of nominal &130\% of nominal &160\% of nominal &\\ \hline
+	\textbf{Rating}&Very Low & Low & Nominal  & High & Very High &Extra High\\ \hline
+	\textbf{Effort multipliers} & 1.43 & 1.14 & 1.00 & 1.00 &  1.00 & n/a \\ \hline
+\end{tabular}
 \end{itemize}
 
 \subsubsection{Effort Equation}
