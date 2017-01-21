@@ -1,0 +1,23 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {subsection}{\numberline {1.1}Revision History}{2}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Purpose and Scope}{2}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Definitions and Abbreviations}{2}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Reference Documents}{3}{subsection.1.4}
+\contentsline {section}{\numberline {2}Project Size, Cost and Effort Estimation}{4}{section.2}
+\contentsline {subsection}{\numberline {2.1}Size Estimation: Function Points}{4}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Internal Logic Files (ILF)}{5}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}External Interface Files (EIF)}{7}{subsubsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.3}External Inputs (EI)}{7}{subsubsection.2.1.3}
+\contentsline {subsubsection}{\numberline {2.1.4}External Outputs (EO)}{8}{subsubsection.2.1.4}
+\contentsline {subsubsection}{\numberline {2.1.5}External Inquiries (EQ)}{9}{subsubsection.2.1.5}
+\contentsline {subsubsection}{\numberline {2.1.6}Overall Estimation}{10}{subsubsection.2.1.6}
+\contentsline {subsection}{\numberline {2.2}Cost and Effort Estimation: COCOMO II}{10}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Scale Drivers}{10}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}Cost Drivers}{11}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Effort Equation}{20}{subsubsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.4}Schedule Estimation}{20}{subsubsection.2.2.4}
+\contentsline {section}{\numberline {3}Project Plan Schedule}{21}{section.3}
+\contentsline {section}{\numberline {4}Resource Allocation}{24}{section.4}
+\contentsline {section}{\numberline {5}Risk Management}{33}{section.5}
+\contentsline {section}{\numberline {6}Effort Spent}{35}{section.6}
+\contentsline {section}{\numberline {7}Changelog}{36}{section.7}
