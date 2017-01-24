@@ -1,0 +1,47 @@
+\documentclass[a4paper]{article}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage[fontsize=11pt]{scrextend}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage{graphicx}
+\setlength\parindent{0pt}
+
+\begin{document}
+\begin{center}
+\begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+ Foundations of Operational Research &  Prof. E. Amaldi and F. Malucelli \\ 
+\end{tabular*}
+\rule{\textwidth}{0.4pt}
+\begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+Domenico FAVARO & Mat. 837995\\ 
+Matheus FIM & Mat. 876069\\
+Caio ZULIANI & Mat. 877266\\ 
+\end{tabular*}
+\newline
+\newline
+
+\large \textbf{Walking Bus Challenge}
+\end{center}
+\normalsize
+For our approach on the Walking Bus Challenge we implemented a modified Prim's algorithm to generate the Minimum Spanning Tree ordering the "weight" of the arcs according to 3 criteria in order of greediness:
+\begin{itemize}
+\item Wether they generate or not a new branch. First and most important, since it'll keep the number of branches to a minimum.
+\item Distance, since shorter distances will lessen the probability for new branches in the future.
+\item Danger, in case of same distances the arc with less danger will be picked.
+\end{itemize}
+The ordering of the heap of arcs using this criteria is done by a quicksort and just when absolutely necessary. 
+\newline
+\newline
+To determine if an arc generates or not a branch we added a variable for each node that determines if the node already belongs to a branch, if true, any other arc coming out from it will generate a new branch and this is put into the arc. Starting from the origin node, all arcs generate a new branch.
+\newline
+\newline
+Another criteria was if the accumulated distance is greater then the distance of the node to the origin * alpha, it will then generate a new branch.
+\newline
+\newline
+Once the MST is generated, a second pass to the end leafs node is made, since no new branch can be created from the tips, the danger is then taken into account to substitute any arc on the end that doesn't violate the distance constraint and has less danger.
+\newline
+\newline
+This solution thou not optimal, it generates an optimized version of a simple pass with Prim's Algorithm in a shortened amount of time.
+To obtain the best solution all possible MSTs should be generated and this would take more time than the optimal.
+\end{document}
