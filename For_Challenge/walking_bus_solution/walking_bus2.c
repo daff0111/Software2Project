@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
 			distM[j*n+i] = d;		
 		}
 	}
-	
+	printf("Calculating MST... \n");
 	//List of visited nodes
 	int visited = 0;
 	int* inTree = (int*) calloc(n, sizeof(int));
@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
 	//min Distances of nodes
 	float* minDist = (float*) calloc(n, sizeof(float));
 	
-	//All arcs to check
+	//Arcs to check
 	struct arc *queuedArcs[301*301];
 	int queuedArcsCount = 0;
 	//Actually selected Arcs
@@ -244,27 +244,23 @@ int main(int argc, char *argv[])
 			queuedArcsCount--;
 			int visitedNode = poppedArc->b;
 			//if the poppedArc does not branch an already branched node
-			if(inTree[visitedNode] == 0 && !(branched[poppedArc->a] == 1 && poppedArc->branch == 1))
+			if(inTree[visitedNode] == 0 && !(branched[poppedArc->a] > 0 && poppedArc->branch == 1))
 			{
 				//Visit node
 				inTree[visitedNode] = 1;
 				visited++;
+				//Print current number of Nodes
 				printf("\b\b\b%d", visited);
 				//Visit arc 
 				mspArcs[mspArcsCount] = poppedArc;
 				mspArcsCount++;
-				
-				/*printf("Visited Node : %d \n", poppedArc->b);
-				printf("Count : %d \n", visited);*/
+
 				if(poppedArc->branch == 0)
 				{
 					branches++;
-					printf("\nLeafs : %d \n", branches);
+					//printf("\nLeafs : %d \n", branches);
 				}
-				else
-				{
-					branched[poppedArc->a] = 1;
-				}
+				branched[poppedArc->a]++;
 				
 				minDist[visitedNode] = poppedArc->dist;
 				//printf("Visited Node %d Dist : %f ",visitedNode, poppedArc->dist);
@@ -290,7 +286,7 @@ int main(int argc, char *argv[])
 							newArc->branch = 1;
 						}
 						newArc->dist = nodeDistance;
-						newArc->danger = d[visitedNode*n+i];
+						newArc->danger = d[i*n+visitedNode];
 						queuedArcs[queuedArcsCount] = newArc;
 						//quickSort(queuedArcs,0,queuedArcsCount);
 						queuedArcsCount++;	
@@ -317,7 +313,7 @@ int main(int argc, char *argv[])
 							newArc->branch = 0;
 							float nodeDistance = minDist[i]+distM[i*n+j];
 							newArc->dist = nodeDistance;
-							newArc->danger = d[i*n+j];
+							newArc->danger = d[j*n+i];
 							queuedArcs[queuedArcsCount] = newArc;
 							//quickSort(queuedArcs,0,queuedArcsCount);
 							queuedArcsCount++;
@@ -328,6 +324,73 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
+	
+	//Keep the number of Max branches and the MST
+	int maxBranches = branches;
+	//Current dangerousness
+	float minDangerousness = 0;
+	for(int i = 0; i < mspArcsCount; i++)
+	{
+		struct arc* nextArc = mspArcs[i];
+		minDangerousness = minDangerousness + d[nextArc->b*n+nextArc->a]; 
+	}
+	
+	//Try to minimize the dangerousness
+	printf("\nFirst Pass: Leafs: %d Danger: %f \n", maxBranches, minDangerousness);
+	for(int i = 0; i < mspArcsCount; i++)
+	{
+		struct arc* selectedArc = mspArcs[i];
+		float arcdanger = selectedArc->danger;
+		int selectedNode = selectedArc->b;
+		if(branched[selectedNode] == 0)
+		{
+			for(int j = 0; j < n; j++)
+			{
+				//Do the pass just for the end leafs - do not create new braches
+				if(branched[j] == 0 && selectedNode != j)
+				{
+					//control just less dangerous paths
+					if(d[selectedNode*n+j] < arcdanger)
+					{
+						float nodeDistance = minDist[j]+ distM[j*n+selectedNode];
+						//Do not exceed the max distance
+						if(nodeDistance <= distM[selectedNode]*alpha)
+						{
+							//A better arc was found, substitute selected arc
+							branched[j]++;
+							branched[selectedArc->a]--;
+							arcdanger = d[selectedNode*n+j];
+							//printf("Switch arc : %d %d for %d %d, Danger: %f %f \n", selectedArc->a, selectedNode, j, selectedNode, selectedArc->danger, arcdanger);
+							selectedArc->a = j;
+							selectedArc->danger = arcdanger;
+							selectedArc->dist = nodeDistance;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	minDangerousness = 0;
+	for(int i = 0; i < mspArcsCount; i++)
+	{
+		struct arc* nextArc = mspArcs[i];
+		minDangerousness = minDangerousness + d[nextArc->b*n+nextArc->a]; 
+	}
+	
+	printf("Second Pass: Leafs: %d Danger: %f \n\n", maxBranches, minDangerousness);
+	float divideBy = 10;
+	if(minDangerousness > 10)
+	{
+		divideBy = 100;
+	}
+	if(minDangerousness > 100)
+	{
+		divideBy = 1000;
+	}
+	float solutionValue = maxBranches + minDangerousness/divideBy;
+	//printf("Solution Value: %f \n", solutionValue);
 	
 	//Write Solution
 	FILE *output_file = fopen(output_file_name, "w+");

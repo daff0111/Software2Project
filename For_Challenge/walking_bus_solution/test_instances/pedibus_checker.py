@@ -157,15 +157,15 @@ if __name__ == "__main__":
                     sys.exit(1)
                 else:
                     solValue, dangerValue, solList = readSolFile(arg, nNodes, alpha, costs, danger)
-                    print "Feasible solution, leaf:", solValue, "danger:",dangerValue
+                    print "Feasible solution, leafs:", solValue, "danger:",dangerValue
                     beta = 0.1
-                    if(nNodes>11):
+                    if(nNodes>10 and nNodes <= 100):
                         beta = 0.01
-                    elif(nNodes>101):
+                    elif(nNodes>100 and nNodes <= 1000):
                         beta = 0.001
-                    elif (nNodes > 1001):
+                    elif (nNodes > 1000):
                         beta = 0.0001
-                    print "Value for the challenge:", str(solValue+(dangerValue*beta))
+                    print "Value for the challenge:", str(round(solValue+(dangerValue*beta),4))
             else:
                 if (os.path.isfile(arg)):
                     print "Wrong input file type ("+arg+")."
