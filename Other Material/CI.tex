@@ -47,16 +47,56 @@ Prof. Elisabetta DI NITTO
 \tableofcontents
 \newpage
  
-\section{Class assigned - SeoConfigUtil.java}
+\section{Class assigned - SeoConfigUtil}
 
-\section{Functional Role of SeoConfigUtil}
+The Java Class assigned to this document is \ttfamily SeoConfigUtil\rmfamily, a class that is part of the \ttfamily org.apache.ofbiz.product.category \rmfamily package of the Apache OFBIZ (Open For Business) Framework. 
+
+\subsection{Functional Role of SeoConfigUtil}
+
+The function of this Class as its name states is SEO Configuration File Utility, SEO stands for Search Engine Optimization. Its main function is to parse a XML Cofiguration File \ttfamily SeoConfig.xml \rmfamily and store all the elements, URL patters, Categories and filters stated on that configuration document, using a Perl Compiler for Regular Expressions, and then offers methods that answer wether the Category URLs are enabled, wether they can be accesed by Users or Anonymous IDs on the Server and other important values for the SEO of the Web Page.\newline 
+\par
+For this the Class consists on an \ttfamily init() \rmfamily method that initializes the class by parsing the XML file, and other access methos that return, if the initialization was successful, the elements of the SEO Configuration.
 
 \section{Issues - Code Inspection Checklist}
 \subsection{Naming Conventions}
-\subsection{Idention}
+SeoConfigUtil respects naming conventions throughout the file. To illustrate some important points:
+\begin{enumerate}
+\item All method names are meaningful and describe exactly what the method does. Ex: 
+\begin{itemize}
+\item[-] (l.409) \ttfamily isCategoryNameEnabled() \rmfamily checks whether category name is enabled.
+\item[-] (l.436) \ttfamily isJSessionIdUserEnabled() \rmfamily checks whether jsessionid is enabled for user.	
+\end{itemize}
+With the exception of maybe the \ttfamily init() \rmfamily method that consists on the initialization of the class, but does a lot of parsing of the Configuration File, in fact a 230 lines method that does not call any other methods inside the Class could be considered for break up on sub methods. However this is a method that should be called once for the entire Class and having an \ttfamily init() \rmfamily method that just calls an equally long \ttfamily parseConfigFile() \rmfamily may be over complicating.
+
+\item One character variables are used only in temporary variables, inside \ttfamily for \rmfamily loops (\ttfamily i,j\rmfamily) or to catch exceptions  (\ttfamily e\rmfamily). Other temporary variables that do not include loops or exceptions have meaningful names inside the context they are used, like \ttfamily pattern \rmfamily that is initialized as the compiled URL pattern of the Perl Compiler.
+
+\item The only Class name declared in this file is \ttfamily SeoConfigUtil \rmfamily and it respects the capitalized letter camelCase for its noun. 
+
+\item No Naming Conventions for Interfaces for No Interfaces are declared in this file.
+
+\item All methods are verbs, almost all are getters like \ttfamily getSpecialProductId()\rmfamily. Those that return a \ttfamily boolean \rmfamily value are posed as a question like \ttfamily isInitialed() \rmfamily  with the exception of \ttfamily checkUseUrlRegexp() \rmfamily and \ttfamily checkCategoryUrl() \rmfamily that to respect the naming convention should be called  \ttfamily canUseUrlRegexp() \rmfamily and \ttfamily isCategoryUrlEnabled() \rmfamily
+
+\item All class variables are declared as camelCase. That is mixed case, starting with a lowercase first letter and all theremaining words in the variable name have their first letter capitalized. Ex: \ttfamily userExceptionPatterns\rmfamily.
+
+\item All constants, mostly Strings are declared with the all Caps snake case or \ttfamily SCREAMING\_SNAKE\_CASE \rmfamily Ex: \ttfamily ELEMENT\_URL\_CONFIG\rmfamily.
+\end{enumerate}
+\subsection{Identation}
+For identation four spaces are used consistently and no tabs are used to indent.
+
 \subsection{Braces}
+The Braces ident style used in this Class is the  K\&R ("Kernighan and Ritchie's") style, first brace is on the same line of the instruction that opens the new block, with the Java variant, that is also for class or method declarations. Ex:
+\begin{verbatim}   
+    public static boolean isInitialed() {
+        return isInitialed;
+    }
+\end{verbatim}
+\newpage
+
 \subsection{File Organization}
+The Class follows the separation of each method by comments and even inside the \ttfamily init() \rmfamily method comments are used to separate the different parts.\par 
+It does not respect however the 80 or either the 120 characters line length limit, due to the highly explicative variable names and numerous Debug logs in the \ttfamily init() \rmfamily method, making it not an easy method to read. 
 \subsection{Wrapping Lines}
+As no limit is respected for the line lenght, no wrapping of lines is used, no line breaks. All lines finish at the end of their current expression with \ttfamily ; \rmfamily or \ttfamily \{ \} \rmfamily 
 \subsection{Comments}
 \subsection{Java Source Files}
 \subsection{Package and Import Statements}
@@ -90,7 +130,7 @@ Prof. Elisabetta DI NITTO
 	30/01/17& 1h & 1h & 1h  \\ \hline
 	31/01/17& 2h & - & -  \\ \hline
 	01/02/17& - & - & -  \\ \hline
-	02/02/17& - & - & -  \\ \hline
+	02/02/17& 2h & - & -  \\ \hline
 	03/02/17& - & - & -  \\ \hline
 	04/02/17& - & - & -  \\ \hline
 	05/02/17& - & - & -  \\ \hline
