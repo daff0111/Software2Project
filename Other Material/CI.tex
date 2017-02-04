@@ -120,13 +120,29 @@ public static boolean isSpecialProductId(String productId) {
 \subsection{Arrays}
 The file assigned does not deal with arrays.
 \subsection{Object Comparison}
+Overall object comparison is handled in the right way. One may argue that the comparison of the string contextPath in the isCategoryUrlEnabled method is not according to the rule of using \textbf{equals} instead of \textbf{==}. But, in this specific case, the comparison is not in regard to the value saved in the variable but wheter or not it is a null pointer. Therefore, both approaches can be considered as correct.
+
 \subsection{Output Format}
+This class does not have a formated output, as it is a parser from a XML configuration file that stores the settings stated in the document on the program context.  \newline
+A number of error messages and warnings are displayed accordingly to the situation that caused the undesired behavior to occur.  A good practice adopted with the warning messages is showing the information in detail,  specifying the type of warning and in which part of the XML file it happened. As for the errors, only the kind of exception that was raised is shown, but it is already enough to identify and correct the issue.
+
 \subsection{Computation, Comparisons and Assignments}
+It is a fairly simple class as there are no significant logical statements, causing little concern in this area. But it does make frequent use of booleans and throw-catch expressions. \newline
+The booleans are not a reason for concern as, instead of being used for operations, are mostly set in the parsing process and returned in the access methods. \newline
+The throw-catch expressions on the other hand could be a problem as in the parsing process many different exceptions can occur. Fortunately, also in this point the class is well designed and the correct error condition are checked. As an example the MalformedPatternException is always catch after a pattern is handled by the perl compiler. 
+
 \subsection{Exceptions}
+The class checks for parsing specific exceptions. Examples are the perl compiler not finding what it was intended and problems with the XML file structure. \newline
+ Also, it looks for common exceptions such as incorrect usage of a null pointer, inappropriate conversion of string to integer and input/output errors. \newline
+ The catch blocks does no action besides of notifying what was the undesired behavior that occurred. Which is in accordance with the comportment expected from a parser. 
+
 \subsection{Flow of Control}
+No switch statement is used  and the four for loops are correctly formed.
 \subsection{Files}
+The class uses only one XML file, and takes care of making the correct procedure of opening, closing, and catching file related exceptions. 
 
 \section{Others Problems}
+Even though this is not a complex class, a good amount of time is needed to understand how it functions.  If, together with the code, it was provided information on the structure of SeoConfig.xml this time would drop significantly.
 
 \newpage
 \section{References}
@@ -146,8 +162,8 @@ The file assigned does not deal with arrays.
 	31/01/17& 2h & - & -  \\ \hline
 	01/02/17& - & - & -  \\ \hline
 	02/02/17& 2h & - & -  \\ \hline
-	03/02/17& - & 3h& -  \\ \hline
-	04/02/17& - & - & -  \\ \hline
+	03/02/17& - & 3h& 2h  \\ \hline
+	04/02/17& - & - & 3h \\ \hline
 	05/02/17& - & - & -  \\ \hline
 
 \end{tabular}
