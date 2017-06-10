@@ -1,0 +1,152 @@
+\documentclass[a4paper]{article}
+
+%% Useful packages
+\usepackage{graphicx}	
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage[fontsize=11pt]{scrextend}
+\usepackage{titlesec}
+\usepackage[section]{placeins}
+
+\setlength\parindent{0pt}
+\titleformat*{\section}{\Large\bfseries}
+\titleformat*{\subsection}{\Large\bfseries}
+
+\title{ACA Project : Implementation of a subset of OpenCL wrapper for Mango API}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{figure}
+\centering
+\includegraphics[width=0.2\textwidth]{polimi.jpg}
+\par
+\LARGE Politecnico di Milano
+\end{figure}
+
+
+\maketitle
+
+\raggedright
+Authors:
+\begin{itemize}
+	\item Domenico FAVARO (Mat. 837995)
+        	\item Matheus FIM (Mat. 876069)
+\end{itemize}
+\raggedleft
+Prof. Giovanni Agosta
+\thispagestyle{empty}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Mango API - OpenCL}
+The Mango API is a tool to manage resources and parallelism that aims to attain higher resource efficiency to be used by HPC (High Performance Computing) applications. 
+
+As OpenCL is a framework to manage resources as devices, CPUs and GPUs, to control the platform and execute programs on these devices. Providing an interface for parallel computing using task- and data-based parallelism.
+
+\section{Objective}
+
+On the implementation of the wrapper for OpenCL compliant code we need to use the Mango API for parallel programming. Calls to functions should be in OpenCL format and then translated wrapped around to its Mango equivalent.
+ 
+The OpenCL functions will be presented with their equivalent Mango function or translated in a way to do what OpenCL wants using the available Mango functions. If none can be achieved then the OpenCL function will be marked as not wrappable.
+
+\section{Mango Elements}
+\subsection{Context}
+\subsection{KernelFunction}
+\subsection{Kernels}
+\subsection{Buffers}
+\subsection{TaskGraph}
+\subsection{Events}
+\subsection{Arguments}
+\subsection{Mango\_Types and Error\_Types}
+
+\newpage
+\section{Mango Parallel Program Flow}
+An usual program executed in Mango API follows a setup that prepares the elements needed to be executed in parallel by creating one or more kernels to which resources (devices) are allocated.
+The flow is the following:
+\begin{itemize}
+	\item[-] Init Mango
+        	\item[-] Kernel Declarations
+	\item[-] Registering buffers
+	\item[-] Create a Task Graph (returns an event)
+	\item[-] Resource Allocation
+	\item[-] Declare Arguments that will be passed to the kernel.
+	\item[-] Transfer buffers from host to device 
+	\item[-] Start the kernel(s) and execute synchronization tasks between events.
+	\item[-] Read the result from device to host
+	\item[-] Deallocate resources, destroy task graph and release Mango.
+	\item[-] Continue offline code... 
+\end{itemize} 
+
+\newpage
+\section{OpenCL Elements - Wrapper}
+\subsection{Platform}
+\subsection{Devices}
+\subsection{Context}
+\subsection{Memory Objects}
+\subsection{Buffer Objects}
+\subsection{Programs}
+\subsection{Kernels}
+\subsection{Events}
+\subsection{Command Queue}
+\subsection{Exceptions}
+\subsection{Images}
+As the wrapper will limit itself outside of graphic objects, no Images (2D or 3D) will be used.
+
+\newpage
+\section{OpenCL Flow - Wrapper}
+OpenCL flow offers three types of task parallelism: 
+\begin{itemize}
+	\item Internal to the task: won't be addressed directly in the wrapper.
+	\item Kernels executing tasks concurrently in an out-of-order queue: This can be wrapped on Mango.
+	\item Use of events synchronization: This is done by task graphs in Mango and it provides a set of tools to sync the queues. OpenCL does not address this specifically as it has no concept of Task Graph but the event synchronization concept is the same and thus can be wrapped.
+\end{itemize} 
+ An example of OpenCL program flow is the following:
+\begin{enumerate}
+	\item Get available Platform
+        	\item Get available Devices
+	\item Create Context
+	\item Create Command Queue
+	\item Create Buffers
+	\item Create and Build Program
+	\item Create Kernel
+	\item Set Kernel Arguments
+	\item Queue Buffers
+	\item Queue and execute Kernels
+	\item Read the result from read buffer
+	\item Release all resources, program, kernel, buffers and context
+	\item Continue offline code... 
+\end{enumerate}
+We'll present the wrapping for each of these steps.
+
+\subsection{Get available Platform}
+\subsection{Get available Devices}
+\subsection{Create Context}
+\subsection{Create Command Queue}
+\subsection{Create Buffers}
+\subsection{Create and Build Program}
+\subsection{Create Kernel}
+\subsection{Set Kernel Arguments}
+\subsection{Queue Buffers}
+\subsection{Queue and execute Kernels}
+\subsection{Read the result from read buffer}
+\subsection{Release all resources, program, kernel, buffers and context}
+
+
+\newpage
+\section{Documentation}
+\begin{itemize}
+	\item \textbf{Mango:}\url{ http://www.mango-project.eu/}
+	\item \textbf{OpenCL:} OpenCL Programming Guide - by Benedict Gaster and Timothy G. Mattson
+	\item \textbf{Khronos OpenCL:} \url{https://www.khronos.org/opencl/}
+\end{itemize}
+\newpage
+
+
+\section{Changelog}
+\begin{itemize}
+\item \textbf {Version 1.1:} 30/06/2017
+\end{itemize}
+
+\end{document}

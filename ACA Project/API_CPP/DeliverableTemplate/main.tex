@@ -1,0 +1,120 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{xltxtra} %xelatex only!
+
+\usepackage{fixltx2e}
+\usepackage{calc}
+\usepackage{doxygen}
+\usepackage[export]{adjustbox} % also loads graphicx
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{makeidx}
+\usepackage{multicol}
+\usepackage{multirow}
+\PassOptionsToPackage{warn}{textcomp}
+\usepackage{textcomp}
+\usepackage[nointegrals]{wasysym}
+\usepackage{hyperref}
+
+\usepackage{comment}
+\usepackage{graphics}
+\usepackage{booktabs}
+\usepackage{paralist}
+\usepackage{algorithm2e}
+\usepackage{url}
+\usepackage[table]{xcolor}
+\usepackage[a4paper,xetex,hmargin=0.75in,vmargin={1.3in,1in},head=75pt,foot=35pt]{geometry}
+\usepackage{tabularx}
+\usepackage{wallpaper}
+\usepackage{adjustbox}
+\usepackage{parskip}
+\frenchspacing
+\usepackage{natbib}
+\usepackage[titles]{tocloft}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{5}
+\newcommand{\+}{\discretionary{\mbox{\scriptsize$\hookleftarrow$}}{}{}}
+
+%RBG f79646
+\definecolor{mangoorange}{HTML}{F79646}
+
+\setmainfont{Droid Sans}
+
+\title{D2.1 Programming Models and Compilers -- MANGO API Specification}
+
+\makeatletter
+\let\inserttitle\@title
+\makeatother
+
+%%%% PAGE STYLE %%%%%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\includegraphics[height=1cm]{mango_small}}
+\rhead{\includegraphics{eu_logo}}
+\rfoot{\inserttitle {\bfseries $\phantom{0}$| \thepage{}}}
+\lfoot{\url{www.mango-project.eu}}
+\renewcommand{\footrulewidth}{0.4pt}
+\futurelet\TMPfootrule\def\footrule{{\color{mangoorange}\TMPfootrule}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{mangoorange}\leaders\hrule height \headrulewidth\hfill}}
+%%%% PAGE STYLE %%%%%
+
+%%%% SECTION STYLE %%%%%
+\usepackage{titlesec}
+\titleformat{name=\section}[block]{\sffamily\huge}{\thesection}{6pt}{}[\color{mangoorange}\titlerule]
+%\titleformat{name=\section,numberless}[block]{\sffamily\Huge}{}{0pt}{}[\color{mangoorange}\titlerule]
+\titleformat{name=\subsection}[block]{\sffamily\Large}{\thesubsection}{6pt}{}
+
+\titleformat{name=\section,numberless}[block]{\sffamily\Large\centering}{}{0pt}{}
+
+\newcommand{\clearemptydoublepage}{%
+  \newpage{\pagestyle{empty}\cleardoublepage}%
+}
+
+
+%%%% SECTION STYLE %%%%%
+
+
+
+\begin{document}
+
+\thispagestyle{empty}
+
+	
+\CenterWallPaper{1}{cover_bg}
+\begin{center}
+{\sffamily 
+{\normalsize\bfseries MANGO - exploring Manycore Architectures for Next-GeneratiOn HPC Systems}
+\vspace{4cm}\\
+\resizebox{0.8\textwidth}{!}{\includegraphics{mango_logo}}\\
+\vspace{1cm}$\phantom{0}$\\
+{\Huge WP2 Programming Models, Compilers and Runtime Monitors for Real-Time HPC}\\
+\vspace{0.2cm}$\phantom{0}$\\
+{\color{mangoorange}\hrule height 2pt}
+\vspace{0.2cm}$\phantom{0}$\\
+{\Huge \inserttitle}
+\vspace{\fill}\\
+\begin{tabularx}{\textwidth}{XXr}
+& {\normalsize \url{http://www.mango-project.eu}} & $\phantom{000000000}$\includegraphics[width=2cm]{mango_qrcode.png}\\
+\end{tabularx}
+}
+\vspace{0.5cm}\\
+\begin{tabular}{p{0.23\textwidth}p{0.8\textwidth}}
+\adjustbox{valign=c}{\resizebox{0.25\textwidth}{!}{\includegraphics{eu_logo}}} & {\small\bfseries  \textcolor{gray!80}{This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 671668 }}\\
+\end{tabular}
+\end{center}
+
+\newpage
+\ClearWallPaper
+
+\input{covertable}
+\newpage
+\input{summary}
+\newpage
+\input{copyright}
+
+\newpage
+\tableofcontents
+
+\newpage
