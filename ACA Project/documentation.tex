@@ -53,7 +53,7 @@ The OpenCL functions will be presented with their equivalent Mango function or t
 
 \section{Mango Elements}
 \subsection{Context}
-Created automatically when \ttfamily mango\_init()\rmfamily is called
+Created automatically when \ttfamily mango\_init()\rmfamily is called. Class that holds the current state of the host-side runtime.
 \subsection{KernelFunction}
 This is an array of function pointers to support multiple versions of the kernel. Data structure that'll store what program will be executed in which kernel.
 \subsection{Kernels}
@@ -88,25 +88,26 @@ The flow is the following:
 
 \section{OpenCL Elements - Wrapper}
 \subsection{Platform}
-Not applicable as the platform used will always be Mango.
+Mango does not handle platform level, this is not applicable as the platform used will always be Mango itself.
 \subsection{Devices}
-Mango = Emulate?
+Similar to the Platform, Mango has no handling of different devices, an emulation can be put in place to present the availability of more than one CPU, however usually OpenCL runs with the first available device and this can be translated to always a CPU available. No handling of GPUs will be made.
 \subsection{Context}
 Mango Context will be used.
 \subsection{Buffer Objects - Memory Objects}
-Equivalent to Buffers, used to read write data.
+Equivalent to Mango Buffers, used to read write data, also the way they're set are similar.
 \subsection{Programs}
-Mango = KernelFunction
+Program contains the kernel and define the function that it'll execute so is paired to Mango's KernelFunction.
 \subsection{Kernels}
-Mango = Kernel
+It'll work the same as Mango Kernels however as the method of setting arguments, the wrapper must keep track of the kernels arguments to update the Mango kernel argument each time an OpenCL call for setting them is made.
 \subsection{Events}
-Mango = Events
+The OpenCL events function in parallel with Mango events to synchronize between kernels, usually at completion.
 \subsection{Command Queue}
-Mango = TaskGraph?
+Slightly different to Mango's TaskGraph the way kernels are organized inside the devices is with Command Queues, inside of which every function is executed in order of the queue. But the concept of a structure that holds the kernels to be executed still holds.
 \subsection{Exceptions}
-Mango = ErrorTypes
+Mango has less Error codes than OpenCL and most of them are translated evenly, which works nicely in case of any error is presented in the Mango Platform, its OpenCL error code can be shown.
 \subsection{Images}
 As the wrapper will limit itself outside of graphic objects, no Images (2D or 3D) will be used.
+For a basic OpenCL program all these elements are the only thing needed so the wrapper will be limited itself to this.
 
 \section{OpenCL Flow - Wrapper}
 OpenCL flow offers three types of task parallelism: 
@@ -129,37 +130,39 @@ OpenCL flow offers three types of task parallelism:
 	\item Queue and execute Kernels
 	\item Read the result from read buffer
 	\item Release all resources, program, kernel, buffers and context
-	\item Continue offline code... 
 \end{enumerate}
 We'll present the wrapping for each of these steps.
 
 \subsection{Get available Platform}
-No
+OpenCL \ttfamily clGetPlatformIDs() \rmfamily will always return one available platform.
 \subsection{Get available Devices}
-???
+OpenCL \ttfamily  clGetDeviceIDs() \rmfamily will return one available device.
 \subsection{Create Context}
-\ttfamily mango\_init() \rmfamily
+OpenCL \ttfamily clCreateContext() \rmfamily will translate to \ttfamily mango\_init() \rmfamily and the context will be the one created by Mango and will be treated as a CPU context.
 \subsection{Create Command Queue}
-\ttfamily mango\_task\_graph\_t = mango\_task\_graph\_create() \rmfamily
+The command queue creation translates differently to Mango as in mango the Task graph is created after all kernels are created, while OpenCL creates first the Queue and then 'queues' the kernels in it when they're going to be executed, however the data structure can be created (empty) when  \ttfamily clCreateCommandQueue() \rmfamily is called using 
+\ttfamily mango\_task\_graph\_t = mango\_task\_graph\_create() \rmfamily and then be reused with the selected kernels when it has to queue them.
 \subsection{Create Buffers}
-\ttfamily mango\_buffer\_t = mango\_register\_memory() \rmfamily
+OpenCL \ttfamily clCreateBuffer() \rmfamily will be \ttfamily mango\_buffer\_t = mango\_register\_memory() \rmfamily
 \subsection{Create and Build Program}
-\ttfamily mango\_kernelfunction\_init(); 
-mango\_load\_kernel(); \rmfamily
+OpenCL \ttfamily clCreateProgramWithSource() \rmfamily will call 
+\ttfamily mango\_kernelfunction\_init() \rmfamily and \ttfamily mango\_load\_kernel() \rmfamily
+As both load the program that will be running in the kernel.
 \subsection{Create Kernel}
-\ttfamily mango\_kernel\_t = mango\_register\_kernel();  \rmfamily
+OpenCL simple \ttfamily clCreateKernel()\rmfamily will be \ttfamily mango\_kernel\_t = mango\_register\_kernel();  \rmfamily
 \subsection{Set Kernel Arguments}
-\ttfamily mango\_arg\_t = mango\_arg() \rmfamily
+OpenCL \ttfamily clSetKernelArg() \rmfamily functions the same as \ttfamily mango\_arg\_t = mango\_arg() \rmfamily however, when OpenCL sets the arguments it adds it to the kernel in every call, while mango calls a \ttfamily mango\_set\_args() \rmfamily passing the desired kernel all the arguments it'll use. So for each call in OpenCL a set kernel arguments for Mango must be called to keep the list updated.
 \subsection{Queue Buffers}
-\ttfamily mango\_write() \rmfamily
+OpenCL \ttfamily clEnqueueWriteBuffer() \rmfamily will be wrapped over \ttfamily mango\_write() \rmfamily basically doing the same function writing a variable in a buffer.
 \subsection{Queue and execute Kernels}
-\ttfamily mango\_event\_t = mango\_start\_kernel() \rmfamily
+OpenCL \ttfamily clEnqueueNDRangeKernel() \rmfamily will queue and execute the kernel so it compares to \ttfamily mango\_event\_t = mango\_start\_kernel() \rmfamily
 \subsection{Read the result from read buffer}
-\ttfamily mango\_read() \rmfamily
+OpenCL \ttfamily clEnqueueReadBuffer() \rmfamily will be \ttfamily mango\_read() \rmfamily reading the result after the execution.
 \subsection{Release all resources, program, kernel, buffers and context}
+OpenCL releases every class separately with\ttfamily clReleaseProgram(); clReleaseKernel(); clReleaseMemObject();\rmfamily etc. while mango uses fewer commands
 \ttfamily mango\_resource\_deallocation(); 
 mango\_task\_graph\_destroy\_all(); 
-mango\_release(); \rmfamily
+mango\_release(); \rmfamily this will be taken in account however a context release implies destroy of all resources on mango so we can reduce it to that command.
 
 \newpage
 \section{Documentation}
