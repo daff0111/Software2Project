@@ -1,4 +1,6 @@
-#include "OpenCL_wrap.h"
+#include "opencl_wrap.h"
+#include "mango.h"
+#include <stdarg.h>
 
 using namespace std;
 
@@ -6,14 +8,14 @@ static mango::Context *ctx;
 
 extern "C"{
 
-int read_buffer = 0;
-int write_buffer = 0;
+//int read_buffer = 0;
+//int write_buffer = 0;
 
 // CL_DEVICE_TYPE_CPU 
 cl_context clCreateContextFromType(cl_context_properties *properties, cl_device_type device_type, void (*pfn_notify) (const char *errinfo, const void  *private_info, size_t  cb, void  *user_data), void  *user_data, cl_int  *errcode_ret){
 
 	cl_context ctx2 = NULL;
-	cl_int err = CL_SUCESS;
+	cl_int err = CL_SUCCESS;
 	
 	// Unsupported callback
 	if(pfn_notify != NULL || user_data != NULL){
@@ -37,10 +39,10 @@ error:
 // ADAPTED 
 cl_program clCreateProgram(cl_context context, cl_device_id device, const char* fileName){
 	
-	kernelfunction *k = mango_kernel_function_init();
+	kernelfunction *k = mango_kernelfunction_init();
 
 	//take a look at this binary arg
-	mango_load_kernel(filename, k, GN, BINARY);
+	mango_load_kernel(fileName, k, GN, BINARY);
 	
 	return (cl_program) k;
 }
@@ -84,7 +86,6 @@ error:
   	goto exit;
 
 }
-
 
 
 }

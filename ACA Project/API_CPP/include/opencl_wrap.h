@@ -22,19 +22,24 @@
 #endif
 
 #ifdef __cplusplus
-#include "context.h"
 
 extern "C" {
 #endif 
 
 /* ************************************************ */
 
+#define CL_DEVICE_TYPE_CPU                          (1 << 1)
+#define CL_DEVICE_TYPE_GPU                          (1 << 2)
+
+#define CL_SUCCESS                                  0
+
+
 /* scalar types */
-typedef signed   __int32        cl_int;
-typedef unsigned __int64        cl_ulong;
+typedef int32_t         cl_int      __attribute__((aligned(4)));
+typedef uint64_t        cl_ulong    __attribute__((aligned(8)));
 typedef cl_ulong            cl_bitfield;
 typedef cl_bitfield         cl_mem_flags;
-typedef unsigned __int32        cl_uint;
+typedef uint32_t        cl_uint     __attribute__((aligned(4)));
 
 /* abstract types */
 typedef struct _cl_context *        cl_context;
@@ -44,9 +49,9 @@ typedef struct _cl_program *        cl_program;
 typedef struct _cl_command_queue *  cl_command_queue;
 typedef struct _cl_event *          cl_event;
 typedef struct _cl_mem *            cl_mem;
-
-//typedef struct _cl_platform_id *    cl_platform_id;
-//typedef intptr_t            cl_context_properties;
+typedef struct _cl_platform_id *    cl_platform_id;
+typedef intptr_t            cl_context_properties;
+typedef cl_bitfield         cl_device_type;
 
 /* ************************************************ */ 
 
@@ -83,11 +88,10 @@ cl_program clCreateProgram(cl_context context, cl_device_id device, const char* 
  *	\returns the address of the created buffer. once again the structures were adapted and should
  *  never be treated as equals.
 */
-cl_mem clCreateBuffer(cl_context context, cl_mem_flags flags, size_t size, void *host_ptr, cl_int *errcode_ret
-	);
+cl_mem clCreateBuffer(cl_context context, cl_mem_flags flags, size_t size, void *host_ptr, cl_int *errcode_ret);
 
-clReleaseProgram();
-clReleaseMemObject();
+//clReleaseProgram();
+//clReleaseMemObject();
 
 
 #ifdef __cplusplus

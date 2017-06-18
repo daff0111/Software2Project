@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "opencl_wrap.h"
 #include "mango.h"
 
 #define KID 1
@@ -52,7 +53,9 @@ void main(int argc, char**argv) {
   int columns;
   int out=0;
   int i, j;
-
+  cl_int errNum;
+  cl_context context = NULL;
+  
   if (argc < 3) {
     printf("error, bad arguments\n");
     printf("Arguments: %s <rows> <columns>\n");
@@ -79,7 +82,13 @@ void main(int argc, char**argv) {
   init_matrix(B, rows, columns);
 
   /* initialization of the mango context */
-  mango_init(); 
+  //mango_init(); 
+
+  // dummy 
+  //cl_context_properties contextProperties[] = {};
+
+  /* call to the opencl wrapper */
+  context = clCreateContextFromType(NULL, CL_DEVICE_TYPE_CPU, NULL, NULL, &errNum);   
 
   /* Kernel setup and registration */
   kernelfunction *k = mango_kernelfunction_init();
