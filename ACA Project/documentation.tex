@@ -159,10 +159,11 @@ OpenCL \ttfamily clEnqueueNDRangeKernel() \rmfamily will queue and execute the k
 \subsection{Read the result from read buffer}
 OpenCL \ttfamily clEnqueueReadBuffer() \rmfamily will be \ttfamily mango\_read() \rmfamily reading the result after the execution.
 \subsection{Release all resources, program, kernel, buffers and context}
-OpenCL releases every class separately with\ttfamily clReleaseProgram(); clReleaseKernel(); clReleaseMemObject();\rmfamily etc. while mango uses fewer commands
+OpenCL releases every class separately with \ttfamily clReleaseProgram(); clReleaseKernel(); clReleaseMemObject();\rmfamily etc. while mango uses fewer commands
 \ttfamily mango\_resource\_deallocation(); 
 mango\_task\_graph\_destroy\_all(); 
-mango\_release(); \rmfamily this will be taken in account however a context release implies destroy of all resources on mango so we can reduce it to that command.
+mango\_release(); \rmfamily this will be taken in account however individual kernel and buffer deallocation are also implemented in mango as \ttfamily mango\_deregister\_kernel(); mango\_deregister\_memory(); \rmfamily and \ttfamily mango\_deregister\_event.
+\rmfamily
 
 \newpage
 \section{Documentation}

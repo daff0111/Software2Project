@@ -56,6 +56,28 @@ typedef cl_bitfield         cl_device_type;
 /* ************************************************ */ 
 
 
+/*  Get Available Platform
+ *	This command obtains the list of available OpenCL platforms.
+ *  clGetPlatformIDs returns the number of available platforms. 
+ *  The number of platforms returned can be limited with num_entries, 
+ *  which can be greater than 0 and less than or equal to the number of available platforms. 
+ *  We will limit the number of platforms returned by MANGO to 1.
+ */ 
+ cl_int clGetPlatformIDs (cl_uint num_entries, cl_platform_id * platforms, cl_uint * num_platforms);
+ 
+ //NOT IMPLEMENTED: GetPlatformInfo
+ //cl_int clGetPlatformInfo (cl_platform_id platform, cl_platform_info param_name, size_t param_value_size, void * param_value, size_t * param_value_size_ret);
+ 
+/*  Get Available Devices
+ *	Associated with each platform is a set of compute devices that an application uses to execute code. 
+ *  Given a platform, a list of supported devices can be queried with the command.
+ *  MANGO will return just one available Device of type CPU
+ */ 
+ cl_int clGetDeviceIDs (cl_platform_id platform, cl_device_type device_type, cl_uint num_entries, cl_device_id *devices, cl_uint *num_devices);
+ 
+ //NOT IMPLEMENTED: GetDeviceInfo
+ //cl_int clGetDeviceInfo (cl_device_id device, cl_device_info param_name, size_t param_value_size, void * param_value, size_t * param_value_size_ret);
+
 /*  Create a new MANGO context
  *	In OpenCL this function needs to handle which platform to use, 
  *	and in consequence the variables of these platforms. 
@@ -79,7 +101,17 @@ cl_context clCreateContextFromType(cl_context_properties *properties, cl_device_
 */
 cl_program clCreateProgram(cl_context context, cl_device_id device, const char* fileName);
 
-//cl_kernel clCreateKernel(cl_program program, const char *kernel_name, cl_int *errcode_ret);
+/* 	Create a new MANGO kernel
+ * 	the create kernel step in OpenCL can be paired to the register_kernel definition in mango
+ *	the orignial openCL function includes a name string to identify the kernel 
+ *	to make it easier to be adapted the kernel id is made into a cl_uint instead.
+*/
+cl_kernel clCreateKernel(cl_program program, const cl_uint kernel_id, cl_int *errcode_ret);
+
+/* Release the Kernel
+ * done in mango by deregister_kernel
+*/
+cl_int clReleaseKernel(cl_kernel kernel);
 
 /* 	Create a new buffer 
  * 	in OpenCL this function actually does more than the equivalent in MANGO
