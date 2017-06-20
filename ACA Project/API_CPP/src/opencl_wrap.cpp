@@ -11,6 +11,60 @@ extern "C"{
 //int read_buffer = 0;
 //int write_buffer = 0;
 
+//PLATFORM
+cl_int clGetPlatformIDs (cl_uint num_entries, cl_platform_id * platforms, cl_uint * num_platforms){
+	cl_int err = CL_SUCCESS;
+	
+	//Always return one available platform
+	*num_platforms = 1;
+	
+	//num_entries will not affect the platform availability
+	
+	//platforms pointer can be null
+	if(platforms != NULL)
+	{
+		*platforms = NULL; //mango platform?
+	}
+	
+	return err;
+}
+
+//DEVICE 
+cl_int clGetDeviceIDs (cl_platform_id platform, cl_device_type device_type, cl_uint num_entries, cl_device_id *devices, cl_uint *num_devices){
+	cl_int err = CL_SUCCESS;
+	
+	if(platform == NULL) //check platform?
+	{
+		//num_entries will not affect the number of devices	
+			
+		switch(device_type)
+		{
+		case CL_DEVICE_TYPE_CPU:
+		case CL_DEVICE_TYPE_DEFAULT:
+		case CL_DEVICE_TYPE_ALL:
+		{
+			//Always return one available CPU device
+			*num_devices = 1;
+			if(devices != NULL)
+			{
+				*devices = NULL; //fake device?
+			}
+		}
+		case CL_DEVICE_TYPE_GPU:
+		case CL_DEVICE_TYPE_ACCELERATOR:
+		default:
+		{
+			*num_devices = 0;
+			err = CL_DEVICE_NOT_FOUND;
+		}
+	}
+	else
+	{
+		err = CL_INVALID_PLATFORM;
+	}
+	return err;
+}
+
 // CL_DEVICE_TYPE_CPU 
 cl_context clCreateContextFromType(cl_context_properties *properties, cl_device_type device_type, void (*pfn_notify) (const char *errinfo, const void  *private_info, size_t  cb, void  *user_data), void  *user_data, cl_int  *errcode_ret){
 
@@ -22,7 +76,7 @@ cl_context clCreateContextFromType(cl_context_properties *properties, cl_device_
 		goto error;
 	}
 
-	ctx = new mango::Context;
+	ctx = new mango::Context; //mango_init();??
 	ctx2 = 1;
 
 	//need to take a look at possible errors 
@@ -45,6 +99,19 @@ cl_program clCreateProgram(cl_context context, cl_device_id device, const char* 
 	mango_load_kernel(fileName, k, GN, BINARY);
 	
 	return (cl_program) k;
+}
+
+//KERNEL
+cl_kernel clCreateKernel(cl_program program, const cl_uint kernel_id, cl_int *errcode_ret){
+	errcode_ret = CL_SUCCESS;
+	mango_kernel_t kernel = mango_register_kernel(kernel_id, (kernelfunction) program, 0, 0);  	
+	return (cl_kernel) kernel;
+}
+
+cl_int clReleaseKernel(cl_kernel kernel){
+	cl_int err = CL_SUCCESS;
+	mango_deregister_kernel((mango_kernel_t) kernel);
+	return err;
 }
 
 /* cl_mem is used as mango_buffer */ 
