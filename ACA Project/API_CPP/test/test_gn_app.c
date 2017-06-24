@@ -92,25 +92,29 @@ void main(int argc, char**argv) {
 
   /* Kernel setup and registration */
   //kernelfunction *k = mango_kernelfunction_init();
+  
   //mango_load_kernel("./test_kernel_app", k, GN, BINARY);
   cl_program *k = clCreateProgram(NULL, NULL, "./test_kernel_app");
-
   
-  cl_kernel k1 = clCreateKernel(k, KID, &errNum);
   //mango_kernel_t k1 = mango_register_kernel(KID, (kernelfunction *) k, 2, 1, B1, B2, B3);  
+  cl_kernel k1 = clCreateKernel(k, KID, &errNum);
+  
 
   /* Registration of buffers */
-  cl_mem b1 = clCreateBuffer(NULL, CL_MEM_READ_ONLY, rows*columns*sizeof(int), NULL,&errNum);
-  cl_mem b2 = clCreateBuffer(NULL, CL_MEM_READ_ONLY, rows*columns*sizeof(int), NULL,&errNum);
-  cl_mem b3 = clCreateBuffer(NULL, CL_MEM_WRITE_ONLY, rows*rows*sizeof(int), NULL,&errNum);
+  cl_mem b1 = clCreateBuffer(k1, CL_MEM_READ_ONLY, rows*columns*sizeof(int), NULL,&errNum);
+  cl_mem b2 = clCreateBuffer(k1, CL_MEM_READ_ONLY, rows*columns*sizeof(int), NULL,&errNum);
+  cl_mem b3 = clCreateBuffer(k1, CL_MEM_WRITE_ONLY, rows*rows*sizeof(int), NULL,&errNum);
   
   //mango_buffer_t b1 = mango_register_memory(B1, rows*columns*sizeof(int), BUFFER, 0, 1,(mango_kernel_t ) k1);
   //mango_buffer_t b2 = mango_register_memory(B2, rows*columns*sizeof(int), BUFFER, 0, 1, (mango_kernel_t ) k1);
   //mango_buffer_t b3 = mango_register_memory(B3, rows*rows*sizeof(int), BUFFER, 1, 0, (mango_kernel_t ) k1);
   
+  
+ 
   /* Registration of task graph */
   mango_task_graph_t *tg = mango_task_graph_create(1, 3, 0, k1, b1, b2, b3);
-
+  //cl_command_queue* commandqueue = clCreateCommandQueue(context, CL_QUEUE_PROFILING_ENABLE, &err);
+ 
   printf("before resource allocation...\n");
 
   /* resource allocation */
@@ -124,19 +128,34 @@ void main(int argc, char**argv) {
   mango_arg_t *arg3 = mango_arg( (void *)b3, sizeof(uint64_t), BUFFER );
   mango_arg_t *arg4 = mango_arg( rows, sizeof(uint32_t), SCALAR );
   mango_arg_t *arg5 = mango_arg( columns, sizeof(uint32_t), SCALAR );
-	mango_args_t *args=mango_set_args(k1, 5, arg1, arg2, arg3, arg4, arg5);
-
+  mango_args_t *args=mango_set_args(k1, 5, arg1, arg2, arg3, arg4, arg5);
+	
+	// Set the arguments to our compute kernel
+	 /*err = 0;
+	 err = clSetKernelArg(*k1, 0, sizeof(uint64_t), &rows);
+	 err |= clSetKernelArg(*k1, 1, sizeof(uint64_t), &columns);
+	 err |= clSetKernelArg(*k1, 2, sizeof(cl_mem), &b1);
+	 err |= clSetKernelArg(*k1, 3, sizeof(cl_mem), &b2);
+	 err |= clSetKernelArg(*k1, 4, sizeof(cl_mem), &b3);*/
+  
   /* Data transfer host->device */
 
   //clEnqueueWriteBuffer(NULL, () b1, )
   mango_write(A, (mango_buffer_t *) b1, DIRECT, 0);
   mango_write(B, (mango_buffer_t *) b2, DIRECT, 0);
-
+  //err = clEnqueueWriteBuffer(commands, b1, CL_TRUE, 0, A, 0, NULL, NULL);
+  //err = clEnqueueWriteBuffer(commands, b2, CL_TRUE, 0, B, 0, NULL, NULL);
+  
   /* spawn kernel */
   mango_event_t ev = mango_start_kernel(k1, args, NULL);
-
   /* wait for kernel completion */
   mango_wait(ev);
+  
+  // Execute the kernel over the entire range of C matrix elements
+  /*cl_event prof_event;
+  err = clEnqueueKernel(commands, k1, &prof_event);
+  // Wait for the commands to complete before reading back results
+  clFinish(prof_event);*/
 
   /* reading results */
   mango_read(C, (mango_buffer_t *) b3, DIRECT, 0);

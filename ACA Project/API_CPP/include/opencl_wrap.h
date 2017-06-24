@@ -140,6 +140,16 @@ cl_kernel clCreateKernel(cl_program program, const cl_uint kernel_id, cl_int *er
 */
 //cl_int clReleaseKernel(cl_kernel kernel);
 
+/* 	Set Arguments of a Kernel
+*/
+cl_int clSetKernelArg(cl_kernel kernel, cl_uint arg_index, size_t *arg_size, const void *arg_value);
+ 
+
+/* 	Create a CommandQueue translates to Mango taskGraph.
+*/
+cl_command_queue* clCreateCommandQueue (cl_context context, cl_command_queue_properties properties, cl_int *errcode_ret);
+
+
 /* 	Create a new buffer 
  * 	in OpenCL this function actually does more than the equivalent in MANGO
  *	not only it creates the buffer as it is possible to set flags to transfer data to the device
@@ -147,7 +157,7 @@ cl_kernel clCreateKernel(cl_program program, const cl_uint kernel_id, cl_int *er
  *	\returns the address of the created buffer. once again the structures were adapted and should
  *  never be treated as equals.
 */
-cl_mem clCreateBuffer(cl_context context, cl_mem_flags flags, size_t size, void *host_ptr, cl_int *errcode_ret);
+cl_mem clCreateBuffer(cl_kernel kernel, cl_mem_flags flags, size_t size, void *host_ptr, cl_int *errcode_ret);
 
 //clReleaseProgram();
 //clReleaseMemObject();
