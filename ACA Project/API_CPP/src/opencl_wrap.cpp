@@ -21,7 +21,7 @@ cl_int clGetPlatformIDs (cl_uint num_entries, cl_platform_id * platforms, cl_uin
 	//platforms pointer can be null
 	if(platforms != NULL)
 	{
-		*platforms = NULL; //mango platform?
+		*platforms = NULL; //mango platform? new cl_platform_id();
 	}
 	
 	return err;
@@ -47,7 +47,7 @@ cl_int clGetDeviceIDs (cl_platform_id platform, cl_device_type device_type, cl_u
 			*num_devices = 1;
 			if(devices != NULL)
 			{
-				*devices = NULL; //fake device?
+				*devices = NULL; //fake device? new cl_device_id();
 			}
 		}
 		case CL_DEVICE_TYPE_GPU:
@@ -108,16 +108,40 @@ cl_kernel clCreateKernel(cl_program program, const cl_uint kernel_id, cl_int *er
 	return (cl_kernel) kernel;
 }
 
-/*
-cl_int clReleaseKernel(cl_kernel kernel){
+/*cl_int clReleaseKernel(cl_kernel kernel){
 	cl_int err = CL_SUCCESS;
 
 	mango_deregister_kernel((mango_kernel_t) kernel);
 	return err;
+}*/
+
+cl_int clSetKernelArg(cl_kernel kernel, cl_uint arg_index, size_t *arg_size, const void *arg_value){
+	cl_int err = CL_SUCCESS;
+	mango_arg_t *arg = NULL
+	switch (size) { 
+		case sizeof(uint64_t) :
+		case sizeof(uint32_t) :
+		case sizeof(uint16_t) : 
+		case sizeof(uint8_t) :
+			mango_arg_t *arg = mango_arg( (void *)arg_value, arg_size, SCALAR );
+			break;
+		case sizeof(cl_mem) :
+			mango_arg_t *arg = mango_arg( (void *)arg_value, arg_size, BUFFER );
+			break;
+		default : break;
+	}
+	//Still need to register it in the Kernel
+	return err;
+}
+
+
+cl_command_queue* clCreateCommandQueue (cl_context context, cl_command_queue_properties properties, cl_int *errcode_ret){
+	errcode_ret = CL_SUCCESS;
+	mango_task_graph_t* tg = new mango::TaskGraph();
+	return (cl_command_queue*) tg;
 }
 
 /* cl_mem is used as mango_buffer */ 
-/* */ 
 cl_mem clCreateBuffer(cl_context context, cl_mem_flags flags, size_t size, void *host_ptr, cl_int *errcode_ret){
 
 	cl_int err = CL_SUCCESS;
@@ -147,7 +171,6 @@ cl_mem clCreateBuffer(cl_context context, cl_mem_flags flags, size_t size, void 
 
   	if (flags & CL_MEM_USE_HOST_PTR || flags & CL_MEM_COPY_HOST_PTR)
     	mango_write(host_ptr, b, DIRECT, 0);
-
 exit:
 	if (errcode_ret)
 		*errcode_ret = err;
