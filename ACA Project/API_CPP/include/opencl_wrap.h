@@ -157,7 +157,7 @@ cl_command_queue* clCreateCommandQueue (cl_context context, cl_command_queue_pro
  *	\returns the address of the created buffer. once again the structures were adapted and should
  *  never be treated as equals.
 */
-cl_mem clCreateBuffer(cl_kernel kernel, cl_mem_flags flags, size_t size, void *host_ptr, cl_int *errcode_ret);
+cl_mem clCreateBuffer(cl_kernel k, cl_mem_flags flags, size_t size, void *host_ptr, cl_int *errcode_ret);
 
 /*  Copy data from host to device
  *	Simple function that will get elements into host memory and copy them the specified buffer

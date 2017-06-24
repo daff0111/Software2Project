@@ -135,7 +135,7 @@ cl_int clSetKernelArg(cl_kernel kernel, cl_uint arg_index, size_t *arg_size, con
 }
 
 
-cl_command_queue* clCreateCommandQueue (cl_context context, cl_command_queue_properties properties, cl_int *errcode_ret){
+cl_command_queue* clCreateCommandQueue (cl_kernel k, cl_command_queue_properties properties, cl_int *errcode_ret){
 	errcode_ret = CL_SUCCESS;
 	mango_task_graph_t* tg = new mango::TaskGraph();
 	return (cl_command_queue*) tg;
@@ -165,8 +165,8 @@ cl_mem clCreateBuffer(cl_context context, cl_mem_flags flags, size_t size, void 
     	goto error;
   	}
 
-  	// ALWAYS KERNEL 1..... 
-  	b = mango_register_memory(buffer_id, size, BUFFER, (flags & CL_MEM_WRITE_ONLY  || flags & CL_MEM_READ_WRITE), (flags & CL_MEM_READ_ONLY || flags & CL_MEM_READ_WRITE), 1); 	
+  	// ALWAYS KERNEL ..... 
+  	b = mango_register_memory(buffer_id, size, BUFFER, (flags & CL_MEM_WRITE_ONLY  || flags & CL_MEM_READ_WRITE), (flags & CL_MEM_READ_ONLY || flags & CL_MEM_READ_WRITE), k); 	
   	buffer_id++;
 
   	if (flags & CL_MEM_USE_HOST_PTR || flags & CL_MEM_COPY_HOST_PTR)
