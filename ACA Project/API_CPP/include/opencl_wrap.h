@@ -149,15 +149,31 @@ cl_kernel clCreateKernel(cl_program program, const cl_uint kernel_id, cl_int *er
 */
 cl_mem clCreateBuffer(cl_context context, cl_mem_flags flags, size_t size, void *host_ptr, cl_int *errcode_ret);
 
-//clReleaseProgram();
-//clReleaseMemObject();
-
 /*  Copy data from host to device
  *	Simple function that will get elements into host memory and copy them the specified buffer
  *	in the device. 
+ *  If some event is especified int the function call mango will wait for the completion
+ *  The blocking write and event functions are disabled
 */
 
-cl_int clEnqueueWriteBuffer ( cl_command_queue command_queue, cl_mem buffer, cl_bool blocking_write, size_t offset,	size_t cb, const void *ptr, cl_uint num_events_in_wait_list, const cl_event *event_wait_list, cl_event *event);
+cl_int clEnqueueWriteBuffer (cl_command_queue command_queue, cl_mem buffer, cl_bool blocking_write, size_t offset,	size_t cb, const void *ptr, cl_uint num_events_in_wait_list, const cl_event *event_wait_list, cl_event *event);
+
+/* Read data from device
+ * Get elements stored in the device buffer to the host mcontext 
+ * Bocking read and creating new event functionalities are disabled
+ *  If some event is especified int the function call mango will wait for the completion	
+*/ 
+
+cl_int clEnqueueReadBuffer (cl_command_queue command_queue, cl_mem buffer, cl_bool blocking_read, size_t offset, size_t cb, void *ptr, cl_uint num_events_in_wait_list,	const cl_event *event_wait_list, cl_event *event);
+
+
+
+// mango does not have an equivalent, can be made a mock if needed
+//cl_int clReleaseProgram(cl_program program);
+
+cl_int clReleaseMemObject(cl_mem memobj);
+
+cl_int clReleaseContext(cl_context context);
 
 
 #ifdef __cplusplus

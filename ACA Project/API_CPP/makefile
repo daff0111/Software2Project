@@ -14,7 +14,7 @@ BOSP_LIBS = -lbbque_pms
 endif
 
 SRC_HOST = src/process.c
-SRC_CPP_HOST = src/event.cpp src/mango.cpp
+SRC_CPP_HOST = src/event.cpp src/mango.cpp src/opencl_wrap.cpp
 
 ifdef DEBUG
 SRC_HOST += src/debug.c

@@ -6,6 +6,7 @@ using namespace std;
 
 extern "C"{
 
+// global var in order to allocate buffers 
 int buffer_id = 1;
 
 //PLATFORM
@@ -116,6 +117,7 @@ cl_int clReleaseKernel(cl_kernel kernel){
 }
 
 /* cl_mem is used as mango_buffer */ 
+/* */ 
 cl_mem clCreateBuffer(cl_context context, cl_mem_flags flags, size_t size, void *host_ptr, cl_int *errcode_ret){
 
 	cl_int err = CL_SUCCESS;
@@ -138,31 +140,59 @@ cl_mem clCreateBuffer(cl_context context, cl_mem_flags flags, size_t size, void 
     	err = CL_INVALID_HOST_PTR;
     	goto error;
   	}
-  	
-  	b = mango_register_memory(buffer_id, size, BUFFER, (flags & CL_MEM_WRITE_ONLY  || flags & CL_MEM_READ_WRITE), (flags & CL_MEM_READ_ONLY || flags & CL_MEM_READ_WRITE), NULL);
-  	
-  	//buffer_id++;
 
-  	// not finished
- /* 	if (flags & CL_MEM_USE_HOST_PTR || flags & CL_MEM_COPY_HOST_PTR)
-    	mango_write(XXXXX, YYYY, DIRECT, 0);
-*/
+  	// ALWAYS KERNEL 1..... 
+  	b = mango_register_memory(buffer_id, size, BUFFER, (flags & CL_MEM_WRITE_ONLY  || flags & CL_MEM_READ_WRITE), (flags & CL_MEM_READ_ONLY || flags & CL_MEM_READ_WRITE), 1); 	
+  	buffer_id++;
+
+  	if (flags & CL_MEM_USE_HOST_PTR || flags & CL_MEM_COPY_HOST_PTR)
+    	mango_write(host_ptr, b, DIRECT, 0);
+
 exit:
 	if (errcode_ret)
 		*errcode_ret = err;
-	return (cl_mem) b;
+	return (cl_mem ) b;
 error:
-  	b = NULL;
+  	b = 0;
   	goto exit;
 
 }
 
+// EVENT VIEW!!! 
+cl_int clEnqueueWriteBuffer (cl_command_queue command_queue, cl_mem buffer, cl_bool blocking_write, size_t offset,	size_t cb, const void *ptr, cl_uint num_events_in_wait_list, const cl_event *event_wait_list, cl_event *event){
 
+	if(num_events_in_wait_list != 0){
+		for(int i=0; i< num_events_in_wait_list; i++)
+			mango_wait(event_wait_list[i]);
+	}
 
-cl_int clEnqueueWriteBuffer ( cl_command_queue command_queue, cl_mem buffer, cl_bool blocking_write, size_t offset,	size_t cb, const void *ptr, cl_uint num_events_in_wait_list, const cl_event *event_wait_list, cl_event *event){
-
-		 mango_write(ptr, (mango_buffer_t) buffer, DIRECT, 0);
-		 return 1;
+	mango_write(ptr, (mango_buffer_t) buffer, DIRECT, 0);
+	return 1;
 }
+
+	// EVENT!!!!
+cl_int clEnqueueReadBuffer (cl_command_queue command_queue, cl_mem buffer, cl_bool blocking_read, size_t offset, size_t cb, void *ptr, cl_uint num_events_in_wait_list,	const cl_event *event_wait_list, cl_event *event){
+
+	if(num_events_in_wait_list != 0){
+		for(int i=0; i< num_events_in_wait_list; i++)
+			mango_wait(event_wait_list[i]);
+	}
+
+	mango_read(ptr, (mango_buffer_t) BUFFER, DIRECT, 0);
+	return 1;
+
+}
+
+cl_int clReleaseMemObject(cl_mem memobj){
+
+	mango_deregister_memory( (mango_buffer_t) memobj);
+	return 1;
+}
+
+cl_int clReleaseContext(cl_context context){
+	mango_release();
+	return 1;
+}
+
 
 }
