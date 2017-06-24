@@ -22,16 +22,41 @@
 #endif
 
 #ifdef __cplusplus
+#include "mango.h"
 
 extern "C" {
 #endif 
 
 /* ************************************************ */
 
+
+/* cl_device_type - bitfield */
+#define CL_DEVICE_TYPE_DEFAULT                      (1 << 0)
 #define CL_DEVICE_TYPE_CPU                          (1 << 1)
 #define CL_DEVICE_TYPE_GPU                          (1 << 2)
+#define CL_DEVICE_TYPE_ACCELERATOR                  (1 << 3)
+#define CL_DEVICE_TYPE_CUSTOM                       (1 << 4)
+#define CL_DEVICE_TYPE_ALL                          0xFFFFFFFF
 
+/* Error Codes */
 #define CL_SUCCESS                                  0
+#define CL_DEVICE_NOT_FOUND                         -1	
+#define CL_INVALID_PLATFORM                         -32
+#define CL_INVALID_HOST_PTR                         -37
+
+/* cl_mem_flags and cl_svm_mem_flags - bitfield */
+#define CL_MEM_READ_WRITE                           (1 << 0)
+#define CL_MEM_WRITE_ONLY                           (1 << 1)
+#define CL_MEM_READ_ONLY                            (1 << 2)
+#define CL_MEM_USE_HOST_PTR                         (1 << 3)
+#define CL_MEM_ALLOC_HOST_PTR                       (1 << 4)
+#define CL_MEM_COPY_HOST_PTR                        (1 << 5)
+
+/* cl_bool */
+#define CL_FALSE                                    0
+#define CL_TRUE                                     1
+#define CL_BLOCKING                                 CL_TRUE
+#define CL_NON_BLOCKING                             CL_FALSE	
 
 
 /* scalar types */
@@ -40,6 +65,7 @@ typedef uint64_t        cl_ulong    __attribute__((aligned(8)));
 typedef cl_ulong            cl_bitfield;
 typedef cl_bitfield         cl_mem_flags;
 typedef uint32_t        cl_uint     __attribute__((aligned(4)));
+typedef cl_uint             cl_bool; 
 
 /* abstract types */
 typedef struct _cl_context *        cl_context;
@@ -52,6 +78,7 @@ typedef struct _cl_mem *            cl_mem;
 typedef struct _cl_platform_id *    cl_platform_id;
 typedef intptr_t            cl_context_properties;
 typedef cl_bitfield         cl_device_type;
+
 
 /* ************************************************ */ 
 
@@ -111,7 +138,7 @@ cl_kernel clCreateKernel(cl_program program, const cl_uint kernel_id, cl_int *er
 /* Release the Kernel
  * done in mango by deregister_kernel
 */
-cl_int clReleaseKernel(cl_kernel kernel);
+//cl_int clReleaseKernel(cl_kernel kernel);
 
 /* 	Create a new buffer 
  * 	in OpenCL this function actually does more than the equivalent in MANGO
@@ -125,10 +152,17 @@ cl_mem clCreateBuffer(cl_context context, cl_mem_flags flags, size_t size, void 
 //clReleaseProgram();
 //clReleaseMemObject();
 
+/*  Copy data from host to device
+ *	Simple function that will get elements into host memory and copy them the specified buffer
+ *	in the device. 
+*/
+
+cl_int clEnqueueWriteBuffer ( cl_command_queue command_queue, cl_mem buffer, cl_bool blocking_write, size_t offset,	size_t cb, const void *ptr, cl_uint num_events_in_wait_list, const cl_event *event_wait_list, cl_event *event);
+
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* MANGO_H */
+#endif /* OPENCL_WRAP_H */
 

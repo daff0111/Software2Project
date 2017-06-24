@@ -91,14 +91,22 @@ void main(int argc, char**argv) {
   context = clCreateContextFromType(NULL, CL_DEVICE_TYPE_CPU, NULL, NULL, &errNum);   
 
   /* Kernel setup and registration */
-  kernelfunction *k = mango_kernelfunction_init();
-  mango_load_kernel("./test_kernel_app", k, GN, BINARY);
-  mango_kernel_t k1 = mango_register_kernel(KID, k, 2, 1, B1, B2, B3);  
+  //kernelfunction *k = mango_kernelfunction_init();
+  //mango_load_kernel("./test_kernel_app", k, GN, BINARY);
+  cl_program *k = clCreateProgram(NULL, NULL, "./test_kernel_app");
+
+  
+  cl_kernel k1 = clCreateKernel(k, KID, &errNum);
+  //mango_kernel_t k1 = mango_register_kernel(KID, (kernelfunction *) k, 2, 1, B1, B2, B3);  
 
   /* Registration of buffers */
-  mango_buffer_t b1 = mango_register_memory(B1, rows*columns*sizeof(int), BUFFER, 0, 1, k1);
-  mango_buffer_t b2 = mango_register_memory(B2, rows*columns*sizeof(int), BUFFER, 0, 1, k1);
-  mango_buffer_t b3 = mango_register_memory(B3, rows*rows*sizeof(int), BUFFER, 1, 0, k1);
+  cl_mem b1 = clCreateBuffer(NULL, CL_MEM_READ_ONLY, rows*columns*sizeof(int), NULL,&errNum);
+  cl_mem b2 = clCreateBuffer(NULL, CL_MEM_READ_ONLY, rows*columns*sizeof(int), NULL,&errNum);
+  cl_mem b3 = clCreateBuffer(NULL, CL_MEM_WRITE_ONLY, rows*rows*sizeof(int), NULL,&errNum);
+  
+  //mango_buffer_t b1 = mango_register_memory(B1, rows*columns*sizeof(int), BUFFER, 0, 1,(mango_kernel_t ) k1);
+  //mango_buffer_t b2 = mango_register_memory(B2, rows*columns*sizeof(int), BUFFER, 0, 1, (mango_kernel_t ) k1);
+  //mango_buffer_t b3 = mango_register_memory(B3, rows*rows*sizeof(int), BUFFER, 1, 0, (mango_kernel_t ) k1);
   
   /* Registration of task graph */
   mango_task_graph_t *tg = mango_task_graph_create(1, 3, 0, k1, b1, b2, b3);
@@ -119,8 +127,10 @@ void main(int argc, char**argv) {
 	mango_args_t *args=mango_set_args(k1, 5, arg1, arg2, arg3, arg4, arg5);
 
   /* Data transfer host->device */
-  mango_write(A, b1, DIRECT, 0);
-  mango_write(B, b2, DIRECT, 0);
+
+  //clEnqueueWriteBuffer(NULL, () b1, )
+  mango_write(A, (mango_buffer_t *) b1, DIRECT, 0);
+  mango_write(B, (mango_buffer_t *) b2, DIRECT, 0);
 
   /* spawn kernel */
   mango_event_t ev = mango_start_kernel(k1, args, NULL);
@@ -129,7 +139,7 @@ void main(int argc, char**argv) {
   mango_wait(ev);
 
   /* reading results */
-  mango_read(C, b3, DIRECT, 0);
+  mango_read(C, (mango_buffer_t *) b3, DIRECT, 0);
 
   /* shut down the mango infrastructure */
 	mango_resource_deallocation(tg);
