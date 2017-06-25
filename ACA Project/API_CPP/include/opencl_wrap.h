@@ -40,7 +40,8 @@ extern "C" {
 
 /* Error Codes */
 #define CL_SUCCESS                                  0
-#define CL_DEVICE_NOT_FOUND                         -1	
+#define CL_DEVICE_NOT_FOUND                         -1
+#define CL_INVALID_VALUE                            -30	
 #define CL_INVALID_PLATFORM                         -32
 #define CL_INVALID_HOST_PTR                         -37
 
@@ -51,6 +52,13 @@ extern "C" {
 #define CL_MEM_USE_HOST_PTR                         (1 << 3)
 #define CL_MEM_ALLOC_HOST_PTR                       (1 << 4)
 #define CL_MEM_COPY_HOST_PTR                        (1 << 5)
+
+
+/* cl_command_queue_properties - bitfield */
+#define CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE      (1 << 0)
+#define CL_QUEUE_PROFILING_ENABLE                   (1 << 1)
+#define CL_QUEUE_ON_DEVICE                          (1 << 2)
+#define CL_QUEUE_ON_DEVICE_DEFAULT                  (1 << 3)
 
 /* cl_bool */
 #define CL_FALSE                                    0
@@ -78,6 +86,7 @@ typedef struct _cl_mem *            cl_mem;
 typedef struct _cl_platform_id *    cl_platform_id;
 typedef intptr_t            cl_context_properties;
 typedef cl_bitfield         cl_device_type;
+typedef cl_bitfield         cl_command_queue_properties;
 
 
 /* ************************************************ */ 
