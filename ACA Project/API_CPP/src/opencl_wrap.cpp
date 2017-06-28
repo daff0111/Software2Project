@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 extern "C"{
 
 // global var in order to allocate buffers 
@@ -115,30 +114,48 @@ cl_kernel clCreateKernel(cl_program program, const cl_uint kernel_id, cl_int *er
 	return err;
 }*/
 
-cl_int clSetKernelArg(cl_kernel kernel, cl_uint arg_index, size_t *arg_size, const void *arg_value){
+
+// in the current implementation of mango it is not possible to not adapt!
+// the cl_arg does not exist, it was created only for "compliant call" reasons
+cl_arg *clSetKernelArg(cl_kernel kernel, cl_uint arg_index, size_t *arg_size, const void *arg_value){
 	
-	cl_int err = CL_SUCCESS;
 	mango_arg_t *arg = NULL;
 
 		if (arg_size == sizeof(uint32_t)){
-			arg = mango_arg( arg_value, arg_size, SCALAR );
+			arg = mango_arg( arg_value, arg_size, SCALAR );	
 		} else if (arg_size == sizeof(cl_mem)){
 			arg = mango_arg( arg_value, arg_size, BUFFER );
 		}
-		else 
-			err = CL_INVALID_VALUE;	
 
-	//Still need to register it in the Kernel
-	return err;
+	return (cl_arg *) arg;
 }
 
-
-cl_command_queue* clCreateCommandQueue (cl_context context, cl_command_queue_properties properties, cl_int *errcode_ret){
-	errcode_ret = CL_SUCCESS;
+/*
+cl_command_queue* clCreateCommandQueueAdapted (cl_context context, cl_command_queue_properties properties, cl_int *errcode_ret, int k, int b, int e, ...){
+	
+	va_list list;
+	va_start(list, e);
 	mango::TaskGraph *tg = new mango::TaskGraph();
+	mango_task_graph_t *tg2;
+	for(int i=0; i<k; i++){
+		*tg2 = mango_task_graph_create(1, 0, 0, va_arg(list, mango_kernel_t));
+		*tg += tg2.kernels[0];
+	}
+	for(int i=0; i<b; i++){
+		*tg2 = mango_task_graph_create(0, 1, 0, va_arg(list, mango_kernel_t));
+		*tg += tg2.buffers[0];
+	}
+	for(int i=0; i<e; i++){
+		*tg2 = mango_task_graph_create(0, 0, 1, va_arg(list, mango_kernel_t));
+		*tg += tg2.events[0];
+	}
+	va_end(list);
+
+	mango_resource_allocation((TaskGraph *)tg);
+
 	return (cl_command_queue*) tg;
 }
-
+*/
 
 /* cl_mem is used as mango_buffer */ 
 // ADAPTED!!!! FIRST ARGUMENT WAS CHANGED
@@ -221,6 +238,25 @@ cl_int clEnqueueReadBuffer (cl_command_queue command_queue, cl_mem buffer, cl_bo
 
 }
 
+cl_int clEnqueueNDRangeKernel (cl_args *args, cl_kernel kernel, cl_uint work_dim, const size_t *global_work_offset, const size_t *global_work_size, const size_t *local_work_size, cl_uint num_events_in_wait_list, const cl_event *event_wait_list, cl_event *event){
+
+	if(num_events_in_wait_list == 1){
+		mango_wait((mango_event_t) event_wait_list);
+	} else if(num_events_in_wait_list > 1){
+		for(int i=0; i< num_events_in_wait_list; i++)
+			mango_wait((mango_event_t)event_wait_list[i]);
+	}
+
+	if(event != NULL)
+		event = mango_start_kernel(kernel, (mango_args_t *) args, NULL);
+	
+	else
+		mango_start_kernel(kernel, (mango_args_t *) args, NULL);
+	
+	return CL_SUCCESS;
+}
+
+
 cl_int clReleaseMemObject(cl_mem memobj){
 
 	mango_deregister_memory( (mango_buffer_t) memobj);
@@ -232,5 +268,6 @@ cl_int clReleaseContext(cl_context context){
 	return CL_SUCCESS;
 }
 
+// other releases could be implemented as dummys for now. mango does not provide support.
 
 }

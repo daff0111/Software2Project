@@ -89,6 +89,12 @@ typedef cl_bitfield         cl_device_type;
 typedef cl_bitfield         cl_command_queue_properties;
 
 
+/* INVENTED TYPES FOR COMPATIBILITY */ 
+typedef struct _cl_arg *    cl_arg;
+typedef struct _cl_args *    cl_args;
+
+
+
 /* ************************************************ */ 
 
 
@@ -150,13 +156,27 @@ cl_kernel clCreateKernel(cl_program program, const cl_uint kernel_id, cl_int *er
 //cl_int clReleaseKernel(cl_kernel kernel);
 
 /* 	Set Arguments of a Kernel
+ *  This function had it's return type adapted
+ * 	if a further implementation of MANGO provides a way of use mango_set_args
+ *  incrementally, this adaptation can be substituted by a global var "args" 
+ *	in the wrapper that will contain this var and the function return type can 
+ *	go back to normal
+ *   
 */
-cl_int clSetKernelArg(cl_kernel kernel, cl_uint arg_index, size_t *arg_size, const void *arg_value);
+cl_arg * clSetKernelArg(cl_kernel kernel, cl_uint arg_index, size_t *arg_size, const void *arg_value);
  
 
 /* 	Create a CommandQueue translates to Mango taskGraph.
+ *  This function does not obey the usual OpenCl program flow and arguments
+ *  due to an incompatibility in the arguments and vars that are passed 
+ *  In openCl it should be used right after the creation of a context
+ *  while in mango it is used just before the execution of the kernel
+ * 	the result of this is that in the first option no kernel, buffer or event is given
+ *	and they are added in the program execution 
+ *	while in the second this arguments have to be explicitely passed. 
+ *	thus the only way of using a "compliant call" is by changing the code original flow
 */
-cl_command_queue* clCreateCommandQueue (cl_context context, cl_command_queue_properties properties, cl_int *errcode_ret);
+//cl_command_queue* clCreateCommandQueueAdapted (cl_context context, cl_command_queue_properties properties, cl_int *errcode_ret, int k, int b, int e, ...);
 
 
 /* 	Create a new buffer 
@@ -185,6 +205,8 @@ cl_int clEnqueueWriteBuffer (cl_command_queue command_queue, cl_mem buffer, cl_b
 
 cl_int clEnqueueReadBuffer (cl_command_queue command_queue, cl_mem buffer, cl_bool blocking_read, size_t offset, size_t cb, void *ptr, cl_uint num_events_in_wait_list,	const cl_event *event_wait_list, cl_event *event);
 
+
+cl_int clEnqueueNDRangeKernel (cl_args *args, cl_kernel kernel, cl_uint work_dim, const size_t *global_work_offset, const size_t *global_work_size, const size_t *local_work_size, cl_uint num_events_in_wait_list, const cl_event *event_wait_list, cl_event *event);
 
 
 // mango does not have an equivalent, can be made a mock if needed
